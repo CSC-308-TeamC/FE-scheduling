@@ -2,7 +2,7 @@ function Table(props) {
     return (
       <table>
         <TableHeader />
-        <TableBody />
+        <TableBody appointmentData = {props.appointmentData} />
       </table>
     );
  }
@@ -14,9 +14,11 @@ function TableHeader() {
     );
 }
 
-function TableBody() {
-    return (
+function TableBody(props) {
+  const appointmentData = props.appointmentData;  
+  return (
       <tbody>
+        {appointmentData}
       </tbody>
     );
 }
