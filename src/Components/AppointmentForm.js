@@ -14,25 +14,15 @@ function AppointmentForm(props) {
     function handleChange(event) {
       const { name, value } = event.target;
       if (name === "type")
-         setAppointment(
-            {type: value, status: appointment['status'], date: appointment['date'], time: appointment['time'], clientId: appointment['clientId'] }
-         );
+         setAppointment({...appointment, type: value});
       else if(name === "status")
-        setAppointment(
-          {type: appointment['type'], status: value, date: appointment['date'], time: appointment['time'], clientId: appointment['clientId'] }
-          );
+        setAppointment({...appointment, status: value});
       else if(name === "date"){
-        setAppointment(
-          {type: appointment['type'], status: appointment['status'], date: value, time: appointment['time'], clientId: appointment['clientId'] }
-          );
+        setAppointment({...appointment, date: value});
       }else if(name === "time"){
-        setAppointment(
-          {type: appointment['type'], status: appointment['status'], date: appointment['date'], time: value, clientId: appointment['clientId'] }
-          );
+        setAppointment({...appointment, time: value});
       }else{
-        setAppointment(
-          {type: appointment['type'], status: appointment['status'], date: appointment['date'], time: appointment['time'], clientId: value }
-          );
+        setAppointment({...appointment, clientId: value});
       }
     }
   
@@ -86,7 +76,6 @@ function AppointmentForm(props) {
           id="clientId"
           value={appointment.clientId}
           onChange={handleChange} />
-
         <input type="button" value="Submit" onClick={submitForm} />
       </form>
     </div>

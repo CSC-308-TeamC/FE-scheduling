@@ -29,6 +29,7 @@ function TableBody(props) {
       </tr>
     );
   });
+  
   return (
       <tbody>
         {rows}

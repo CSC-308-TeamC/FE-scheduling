@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import { BrowserRouter as Router,Routes, Route, NavLink } from 'react-router-dom';
 import { Navbar, Nav, Container } from 'react-bootstrap'
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Table from './Components/Table'
+import AppointmentTable from './Components/AppointmentTable'
 import AppointmentForm from './Components/AppointmentForm'
 import axios from 'axios';
 
@@ -28,18 +28,15 @@ function Dashboard() {
 
     return (
       <div>
-        <div>
-          <DashboardHeader/>
-          {/* <AppointmentForm/> */}
-        </div>
+          <DashboardHeader appointmentData={appointments}/>
       </div>
   ); 
 }
 
-function DashboardHeader(){
+function DashboardHeader(props){
   return (
     <Router>
-      <Navbar bg='dark' variant='dark' class="navbar navbar-expand navbar-dark bg-dark" >
+      <Navbar bg='dark' variant='dark'  >
         <Container>
           <Navbar.Brand href="/">Dashboard</Navbar.Brand>
           <Nav className="me-auto">
@@ -52,7 +49,7 @@ function DashboardHeader(){
       </Navbar >
 
       <Routes>
-        {/* <Route path='/' element={<Dashboard/>}/> */}
+        <Route path='/' element ={<AppointmentTable appointmentData={props.appointmentData} />}/>
         <Route path='/appointments' element={<AppointmentForm />} />
       </Routes>
 
