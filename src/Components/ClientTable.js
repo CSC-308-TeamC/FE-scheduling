@@ -23,8 +23,8 @@ function TableBody(props) {
         <td>{row._id}</td>
         <td>{row.firstName}</td>
         <td>{row.lastName}</td>
-        <td>{row.phone}</td>
-        <td>{row.dog}</td>
+        <td>{row.dogs}</td>
+        <td>{row.phoneNumber}</td>
       </tr>
     );
   });

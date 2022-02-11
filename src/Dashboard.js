@@ -29,7 +29,7 @@ function Dashboard() {
     
     fetchClients().then(result => {
       if(result)
-        setDogs(result);
+        setClients(result);
     });
 
   }, []);
@@ -83,10 +83,7 @@ function DashboardHeader(props){
             <Nav.Link href="/appointments">Appointments</Nav.Link>
 
             <Nav.Link href="/clients">Clients</Nav.Link>
-            <.Link href="/dogs">Dogs</Nav.Link>
-
-            <Nav.Link href="/clients">Clients</Nav.Link>
-    
+            <Nav.Link href="/dogs">Dogs</Nav.Link>    
             {/*<Nav.Link href="/calendar">Calendar</Nav.Link>*/}
           </Nav>
         </Container>
@@ -94,7 +91,7 @@ function DashboardHeader(props){
 
       <Routes>
         <Route path='/' element ={<AppointmentTable appointmentData={props.appointmentData} />}/>
-        <Route path='/clients' element={<ClientForm /> <ClientTable clientData={props.clientData} />} />
+        <Route path='/clients' element={<><ClientForm /> <ClientTable clientData={props.clientData} /></>} />
         <Route path='/appointments' element={<><AppointmentForm /> <AppointmentTable appointmentData={props.appointmentData} /></>} />
         <Route path='/dogs' element={ <><DogForm /> <DogTable dogData={props.dogData}/></>} />
       </Routes>
