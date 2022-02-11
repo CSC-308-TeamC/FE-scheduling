@@ -7,7 +7,10 @@ function AppointmentForm(props) {
           status: '',
           date: '',
           time: '',
-          clientId: '',  
+          clientId: '',
+          dogId: '',
+          repeating: '',
+          notes:''  
        }
     );
 
@@ -21,8 +24,14 @@ function AppointmentForm(props) {
         setAppointment({...appointment, date: value});
       }else if(name === "time"){
         setAppointment({...appointment, time: value});
-      }else{
+      }else if(name === "clientId"){
         setAppointment({...appointment, clientId: value});
+      }else if(name === "dogId"){
+        setAppointment({...appointment, dogId: value});
+      }else if(name === "repeating"){
+        setAppointment({...appointment, repeating: value});
+      }else{
+        setAppointment({...appointment, notes: value});
       }
     }
   
@@ -33,7 +42,10 @@ function AppointmentForm(props) {
         status: '',
         date: '',
         time: '',
-        clientId: '',  
+        clientId: '',
+        dogId: '',
+        repeating: '',
+        notes:'' 
      });
     }
 
@@ -76,7 +88,29 @@ function AppointmentForm(props) {
           id="clientId"
           value={appointment.clientId}
           onChange={handleChange} />
+        <label htmlFor="clientId">Dog ID</label>
+        <input
+          type="text"
+          name="dogId"
+          id="dogId"
+          value={appointment.dogId}
+          onChange={handleChange} />
+        <label htmlFor="clientId">Repeating</label>
+        <input
+          type="text"
+          name="repeating"
+          id="repeating"
+          value={appointment.repeating}
+          onChange={handleChange} />
+        <label htmlFor="clientId">Notes</label>
+        <input
+          type="text"
+          name="notes"
+          id="notes"
+          value={appointment.notes}
+          onChange={handleChange} />
         <input type="button" value="Submit" onClick={submitForm} />
+
       </form>
     </div>
 ); 
