@@ -17,6 +17,10 @@ function Dashboard() {
     fetchAppointments().then(result => {
       if(result)
         setAppointments(result);
+    });
+
+    fetchDogs().then(result => {
+      if(result)
         setDogs(result);
     });
 
@@ -32,11 +36,19 @@ function Dashboard() {
     }
   }
 
+  async function fetchDogs(){
+    try{
+      const response = await axios.get('http://localhost:5000/dogs');
+      return response.data.dogData;
+    }catch(error){
+      console.log(error);
+      return false;
+    }
+  }
+
     return (
       <div>
-          <DashboardHeader appointmentData={appointments}/>
-          {/* <DashboardHeader dogData={dogs}/> */}
-
+          <DashboardHeader appointmentData={appointments} dogData={dogs}/>
       </div>
       
 
@@ -53,7 +65,6 @@ function DashboardHeader(props){
             <Nav.Link href="/appointments">Appointments</Nav.Link>
             <Nav.Link href="/dogs">Dogs</Nav.Link>
             {/* <Nav.Link href="/clients">Clients</Nav.Link>
-            <Nav.Link href="/dogs">Dogs</Nav.Link>
             <Nav.Link href="/calendar">Calendar</Nav.Link> */}
           </Nav>
         </Container>
@@ -61,9 +72,8 @@ function DashboardHeader(props){
 
       <Routes>
         <Route path='/' element ={<AppointmentTable appointmentData={props.appointmentData} />}/>
-        <Route path='/appointments' element={<AppointmentForm />} />
-        <Route path='/' element ={<DogTable appointmentData={props.dogData} />}/>
-        <Route path='/dogs' element={<DogForm />} />
+        <Route path='/appointments' element={<><AppointmentForm /> <AppointmentTable appointmentData={props.appointmentData} /></>} />
+        <Route path='/dogs' element={ <><DogForm /> <DogTable dogData={props.dogData}/></>} />
       </Routes>
 
     </Router>
