@@ -26,6 +26,9 @@ function TableBody(props) {
         <td>{row.date}</td>
         <td>{row.time}</td>
         <td>{row.clientId}</td>
+        <td>{row.dogId}</td>
+        <td>{row.repeating}</td>
+        <td>{row.notes}</td>
       </tr>
     );
   });
