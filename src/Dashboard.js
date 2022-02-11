@@ -14,7 +14,8 @@ import axios from 'axios';
 function Dashboard() {
   const [appointments, setAppointments] = useState([]);
   const [dogs, setDogs] = useState([]);
-
+  const [clients, setClients] = useState([]);
+  
   useEffect(() => {
     fetchAppointments().then(result => {
       if(result)
@@ -24,6 +25,11 @@ function Dashboard() {
     fetchDogs().then(result => {
       if(result)
         setDogs(result);
+    });
+    
+    fetchClients().then(result => {
+      if(result)
+        setClients(result);
     });
 
   }, []);
@@ -47,10 +53,20 @@ function Dashboard() {
       return false;
     }
   }
+  
+  async function fetchClients(){
+    try{
+      const response = await axios.get('http://localhost:5000/clients');
+      return response.data.clientData;
+    }catch(error){
+      console.log(error);
+      return false;
+    }
+  }
 
     return (
       <div>
-          <DashboardHeader appointmentData={appointments} dogData={dogs}/>
+          <DashboardHeader appointmentData={appointments} dogData={dogs} clientData={clients}/>
       </div>
       
 
@@ -65,19 +81,31 @@ function DashboardHeader(props){
           <Navbar.Brand href="/">Dashboard</Navbar.Brand>
           <Nav className="me-auto">
             <Nav.Link href="/appointments">Appointments</Nav.Link>
+<<<<<<< HEAD
             <Nav.Link href="/dogs">Dogs</Nav.Link>
             <Nav.Link href="/clients">Clients</Nav.Link>
             {/*<Nav.Link href="/calendar">Calendar</Nav.Link> */}
+=======
+
+            <Nav.Link href="/clients">Clients</Nav.Link>
+            <Nav.Link href="/dogs">Dogs</Nav.Link>    
+            {/*<Nav.Link href="/calendar">Calendar</Nav.Link>*/}
+>>>>>>> origin
           </Nav>
         </Container>
       </Navbar >
 
       <Routes>
         <Route path='/' element ={<AppointmentTable appointmentData={props.appointmentData} />}/>
+<<<<<<< HEAD
         <Route path='/appointments' element={<AppointmentForm />} />
         <Route path='/' element ={<ClientTable clientData={props.clientData} />}/>
         <Route path='/clients' element={<ClientForm />} />
         <Route path='/' element ={<DogTable dogData={props.dogData} />}/>
+=======
+        <Route path='/clients' element={<><ClientForm /> <ClientTable clientData={props.clientData} /></>} />
+        <Route path='/appointments' element={<><AppointmentForm /> <AppointmentTable appointmentData={props.appointmentData} /></>} />
+>>>>>>> origin
         <Route path='/dogs' element={ <><DogForm /> <DogTable dogData={props.dogData}/></>} />
       </Routes>
 

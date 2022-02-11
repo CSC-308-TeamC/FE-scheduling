@@ -3,55 +3,28 @@ import React, {useState} from 'react';
 function ClientForm(props) {
    const [client, setClient] = useState(
          {
-            dog: '',
-            phone: '',
             firstName: '',
-            lastName: ''
+            lastName: '',
+            dogs: '',
+            phoneNumber: ''
          }
    );
 
    function handleChange(event) {
       const {name, value} = event.target;
 
-      if (name === "dog") {
-         setClient(
-            {
-               dog: value, 
-               phone: client['phone'], 
-               firstName: client['firstName'], 
-               lastName: client['lastName']
-            }
-         );
+      if (name === "firstName") {
+         setClient({...client, firstName:value});
       }
-      else if (name === "phone") {
-         setClient(
-            {
-               dog: client['dog'], 
-               phone: value, 
-               firstName: client['firstName'], 
-               lastName: client['lastName']
-            }
-         );
+      else if (name === "lastName") {
+         setClient({...client, lastName:value});
       }
-      else if (name === "firstName") {
-         setClient(
-            {
-               dog: client['dog'], 
-               phone: client['phone'], 
-               firstName: value, 
-               lastName: client['lastName']
-            }
-         );
+      else if (name === "dogs") {
+         setClient({...client, dogs:value});
       }
-      else {
-         setClient(
-            {
-               dog: client['dog'], 
-               phone: client['phone'], 
-               firstName: client['firstName'], 
-               lastName: value
-            }
-         );
+      else{
+         setClient({...client, phoneNumber:value});
+
       }
    }
 
@@ -69,29 +42,7 @@ function ClientForm(props) {
 
    return (
       <form>
-         <label htmlFor = "dog">
-            Dog
-         </label>
-            <input 
-               type = "text"
-               name = "dog"
-               id = "dog"
-               value = {client.dog}
-               onChange = {handleChange}
-            />
-         <label htmlFor = "phone">
-            Phone Number
-         </label>
-            <input 
-               type = "text"
-               name = "phone"
-               id = "phone"
-               value = {client.phone}
-               onChange = {handleChange}
-            />
-         <label htmlFor = "firstName">
-            First Name
-         </label>
+         <label htmlFor = "firstName">First Name</label>
             <input 
                type = "text"
                name = "firstName"
@@ -99,9 +50,7 @@ function ClientForm(props) {
                value = {client.firstName}
                onChange = {handleChange}
             />
-         <label htmlFor = "firstName">
-            Last Name
-         </label>
+         <label htmlFor = "lastName">Last Name</label>
             <input 
                type = "text"
                name = "lastName"
@@ -109,12 +58,23 @@ function ClientForm(props) {
                value = {client.lastName}
                onChange = {handleChange}
             />
-         
-         <input
-            type = "button"
-            value = "Submit"
-            onClick = {submitForm}
-         />
+         <label htmlFor = "dogs">Dogs</label>
+            <input 
+               type = "text"
+               name = "dogs"
+               id = "dogs"
+               value = {client.dogs}
+               onChange = {handleChange}
+            />
+         <label htmlFor = "firstName">Phone Number</label>
+            <input 
+               type = "text"
+               name = "phoneNumber"
+               id = "phoneNumber"
+               value = {client.phoneNumber}
+               onChange = {handleChange}
+            />
+         <input type = "button" value = "Submit" onClick = {submitForm} />
       </form>
    )
 
