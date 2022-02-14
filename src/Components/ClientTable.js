@@ -4,7 +4,7 @@ function Table(props) {
     return (
       <table>
         <TableHeader />
-        <TableBody clientData={props.clientData} />
+        <TableBody clientData={props.clientData} removeClient={props.removeClient} />
       </table>
     );
  }
@@ -12,6 +12,14 @@ function Table(props) {
 function TableHeader() {
     return (
       <thead>
+        <tr>
+          <th>Id</th>
+          <th>First Name</th>
+          <th>Last Name</th>
+          <th>Dogs</th>
+          <th>Phone Number</th>
+          <th></th>
+        </tr>
       </thead>
     );
 }
@@ -25,6 +33,9 @@ function TableBody(props) {
         <td>{row.lastName}</td>
         <td>{row.dogs}</td>
         <td>{row.phoneNumber}</td>
+        <td>
+          <button onClick={() => props.removeClient(index)}>Delete</button>
+        </td>
       </tr>
     );
   });

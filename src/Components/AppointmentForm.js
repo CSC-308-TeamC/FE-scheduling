@@ -3,6 +3,7 @@ import React, {useState} from 'react';
 function AppointmentForm(props) {   
     const [appointment, setAppointment] = useState(
        {  
+          _id: '',
           type: '',
           status: '',
           date: '',
@@ -16,7 +17,9 @@ function AppointmentForm(props) {
 
     function handleChange(event) {
       const { name, value } = event.target;
-      if (name === "type")
+      if(name === "_id"){
+        setAppointment({...appointment, _id: value});
+      }else if (name === "type")
          setAppointment({...appointment, type: value});
       else if(name === "status")
         setAppointment({...appointment, status: value});
@@ -38,6 +41,7 @@ function AppointmentForm(props) {
     function submitForm() {
       props.handleSubmit(appointment);
       setAppointment({  
+        _id: '',
         type: '',
         status: '',
         date: '',
@@ -53,6 +57,13 @@ function AppointmentForm(props) {
   return (
     <div>
       <form>
+      <label htmlFor="_id">Id</label>
+        <input
+          type="text"
+          name="_id"
+          id="_id"
+          value={appointment._id}
+          onChange={handleChange} />
         <label htmlFor="type">Type</label>
         <input
           type="text"
