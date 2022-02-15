@@ -2,58 +2,130 @@ import React, {useState, useEffect} from 'react';
 import { BrowserRouter as Router,Routes, Route, NavLink } from 'react-router-dom';
 import { Navbar, Nav, Container } from 'react-bootstrap'
 import 'bootstrap/dist/css/bootstrap.min.css';
-import AppointmentTable from './Components/AppointmentTable'
-import AppointmentForm from './Components/AppointmentForm'
-import axios from 'axios';
+import * as AppointmentGateway from './API-Access/AppointmentGateway';
+import AppointmentTable from './Components/AppointmentTable';
+import AppointmentForm from './Components/AppointmentForm';
+import * as ClientGateway from './API-Access/ClientGateway'
+import ClientTable from './Components/ClientTable';
+import ClientForm from './Components/ClientForm';
+import * as DogGateway from './API-Access/DogGateway'
+import DogTable from './Components/DogTable';
+import DogForm from './Components/DogForm';
 
 function Dashboard() {
   const [appointments, setAppointments] = useState([]);
-
+  const [dogs, setDogs] = useState([]);
+  const [clients, setClients] = useState([]);
+  
   useEffect(() => {
-    fetchAppointments().then(result => {
+    AppointmentGateway.getAll().then(result => {
       if(result)
         setAppointments(result);
     });
+
+    ClientGateway.getAll().then(result => {
+      if(result)
+        setClients(result);
+    });
+
+    DogGateway.getAll().then(result => {
+      if(result)
+        setDogs(result);
+    });
   }, []);
 
-  async function fetchAppointments(){
-    try{
-      const response = await axios.get('http://localhost:5001/dashboard');
-      console.log(response);
-      return response.data.appointmentData;
-    }catch(error){
-      console.log(error);
-      return false;
+  function updateAppointments(appointment) { 
+    AppointmentGateway.createEntry(appointment).then(result => {
+    if (result && result.status === 201)
+      setAppointments([...appointments, result.data]);
+    });
+  }
+
+  function updateClients(client) { 
+    ClientGateway.createEntry(client).then(result => {
+    if (result && result.status === 201)
+      setClients([...clients, result.data]);
+    });
+  }
+
+  function updateDogs(dog) { 
+    DogGateway.createEntry(dog).then(result => {
+    if (result && result.status === 201)
+      setDogs([...dogs, result.data]);
+    });
+  }
+
+  function removeAppointment(index) {
+    if(index < appointments.length && index > -1){
+      AppointmentGateway.deleteById(appointments[index]._id).then(result => {
+        if(result && result.status === 204){
+          const updated = appointments.filter((appointment, i) => {
+            return i !== index
+          });
+          setAppointments(updated);
+        }
+      });
     }
   }
 
-    return (
-      <div>
-          <DashboardHeader appointmentData={appointments}/>
-      </div>
+  function removeClient(index) {
+    if(index < clients.length && index > -1){
+      ClientGateway.deleteById(clients[index]._id).then(result => {
+        if(result && result.status === 204){
+          const updated = clients.filter((client, i) => {
+            return i !== index
+          });
+          setClients(updated);
+        }
+      });
+    }
+  }
+
+  function removeDog(index) {
+    if(index < dogs.length && index > -1){
+      DogGateway.deleteById(dogs[index]._id).then(result => {
+        if(result && result.status === 204){
+          const updated = dogs.filter((dog, i) => {
+            return i !== index
+          });
+          setDogs(updated);
+        }
+      });
+    }
+  }
+
+  return (
+    <div>
+      <DashboardHeader 
+        appointmentData={appointments} clientData={clients} dogData={dogs}
+        removeAppointment = {removeAppointment} removeClient = {removeClient} removeDog = {removeDog}
+        updateAppointments = {updateAppointments} updateClients = {updateClients} updateDogs = {updateDogs} />
+    </div>
   ); 
 }
 
 function DashboardHeader(props){
   return (
     <Router>
-      <Navbar bg='dark' variant='dark'  >
+      <Navbar bg='dark' variant='dark' expand='lg'>
         <Container>
-          <Navbar.Brand href="/">Dashboard</Navbar.Brand>
-          <Nav className="me-auto">
+          <Navbar.Brand href="/dashboard">Dashboard</Navbar.Brand>
+            <Nav className="me-auto" >
             <Nav.Link href="/appointments">Appointments</Nav.Link>
-            {/* <Nav.Link href="/clients">Clients</Nav.Link>
-            <Nav.Link href="/dogs">Dogs</Nav.Link>
-            <Nav.Link href="/calendar">Calendar</Nav.Link> */}
+            <Nav.Link href="/clients">Clients</Nav.Link>
+            <Nav.Link href="/dogs">Dogs</Nav.Link>    
+            {/*<Nav.Link href="/calendar">Calendar</Nav.Link>*/}
           </Nav>
         </Container>
       </Navbar >
 
       <Routes>
-        <Route path='/' element ={<AppointmentTable appointmentData={props.appointmentData} />}/>
-        <Route path='/appointments' element={<AppointmentForm />} />
+        <Route path='/' element ={<AppointmentTable appointmentData={props.appointmentData}/>}/> 
+        <Route path='/dashboard' element ={<AppointmentTable appointmentData={props.appointmentData}/>}/>
+        <Route path='/appointments' element={<><AppointmentForm handleSubmit = {props.updateAppointments} /> <AppointmentTable appointmentData={props.appointmentData} removeAppointment={props.removeAppointment} /></>}/>
+        <Route path='/clients' element={<><ClientForm handleSubmit={props.updateClients}/> <ClientTable clientData={props.clientData} removeClient={props.removeClient}/></>}/>
+        <Route path='/dogs' element={<><DogForm handleSubmit={props.updateDogs} /> <DogTable dogData={props.dogData} removeDog={props.removeDog}/></>}/>
       </Routes>
-
     </Router>
   );
 }
