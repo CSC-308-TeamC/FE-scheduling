@@ -18,7 +18,8 @@ function Dashboard() {
 
   async function fetchAppointments(){
     try{
-      const response = await axios.get('http://localhost:5000/dashboard');
+      const response = await axios.get('http://localhost:5001/dashboard');
+      console.log(response);
       return response.data.appointmentData;
     }catch(error){
       console.log(error);
