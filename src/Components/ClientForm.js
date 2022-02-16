@@ -40,9 +40,10 @@ function ClientForm(props) {
    };
 
    return (
-      <form>
+      <form class="form">
          <label htmlFor = "_id">Id</label>
             <input 
+               id = "txtBox"
                type = "text"
                name = "_id"
                id = "_id"

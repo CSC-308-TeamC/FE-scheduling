@@ -2,7 +2,7 @@ import axios from 'axios';
 
 export async function getAll() {
   try {
-    const response = await axios.get('http://localhost:5000/appointments');
+    const response = await axios.get('http://localhost:5001/appointments');
     return response.data.appointmentData;
   } catch (error) {
     console.log(error);
@@ -12,7 +12,7 @@ export async function getAll() {
 
 export async function createEntry(appointment){
   try {
-    const response = await axios.post('http://localhost:5000/appointments', appointment);
+    const response = await axios.post('http://localhost:5001/appointments', appointment);
     return response;
  }
  catch (error) {
@@ -23,7 +23,7 @@ export async function createEntry(appointment){
 
 export async function deleteById(id) {
   try {
-    const response = await axios.delete('http://localhost:5000/appointments/' + id);
+    const response = await axios.delete('http://localhost:5001/appointments/' + id);
     return response;
   }
   catch (error) {
