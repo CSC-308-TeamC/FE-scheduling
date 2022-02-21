@@ -13,13 +13,11 @@ function TableHeader() {
     return (
       <thead>
         <tr>
-          <th>Id</th>
           <th>Type</th>
           <th>Status</th>
           <th>Date</th>
-          <th>Time</th>
-          <th>Client Id</th>
-          <th>Dog Id</th>
+          <th>Client Name</th>
+          <th>Dog Name</th>
           <th>Repeating</th>
           <th>Notes</th>
           <th></th>
@@ -28,18 +26,21 @@ function TableHeader() {
     );
 }
 
-function TableBody(props) {
+function TableBody(props){
+  if(props.appointmentData.length != 0){
+    let testDate = new Date(props.appointmentData[0].dateTime);
+    console.log();
+     
+  }
   const rows = props.appointmentData.map((row, index) => {
     return (
       <tr key={index}>
-        <td>{row._id}</td>
         <td>{row.type}</td>
         <td>{row.status}</td>
-        <td>{row.date}</td>
-        <td>{row.time}</td>
-        <td>{row.clientId}</td>
-        <td>{row.dogId}</td>
-        <td>{row.repeating}</td>
+        <td>{row.dateTime}</td>
+        <td>{row.clientName}</td>
+        <td>{row.dogName}</td>
+        <td>{row.repeating ? 'Yes' : 'No'}</td>
         <td>{row.notes}</td>
         <td>
           <button onClick={() => props.removeAppointment(index)}>Delete</button>

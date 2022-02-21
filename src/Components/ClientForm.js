@@ -3,7 +3,6 @@ import React, {useState} from 'react';
 function ClientForm(props) {
    const [client, setClient] = useState(
          {
-            _id: '',
             firstName: '',
             lastName: '',
             dogs: '',
@@ -13,9 +12,7 @@ function ClientForm(props) {
 
    function handleChange(event) {
       const {name, value} = event.target;
-      if(name === "_id"){
-         setClient({...client, _id:value});
-      }else if (name === "firstName") {
+      if (name === "firstName") {
          setClient({...client, firstName:value});
       }else if (name === "lastName") {
          setClient({...client, lastName:value});
@@ -30,7 +27,6 @@ function ClientForm(props) {
       props.handleSubmit(client);
       setClient(
          {
-            _id: '',
             firstName: '',
             lastName: '',
             dogs: '',
@@ -41,13 +37,6 @@ function ClientForm(props) {
 
    return (
       <form>
-         <label htmlFor = "_id">Id</label>
-            <input 
-               type = "text"
-               name = "_id"
-               id = "_id"
-               value = {client._id}
-               onChange = {handleChange} />
          <label htmlFor = "firstName">First Name</label>
             <input 
                type = "text"

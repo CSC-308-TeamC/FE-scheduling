@@ -3,7 +3,6 @@ import React, {useState} from 'react';
 function DogForm(props) {   
     const [dog, setDog] = useState(
        {  
-          _id: '',
           name: '',
           breed: '',
           clientId: '',  
@@ -26,7 +25,6 @@ function DogForm(props) {
     function submitForm() {
       props.handleSubmit(dog);
       setDog({  
-        _id: '',
         name: '',
         breed: '',
         clientId: '',  
@@ -37,13 +35,6 @@ function DogForm(props) {
   return (
     <div>
       <form>
-        <label htmlFor="_id">Id</label>
-        <input
-          type="text"
-          name="_id"
-          id="_id"
-          value={dog._id}
-          onChange={handleChange} />
         <label htmlFor="name">Name</label>
         <input
           type="text"

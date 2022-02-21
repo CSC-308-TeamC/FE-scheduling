@@ -13,9 +13,7 @@ function TableHeader() {
     return (
       <thead>
         <tr>
-          <th>Id</th>
-          <th>First Name</th>
-          <th>Last Name</th>
+          <th>Name</th>
           <th>Dogs</th>
           <th>Phone Number</th>
           <th></th>
@@ -28,9 +26,7 @@ function TableBody(props) {
   const rows = props.clientData.map((row, index) => {
     return (
       <tr key={index}>
-        <td>{row._id}</td>
-        <td>{row.firstName}</td>
-        <td>{row.lastName}</td>
+        <td>{row.fullName}</td>
         <td>{row.dogs}</td>
         <td>{row.phoneNumber}</td>
         <td>
