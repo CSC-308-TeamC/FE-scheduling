@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import { BrowserRouter as Router,Routes, Route, NavLink } from 'react-router-dom';
+import { BrowserRouter as Router,Routes, Route} from 'react-router-dom';
 import { Navbar, Nav, Container } from 'react-bootstrap'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import * as AppointmentGateway from './API-Access/AppointmentGateway';
@@ -36,7 +36,7 @@ function Dashboard() {
 
   function updateAppointments(appointment) { 
     AppointmentGateway.createEntry(appointment).then(result => {
-    if (result && result.status === 201)
+    if(result && result.status === 201)
       setAppointments([...appointments, result.data]);
     });
   }
@@ -96,6 +96,7 @@ function Dashboard() {
 
   return (
     <div>
+
       <DashboardHeader 
         appointmentData={appointments} clientData={clients} dogData={dogs}
         removeAppointment = {removeAppointment} removeClient = {removeClient} removeDog = {removeDog}
@@ -122,9 +123,9 @@ function DashboardHeader(props){
       <Routes>
         <Route path='/' element ={<AppointmentTable appointmentData={props.appointmentData}/>}/> 
         <Route path='/dashboard' element ={<AppointmentTable appointmentData={props.appointmentData}/>}/>
-        <Route path='/appointments' element={<><AppointmentForm handleSubmit = {props.updateAppointments} /> <AppointmentTable appointmentData={props.appointmentData} removeAppointment={props.removeAppointment} /></>}/>
+        <Route path='/appointments' element={<><AppointmentForm handleSubmit = {props.updateAppointments} clientData={props.clientData} dogData={props.dogData}/> <AppointmentTable appointmentData={props.appointmentData} removeAppointment={props.removeAppointment} /></>}/>
         <Route path='/clients' element={<><ClientForm handleSubmit={props.updateClients}/> <ClientTable clientData={props.clientData} removeClient={props.removeClient}/></>}/>
-        <Route path='/dogs' element={<><DogForm handleSubmit={props.updateDogs} /> <DogTable dogData={props.dogData} removeDog={props.removeDog}/></>}/>
+        <Route path='/dogs' element={<><DogForm handleSubmit={props.updateDogs} clientData={props.clientData}/> <DogTable dogData={props.dogData} removeDog={props.removeDog}/></>}/>
       </Routes>
     </Router>
   );

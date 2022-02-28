@@ -1,73 +1,78 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
+import {Form, Container, Button} from 'react-bootstrap';
+import { Typeahead } from 'react-bootstrap-typeahead';
+import Select from 'react-select';
+//import 'react-bootstrap-typeahead/css/Typeahead.css';
 
 function DogForm(props) {   
     const [dog, setDog] = useState(
        {  
-          _id: '',
           name: '',
           breed: '',
-          clientId: '',  
+          clientName: '',  
        }
     );
 
+    const [clientNames, setClientNames] = useState([]);
+
+    useEffect(()=> {
+      let clientNames = [];
+      clientNames = props.clientData.map(client => {
+        return {label: client.fullName, id: client._id};
+      });
+      setClientNames(clientNames);
+    },[props.clientData])
+
     function handleChange(event) {
       const { name, value } = event.target;
-      if(name === "_id"){
-        setDog({...dog, _id: value});
-      }else if (name === "name")
+      if (name === "name")
         setDog({...dog, name: value});
       else if(name === "breed"){
         setDog({...dog, breed: value});
-      }else{
-        setDog({...dog, clientId: value});
       }
     }
   
     function submitForm() {
       props.handleSubmit(dog);
       setDog({  
-        _id: '',
         name: '',
         breed: '',
-        clientId: '',  
+        clientName: '',  
      });
     }
 
-    
+
+
+
   return (
-    <div>
-      <form>
-        <label htmlFor="_id">Id</label>
-        <input
-          type="text"
-          name="_id"
-          id="_id"
-          value={dog._id}
-          onChange={handleChange} />
-        <label htmlFor="name">Name</label>
-        <input
-          type="text"
-          name="name"
-          id="name"
-          value={dog.name}
-          onChange={handleChange} />
-        <label htmlFor="breed">Breed</label>
-        <input
-          type="text"
-          name="breed"
-          id="breed"
-          value={dog.breed}
-          onChange={handleChange} />
-        <label htmlFor="clientId">Client ID</label>
-        <input
-          type="text"
-          name="clientId"
-          id="clientId"
-          value={dog.clientId}
-          onChange={handleChange} />
-        <input type="button" value="Submit" onClick={submitForm} />
-      </form>
-    </div>
+    <Container>
+      <Form>
+        <Form.Group className="mb-3" controlId="dogFormName">
+          <Form.Label>Dog Name</Form.Label>
+          <Form.Control type="text" placeholder="Name" name="name" value={dog.name} onChange={handleChange} />
+        </Form.Group>
+        <Form.Group className="mb-3" controlId="dogFormBreed">
+          <Form.Label>Breed</Form.Label>
+          <Form.Control type="text" placeholder="Breed" name="breed" value={dog.breed} onChange={handleChange} />
+        </Form.Group>
+        <Form.Group className="mb-3" controlId="dogFormClient">
+          <Form.Label>Associated Client</Form.Label>
+          {/* <Typeahead
+            id="clientId"
+            labelKey="clientId"
+            onChange= {handleSelect}
+            options={clientNames}
+            placeholder="Select Client..."
+            selected={dog.clientName} /> */}
+          <Select options={clientNames} placeholder={"Select Client..."}
+            getOptionValue={(selection) => selection.label}
+            onChange={(value) => setDog({ ...dog, clientId: value.id}) }/>
+        </Form.Group>
+        <Form.Group className="mb-3" controlId="dogFormSubmission">
+          <Button variant="primary" type="submit" value="Submit" onClick={submitForm}>Submit</Button>
+        </Form.Group>
+      </Form>
+    </Container>
 ); 
 }
 

@@ -1,10 +1,24 @@
 import axios from 'axios';
 
+const connectionString = 'http://localhost:5000/clients';
+
 export async function getAll() {
   try {
-    const response = await axios.get('http://localhost:5000/clients');
+    const response = await axios.get(connectionString);
     return response.data.clientData;
   } catch (error) {
+    console.log(error);
+    return false;
+   }
+}
+
+export async function getById(id) {
+  try {
+    const response = await axios.get(connectionString + "/" + id);
+    console.log(response);
+    return response;
+  }
+  catch (error) {
     console.log(error);
     return false;
   }
@@ -12,7 +26,7 @@ export async function getAll() {
 
 export async function createEntry(client){
   try {
-    const response = await axios.post('http://localhost:5000/clients', client);
+    const response = await axios.post(connectionString, client);
     return response;
  }
  catch (error) {
@@ -23,8 +37,7 @@ export async function createEntry(client){
 
 export async function deleteById(id) {
   try {
-    console.log(id);
-    const response = await axios.delete('http://localhost:5000/clients/' + id);
+    const response = await axios.delete(connectionString + "/" + id);
     return response;
   }
   catch (error) {
