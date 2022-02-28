@@ -1,7 +1,8 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
+import { Form, Container, Button } from 'react-bootstrap'
 import Datetime from 'react-datetime';
+import Select from 'react-select';
 import "react-datetime/css/react-datetime.css";
-import Form from 'react-bootstrap/Form'
 
 
 function AppointmentForm(props) {   
@@ -13,11 +14,27 @@ function AppointmentForm(props) {
           dateTime: new Date(now.getFullYear(), now.getMonth(), now.getDay(), 6, 0, 0, 0),
           time: '',
           clientId: '',
-          dogId: '',
+          dogId: [],
           repeating: false,
           notes:''  
        }
     );
+    const [clientNames, setClientNames] = useState([]);
+    const [dogNames, setDogNames] = useState([]);
+
+    useEffect(()=> {
+      let clientNames = [];
+      clientNames = props.clientData.map(client => {
+        return {label: client.fullName, id: client._id};
+      });
+      setClientNames(clientNames);
+
+      let dogNames = [];
+      dogNames = props.dogData.map(dog => {
+        return {label: dog.name, id: dog._id};
+      });
+      setDogNames(dogNames);
+    },[props.clientData, props.dogData])
 
     function handleChange(event) {
       const { name, value } = event.target;
@@ -58,59 +75,45 @@ function AppointmentForm(props) {
      });
     }
 
-    
+    var appointmentTypes = [{type: 'Groom', label: 'Groom' },{type: 'Bath', label: 'Bath' }, {type: 'Nails', label: 'Nails' }];
+    var appointmentStatuses = [{status: 'Scheduled', label: 'Scheduled' },{status: 'Postponed', label: 'Postponed' }, {status: 'Completed', label: 'Completed' }];
   return (
-    <div>
-      <Form>
-        <label htmlFor="type">Type</label>
-        <input
-          type="text"
-          name="type"
-          id="type"
-          value={appointment.type}
-          onChange={handleChange} />
-        <label htmlFor="status">Status</label>
-        <input
-          type="text"
-          name="status"
-          id="status"
-          value={appointment.status}
-          onChange={handleChange} />
-        <label htmlFor="date">Date</label>
-        <Datetime closeOnSelect="true" value={appointment.dateTime} onChange={handleDateChange}/>
-        <label htmlFor="clientId">Client ID</label>
-        <input
-          type="text"
-          name="clientId"
-          id="clientId"
-          value={appointment.clientId}
-          onChange={handleChange} />
-        <label htmlFor="clientId">Dog ID</label>
-        <input
-          type="text"
-          name="dogId"
-          id="dogId"
-          value={appointment.dogId}
-          onChange={handleChange} />
-        {/* <input
-          type="text"
-          name="repeating"
-          id="repeating"
-          value={appointment.repeating}
-          onChange={handleChange} /> */}
-        <label htmlFor="clientId">Notes</label>
-        <input
-          type="text"
-          name="notes"
-          id="notes"
-          value={appointment.notes}
-          onChange={handleChange} />
-        <Form.Check type ="switch" id="reapeating" label="Repeating" checked={appointment.repeating} onChange={handleRepeatingChange}/>
-        <input type="button" value="Submit" onClick={submitForm} />
-      
-      </Form>
-    </div>
-); 
-}
+      <Container>
+        <Form>
+        <Form.Group className="mb-3" controlId="appointmentFormSpecifics">
+          <Form.Label>Appointment Type</Form.Label>
+          <Select options={appointmentTypes} placeholder={"Select Type..."}
+            getOptionValue={(selection) => selection.type}
+            onChange={(value) => setAppointment({ ...appointment, type: value.type })} />
+          <Form.Label>Appointment Status</Form.Label>
+          <Select options={appointmentStatuses} placeholder={"Select Status..."}
+            getOptionValue={(selection) => selection.status}
+            onChange={(value) => setAppointment({ ...appointment, status: value.status })} />
+          </Form.Group>
+          <Form.Group className="mb-3" controlId="appointmentFormIds">
+            <Form.Label>Client Id</Form.Label>
+            <Select options={clientNames} placeholder={"Select Client..."}
+            getOptionValue={(selection) => selection.label}
+            onChange={(value) => setAppointment({ ...appointment, clientId: value.id}) }/>
+            {/* <Form.Control type="text" placeholder="Client Id..." name="clientId" value={appointment.clientId} onChange={handleChange} /> */}
+            <Form.Label>Dog Id</Form.Label>
+            <Select options={dogNames} placeholder={"Select Dog..."}
+            getOptionValue={(selection) => selection.label}
+            onChange={(value) => setAppointment({ ...appointment, dogId: value.id}) }/>
+            {/* <Form.Control type="text" placeholder="Dog Id..." name="dogId" value={appointment.dogId} onChange={handleChange} /> */}
+          </Form.Group>
+          <Form.Group className="mb-3" controlId="appointmentFormDetails">
+            <Form.Label>Date</Form.Label>
+            <Datetime closeOnSelect="true" value={appointment.dateTime} onChange={handleDateChange} />
+            <Form.Label>Notes</Form.Label>
+            <Form.Control as="textarea" rows={3} placeholder="Notes..." name="notes" value={appointment.notes} onChange={handleChange} />
+            <Form.Check type="switch" id="reapeating" label="Repeating" checked={appointment.repeating} onChange={handleRepeatingChange} />
+          </Form.Group>
+          <Form.Group className="mb-3" controlId="appointmentFormSubmission">
+            <Button variant="primary" type="submit" value="Submit" onClick={submitForm}>Submit</Button>
+          </Form.Group>
+        </Form>
+      </Container>    
+); }
 
 export default AppointmentForm;

@@ -27,11 +27,6 @@ function TableHeader() {
 }
 
 function TableBody(props){
-  if(props.appointmentData.length != 0){
-    let testDate = new Date(props.appointmentData[0].dateTime);
-    console.log();
-     
-  }
   const rows = props.appointmentData.map((row, index) => {
     return (
       <tr key={index}>
