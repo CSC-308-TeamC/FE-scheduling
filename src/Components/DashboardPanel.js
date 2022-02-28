@@ -1,7 +1,6 @@
 import React from 'react';
 import '../index.css';
 import Clock from 'react-live-clock';
-import Datetime from 'react-datetime';
 
 function DashboardPanel(props) { 
   return (
@@ -12,13 +11,6 @@ function DashboardPanel(props) {
         <Clock format={'dddd, MMMM Do YYYY, h:mm a'} ticking={true} timezone={'US/Pacific'} />
       </div>
     </div>
-
-    {/* <div class="timeFlex">
-      <div id="time">
-        <Clock format={'HH:mm:ss'} ticking={true} timezone={'US/Pacific'} />
-      </div>
-    </div> */}
-    
   </div>
   );
 }

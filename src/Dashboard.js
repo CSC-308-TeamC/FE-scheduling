@@ -98,12 +98,10 @@ function Dashboard() {
 
   return (
     <div>
-
       <DashboardHeader 
         appointmentData={appointments} clientData={clients} dogData={dogs}
         removeAppointment = {removeAppointment} removeClient = {removeClient} removeDog = {removeDog}
         updateAppointments = {updateAppointments} updateClients = {updateClients} updateDogs = {updateDogs} />
-        <DashboardPanel/>
     </div>
   ); 
 }
@@ -125,8 +123,8 @@ function DashboardHeader(props){
       </Navbar >
 
       <Routes>
-        <Route path='/' element ={<AppointmentTable appointmentData={props.appointmentData}/>}/> 
-        <Route path='/dashboard' element ={<AppointmentTable appointmentData={props.appointmentData}/>}/>
+        <Route path='/' element ={<><DashboardPanel/><AppointmentTable appointmentData={props.appointmentData}/></>}/> 
+        <Route path='/dashboard' element ={<><DashboardPanel/><AppointmentTable appointmentData={props.appointmentData}/></>}/>
         <Route path='/appointments' element={<><AppointmentForm handleSubmit = {props.updateAppointments} clientData={props.clientData} dogData={props.dogData}/> <AppointmentTable appointmentData={props.appointmentData} removeAppointment={props.removeAppointment} /></>}/>
         <Route path='/clients' element={<><ClientForm handleSubmit={props.updateClients}/> <ClientTable clientData={props.clientData} removeClient={props.removeClient}/></>}/>
         <Route path='/dogs' element={<><DogForm handleSubmit={props.updateDogs} clientData={props.clientData}/> <DogTable dogData={props.dogData} removeDog={props.removeDog}/></>}/>
