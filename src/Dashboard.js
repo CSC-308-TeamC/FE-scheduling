@@ -11,6 +11,8 @@ import ClientForm from './Components/ClientForm';
 import * as DogGateway from './API-Access/DogGateway'
 import DogTable from './Components/DogTable';
 import DogForm from './Components/DogForm';
+import logoNegSmall from './imgs/logo-negative.png';
+import DashboardPanel from './Components/DashboardPanel';
 
 function Dashboard() {
   const [appointments, setAppointments] = useState([]);
@@ -101,6 +103,7 @@ function Dashboard() {
         appointmentData={appointments} clientData={clients} dogData={dogs}
         removeAppointment = {removeAppointment} removeClient = {removeClient} removeDog = {removeDog}
         updateAppointments = {updateAppointments} updateClients = {updateClients} updateDogs = {updateDogs} />
+        <DashboardPanel/>
     </div>
   ); 
 }
@@ -108,8 +111,9 @@ function Dashboard() {
 function DashboardHeader(props){
   return (
     <Router>
-      <Navbar bg='dark' variant='dark' expand='lg'>
+      <Navbar bg='dark' variant='dark' expand='lg' id="nav">
         <Container>
+        <img id="loginLogo" src={logoNegSmall} alt="logo" />
           <Navbar.Brand href="/dashboard">Dashboard</Navbar.Brand>
             <Nav className="me-auto" >
             <Nav.Link href="/appointments">Appointments</Nav.Link>
