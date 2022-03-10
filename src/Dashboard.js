@@ -1,11 +1,12 @@
 import React, {useState, useEffect} from 'react';
+//import {Provider} from 'react-redux';
 import { BrowserRouter as Router,Routes, Route} from 'react-router-dom';
 import { Navbar, Nav, Container } from 'react-bootstrap'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import * as AppointmentGateway from './API-Access/AppointmentGateway';
 import AppointmentTable from './Components/AppointmentTable';
 import AppointmentForm from './Components/AppointmentForm';
-import * as ClientGateway from './API-Access/ClientGateway'
+import * as ClientGateway from './API-Access/ClientGateway';
 import ClientTable from './Components/ClientTable';
 import ClientForm from './Components/ClientForm';
 import * as DogGateway from './API-Access/DogGateway'
@@ -13,11 +14,16 @@ import DogTable from './Components/DogTable';
 import DogForm from './Components/DogForm';
 import logoNegSmall from './imgs/logo-negative.png';
 import DashboardPanel from './Components/DashboardPanel';
-
+//import * as CalendarGateway from './API-Access/CalendarGateway';
+import App from './Calendar/App';
+import store from './Calendar/store';
+import {Provider} from 'react-redux';
 function Dashboard() {
   const [appointments, setAppointments] = useState([]);
   const [dogs, setDogs] = useState([]);
   const [clients, setClients] = useState([]);
+  //const [app, setCalendar] = useState([]);
+
   
   useEffect(() => {
     AppointmentGateway.getAll().then(result => {
@@ -29,6 +35,11 @@ function Dashboard() {
       if(result)
         setClients(result);
     });
+
+    // CalendarGateway.getAll().then(result => {
+    //   if(result)
+    //     setCalendar(result);
+    // });
 
     DogGateway.getAll().then(result => {
       if(result)
@@ -56,6 +67,12 @@ function Dashboard() {
       setDogs([...dogs, result.data]);
     });
   }
+  // function updateCalendar(app) { 
+  //   CalendarGateway.createEntry(app).then(result => {
+  //   if(result && result.status === 201)
+  //     setCalendar([...app, result.data]);
+  //   });
+  // }
 
   function removeAppointment(index) {
     if(index < appointments.length && index > -1){
@@ -117,7 +134,7 @@ function DashboardHeader(props){
             <Nav.Link href="/appointments">Appointments</Nav.Link>
             <Nav.Link href="/clients">Clients</Nav.Link>
             <Nav.Link href="/dogs">Dogs</Nav.Link>    
-            {/*<Nav.Link href="/calendar">Calendar</Nav.Link>*/}
+            <Nav.Link href="/calendar">Calendar</Nav.Link>
           </Nav>
         </Container>
       </Navbar >
@@ -128,6 +145,8 @@ function DashboardHeader(props){
         <Route path='/appointments' element={<><AppointmentForm handleSubmit = {props.updateAppointments} clientData={props.clientData} dogData={props.dogData}/> <AppointmentTable appointmentData={props.appointmentData} removeAppointment={props.removeAppointment} /></>}/>
         <Route path='/clients' element={<><ClientForm handleSubmit={props.updateClients}/> <ClientTable clientData={props.clientData} removeClient={props.removeClient}/></>}/>
         <Route path='/dogs' element={<><DogForm handleSubmit={props.updateDogs} clientData={props.clientData}/> <DogTable dogData={props.dogData} removeDog={props.removeDog}/></>}/>
+        <Route path='/calendar' element={<><Provider store={store}><App /></Provider>, document.getElementById('root')</>}/>
+        
       </Routes>
     </Router>
   );
