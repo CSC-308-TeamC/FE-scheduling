@@ -145,7 +145,7 @@ function DashboardHeader(props){
         <Route path='/appointments' element={<><AppointmentForm handleSubmit = {props.updateAppointments} clientData={props.clientData} dogData={props.dogData}/> <AppointmentTable appointmentData={props.appointmentData} removeAppointment={props.removeAppointment} /></>}/>
         <Route path='/clients' element={<><ClientForm handleSubmit={props.updateClients}/> <ClientTable clientData={props.clientData} removeClient={props.removeClient}/></>}/>
         <Route path='/dogs' element={<><DogForm handleSubmit={props.updateDogs} clientData={props.clientData}/> <DogTable dogData={props.dogData} removeDog={props.removeDog}/></>}/>
-        <Route path='/calendar' element={<><Provider store={store}><App /></Provider>, document.getElementById('root')</>}/>
+        <Route path='/calendar' element={<><Provider store={store}><App /></Provider></>}/>
         
       </Routes>
     </Router>
