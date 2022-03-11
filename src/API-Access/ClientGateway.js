@@ -15,7 +15,8 @@ export async function getAll() {
 export async function getById(id) {
   try {
     const response = await axios.get(connectionString + "/" + id);
-    return response.data.clientData;
+    console.log(response);
+    return response;
   }
   catch (error) {
     console.log(error);
@@ -23,26 +24,15 @@ export async function getById(id) {
   }
 }
 
-export async function createRecord(client){
+export async function createEntry(client){
   try {
     const response = await axios.post(connectionString, client);
-    return response.data.clientData;
+    return response;
  }
  catch (error) {
     console.log(error);
     return false;
  }
-}
-
-export async function updateRecord(client){
-  try{
-    console.log(client._id);
-    const response = await axios.patch(connectionString + "/" + client._id, client);
-    return response.data.clientData;
-  }catch(error){
-    console.log(error);
-    return false;
-  }
 }
 
 export async function deleteById(id) {

@@ -12,35 +12,15 @@ export async function getAll() {
   }
 }
 
-export async function getById(id) {
-  try {
-    const response = await axios.get(connectionString + "/" + id);
-    return response.data.dogData;
-  } catch (error) {
-    console.log(error);
-    return false;
-  }
-}
-
-export async function createRecord(dog){
+export async function createEntry(dog){
   try {
     const response = await axios.post(connectionString, dog);
-    return response.data.dogData;
+    return response;
  }
  catch (error) {
     console.log(error);
     return false;
  }
-}
-
-export async function updateRecord(dog){
-  try{
-    const response = await axios.patch(connectionString + "/" + dog._id, dog);
-    return response.data.dogData;
-  }catch(error){
-    console.log(error);
-    return false;
-  }
 }
 
 export async function deleteById(id) {
