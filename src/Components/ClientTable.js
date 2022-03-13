@@ -3,14 +3,6 @@ import {Table} from 'react-bootstrap';
 import 'bootstrap-table';
 
 function formTable(props) {
-   const clientData = [
-      {fullName: "John Doe", dogs: "DogA",phoneNumber: 8888888888},
-      {fullName: "John Frank", dogs: "DogB",phoneNumber: 9999999999},
-      {fullName: "Person B", dogs: "",phoneNumber: 1011011011}
-   ]
-
-   props = {clientData: clientData};
-
    return (
       <table
          class = "table table-striped"
