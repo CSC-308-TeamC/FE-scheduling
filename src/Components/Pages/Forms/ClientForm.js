@@ -20,8 +20,8 @@ function ClientForm(props) {
          getClientById(props.updateObjectId).then((result) => {
 
             setClient({
-               firstName: result.firstName,
-               lastName: result.lastName,
+               firstName: result.fullName.split(" ")[0],
+               lastName: result.fullName.split(" ")[1],
                dogs: result.dogs,
                phoneNumber: result.phoneNumber
             });
