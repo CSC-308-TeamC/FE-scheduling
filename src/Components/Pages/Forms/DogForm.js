@@ -16,6 +16,7 @@ function DogForm(props) {
 
   const [breeds, setBreeds] = useState([]);
   const [submitLabel, setSubmitLabel] = useState("Submit");
+  const [selectStates, setSelectStates] = useState({});
   
 
     useEffect(()=> {
@@ -30,16 +31,16 @@ function DogForm(props) {
       if(props.updateObjectId){
         setSubmitLabel("Update");
         getDogById(props.updateObjectId).then( result => {
+          setSelectStates({breed: {label: result.breed, category: 'breed'},  
+                           client: props.clientNames.find(client => client.id === result.clientId)});
           setDog({ 
             name: result.name,
             breed: result.breed,
             clientId: result.clientId
           });
         });
-
       }
-
-    },[props.updateObjectId])
+    },[props.updateObjectId, props.clientNames])
 
     function handleNameChange(event){
       const { value } = event.target;
@@ -47,10 +48,13 @@ function DogForm(props) {
     }
 
     function handleSelectChange(selection){
-      if(selection.category === "breed")
-        setDog({...dog, breed: selection.label})
-      else
-        setDog({...dog, clientId: selection.id})
+      if(selection.category === "breed"){
+        setDog({...dog, breed: selection.label});
+        setSelectStates({selection});
+      }else{
+        setDog({...dog, clientId: selection.id});
+        setSelectStates({selection});
+      }
     }
 
  
@@ -81,6 +85,7 @@ function DogForm(props) {
           <Form.Label>Breed</Form.Label>
           <Select options={breeds} placeholder={"Select Breed..."}
               isSearchable={true}
+              value={selectStates.breed}
               getOptionValue={(selection) => selection.label}
               onChange={(selection) => handleSelectChange(selection)} />
         </Form.Group>
@@ -88,6 +93,7 @@ function DogForm(props) {
         <Form.Group className="mb-3" controlId="dogFormClient">
           <Form.Label>Associated Client</Form.Label>
           <Select options={props.clientNames} placeholder={"Select Client..."}
+            value={selectStates.client}
             getOptionValue={(selection) => selection.label}
             onChange={(selection) => handleSelectChange(selection)}/>
         </Form.Group>
