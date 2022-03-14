@@ -18,6 +18,7 @@ function ClientForm(props) {
       if (props.updateObjectId) {
          setSubmitLabel("Update");
          getClientById(props.updateObjectId).then((result) => {
+
             setClient({
                firstName: result.firstName,
                lastName: result.lastName,

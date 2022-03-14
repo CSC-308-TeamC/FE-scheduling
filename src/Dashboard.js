@@ -8,7 +8,6 @@ import DogPage from './Components/Pages/DogPage';
 import AppointmentTable from './Components/Pages/Tables/AppointmentTable';
 import logoNegSmall from './imgs/logo-negative.png';
 import DashboardPanel from './Components/DashboardPanel';
-// import './Components/CalendarComponent/calendar.css'
 
 function Dashboard() {
   const [todaysAppointments, setTodaysAppointments] = useState([]);
