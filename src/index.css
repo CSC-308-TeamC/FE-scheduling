@@ -21,9 +21,69 @@
  * 2. Prevent adjustments of font size after orientation changes in iOS.
  */
 
- #date{
-  margin-left: 7%;
-  font-size: 100px;
+#dashboardPic{
+  margin-top: 2.5%;
+}
+
+#nextApptInfo{
+  font-size: 25px;
+}
+
+#nextAppt{
+  padding-top: 27%;
+  height: 91%;
+  margin-top: 6.4%;
+  text-align: center;
+  background-color: #F7F7F8;
+  border: solid;
+  border-color: #DFDFDF;
+  border-width: thin;
+}
+
+#CardTitle{
+  text-align: center;
+}
+
+#pieChart{
+  margin-top: 1.9vw;
+  height: 91%;
+  background-color: #F7F7F8;
+  border: solid;
+  border-color: #DFDFDF;
+  border-width: thin;
+}
+
+.dot {
+  margin-right: 0.3vw;
+  margin-left: 0.5vw;
+  height: 10px;
+  width: 10px;
+  
+  border-radius: 50%;
+  display: inline-block;
+}
+
+#redDot{
+  background-color: #D70205;
+}
+
+#yellowDot{
+  background-color: #F4C63D;
+}
+
+#pinkDot{
+  background-color: #F05B4E;
+}
+
+#date{
+  border: solid;
+  border-color: #DFDFDF;
+  border-width: thin;
+  margin-top: 3.2%;
+  text-align: center ;
+  height: 91%;
+  font-size: 80px;
+  background-color: #F7F7F8;
 }
 
 #time{
