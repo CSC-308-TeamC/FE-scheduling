@@ -212,7 +212,7 @@ li {
 .calendar .calendar-table .tbody {
   display: -ms-grid;
   display: grid;
-  -ms-grid-columns: (1fr)[7];
+  -ms-grid-columns: (1fr);
   grid-template-columns:repeat(7, 1fr);
   gap: 0.5rem;
   text-align: center;

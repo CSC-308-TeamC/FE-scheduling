@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { addEventDispatch } from "../actions/actionCreatorsDispatch"
 import { changeServiceField, toggleNewEventSidebarObj } from "../actions/actionCreatorsObj";
 import EditField from "./EditField";
-import AppointmentForm from "../../Components/AppointmentForm";
+import AppointmentForm from "../../Components/Pages/Forms/AppointmentForm";
 
 const NewEventSidebar = () => {
 
@@ -29,7 +29,7 @@ const NewEventSidebar = () => {
     setParticipants("");
     setDescription("");
   };
-
+  
   const handleChange = evt => {
 
     const { name, value } = evt.target;
@@ -66,6 +66,7 @@ const NewEventSidebar = () => {
       </button>
       <p className="new-event-sidebar__title">Add a new event</p>
       <AppointmentForm clientData={[]} dogData={[]}/>
+
       {/* <label htmlFor="new-event-sidebar__description">Event Name</label>
       <EditField
         onEdited={handleChange}
@@ -107,7 +108,7 @@ const NewEventSidebar = () => {
       <button
         className="new-event-sidebar__add-btn"
         onClick={() => {
-         // dispatch(clientData, dogData)
+         //dispatch(clientData, dogData)
           // if (eventContext.eventName === "" || eventContext.date === "") {
           //   return alert("Fill both of event-name and date fields.");
           // } else {

@@ -1,6 +1,8 @@
 import React from "react";
 import { useSelector, useDispatch } from 'react-redux';
 import { setDayDetailObj, addEventDate, toggleDetailSidebarObj, toggleEventsSidebarObj, toggleNewEventSidebarObj } from "../actions/actionCreatorsObj";
+import AppointmentForm from "../../Components/Pages/Forms/AppointmentForm";
+
 
 const Day = ({ day: { visible, dayOfMonth, date } }) => {
 
@@ -12,10 +14,14 @@ const Day = ({ day: { visible, dayOfMonth, date } }) => {
   } = calendarContext;
 
   let todaysEvents = [];
+  <AppointmentForm clientData={[]} dogData={[]}/>
+
 
   events.forEach(event => {
     if (date === event.date) {
       todaysEvents.push(event);
+      // clientData.push(event);
+      // dogData.push(event);
     }
   });
 

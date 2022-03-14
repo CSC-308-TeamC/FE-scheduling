@@ -5,6 +5,8 @@ import { deleteEventDispatch } from "../actions/actionCreatorsDispatch";
 import NewEventButton from "./NewEventButton";
 import { editEventSidebarObj, setDayDetailObj, toggleDetailSidebarObj, toggleNewEventSidebarObj } from "../actions/actionCreatorsObj";
 import moment from 'moment';
+import AppointmentForm from "../../Components/Pages/Forms/AppointmentForm";
+
 
 
 const DayDetail = () => {
@@ -78,7 +80,8 @@ const DayDetail = () => {
             <p className="event-time"><span className="text-bold">Time: </span>{event.time}</p>
             <p className="event-eventName"><span className="text-bold">Event Name: </span> {event.eventName}</p>
             <p className="event-participants"><span className="text-bold">Performer: </span>{event.participants}</p>
-            <p className="event-description"><span className="text-bold">Description: </span>{event.description}</p>
+           <p className="event-description"><span className="text-bold">Description: </span> <AppointmentForm clientData={[]} dogData={[]}/>
+</p>
           </li>
         ))}
       </ul>
