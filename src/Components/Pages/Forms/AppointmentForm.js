@@ -6,12 +6,11 @@ import Select from 'react-select';
 import "react-datetime/css/react-datetime.css";
 
 function AppointmentForm(props) {   
-    var now = new Date();
     const [appointment, setAppointment] = useState(
        {  
           type: '',
           status: '',
-          dateTime: new Date(now.getFullYear(), now.getMonth(), now.getDay(), 6, 0, 0, 0),
+          dateTime: new Date().setHours(6,0,0,0),
           clientId: '',
           dogId: '',
           repeating: false,
@@ -91,7 +90,7 @@ function AppointmentForm(props) {
       setAppointment({  
         type: '',
         status: '',
-        dateTime: new Date(now.getFullYear(), now.getMonth(), now.getDay(), 6, 0, 0, 0),
+        dateTime: new Date().setHours(6,0,0,0),
         clientId: '',
         dogId: '',
         repeating: false,
