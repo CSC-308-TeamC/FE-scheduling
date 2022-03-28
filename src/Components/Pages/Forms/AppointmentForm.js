@@ -98,15 +98,15 @@ function AppointmentForm(props) {
      });
     }
 
-  var appointmentTypes = [{label: 'Groom', category: 'type'},  
-                            {label: 'Bath', category: 'type' }, 
+  var appointmentTypes = [{label: 'Bath', category: 'type'},  
+                            {label: 'Groom', category: 'type' }, 
                             {label: 'Nails', category: 'type'}];
   var appointmentStatuses = [{label: 'Scheduled', category: 'status' },
                                {label: 'Postponed', category: 'status' }, 
                                {label: 'Completed', category: 'status' }];
 
   return (
-    <Container>
+    <Container fluid>
       <Form>
         <Row className="mb-3">
           <Form.Group as={Col} controlId="appointmentFormType">

@@ -1,28 +1,25 @@
 import React from 'react';
 import { Container, Table, Button} from 'react-bootstrap';
-import UpdateModal from './UpdateModal';
 
-
-
-function AppointmentTable(props) { 
+function CheckInTable(props) { 
   return (
     <Container fluid>
       <Table>
-        <TableHeader />
-        <TableBody appointmentData={props.appointmentData} clientNames={props.clientNames} dogNames={props.dogNames}                  
-                   updateAppointment={props.updateAppointment} removeAppointment={props.removeAppointment} />
+        <TableHeader appointmentData={props.appointmentData} />
+        <TableBody appointmentData={props.appointmentData} buttonsDisabled={props.buttonsDisabled} checkInAppointment={props.checkInAppointment} checkOutAppointment={props.checkOutAppointment} />
       </Table>
     </Container>
   );
 }
 
-function TableHeader() {
+function TableHeader(props) {
+  if (props.appointmentData.length !== 0) {
     return (
       <thead>
         <tr>
           <th>Type</th>
           <th>Status</th>
-          <th>Date</th>
+          <th>Time</th>
           <th>Client Name</th>
           <th>Dog Name</th>
           <th>Repeating</th>
@@ -32,6 +29,8 @@ function TableHeader() {
         </tr>
       </thead>
     );
+  }else 
+    return (<>No Upcoming Appointments.</>)
 }
 
 function TableBody(props){
@@ -47,11 +46,10 @@ function TableBody(props){
         <td>{appointment.repeating ? 'Yes' : 'No'}</td>
         <td>{appointment.notes}</td>
         <td>
-          <UpdateModal updateObjectId={appointment._id} clientNames={props.clientNames} dogNames={props.dogNames} 
-                       updateFunction={props.updateAppointment} formToInject={1} />
+          <Button variant="outline-info" disabled={props.buttonsDisabled[index]} onClick={() => props.checkInAppointment(appointment._id, index)}>Check In</Button>      
         </td>
         <td>
-          <Button variant="danger" onClick={() => props.removeAppointment(index)} >Delete</Button>
+          <Button variant="outline-warning" disabled={props.buttonsDisabled[index]}  onClick={() => props.checkOutAppointment(appointment._id, index)}>Check Out</Button>
         </td>
       </tr>
     );
@@ -66,4 +64,4 @@ function TableBody(props){
 
 
 
-export default AppointmentTable;
+export default CheckInTable;

@@ -73,7 +73,7 @@ function DogForm(props) {
 
 
   return (
-    <Container>
+    <Container fluid>
       <Form>
         <Form.Group className="mb-3" controlId="dogFormName">
           <Form.Label>Dog Name</Form.Label>

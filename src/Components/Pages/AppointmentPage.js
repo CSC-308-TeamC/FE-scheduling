@@ -14,7 +14,7 @@ function AppointmentPage() {
     useEffect(() => {
         let clientNames = [];
         getAllClients().then(allClients => {
-          if (allClients) {
+          if(allClients){
             clientNames = allClients.map(client => {
               return { label: client.fullName, id: client._id, category: "clientName" };
             })

@@ -56,7 +56,7 @@ function ClientForm(props) {
    };
 
    return (
-      <Container>
+      <Container fluid>
          <Form>
             <Row className='mb-3'>
                <Form.Group as={Col} controlId="clientFormFName">

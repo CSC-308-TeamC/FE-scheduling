@@ -6,7 +6,7 @@ import UpdateModal from './UpdateModal';
 
 function DogTable(props) { 
     return (
-      <Container>
+      <Container fluid>
         <Table>
           <TableHeader />
           <TableBody dogData={props.dogData} clientNames={props.clientNames}

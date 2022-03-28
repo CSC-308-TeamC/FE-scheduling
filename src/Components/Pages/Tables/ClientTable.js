@@ -5,7 +5,7 @@ import UpdateModal from './UpdateModal';
 
 function ClientTable(props) { 
     return (
-      <Container>
+      <Container fluid>
             <Table>
               <TableHeader />
               <TableBody clientData={props.clientData} updateClient={props.updateClient} removeClient={props.removeClient} />
