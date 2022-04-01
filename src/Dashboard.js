@@ -18,7 +18,9 @@ function Dashboard() {
     });
   }, []);
 
-
+  function getTodays(){
+    return todaysAppointments;
+  }
 
   return (
       <DashboardHeader todaysAppointments={todaysAppointments}/>
@@ -30,8 +32,10 @@ function DashboardHeader(props){
     <Router>
       <div style={{paddingBottom: 10}}>
         <Navbar bg='dark' variant='dark' >
-          <img id="loginLogo" src={logoNegSmall} alt="logo" width="5%" height="5%" />
-          <Navbar.Brand href="/">Dashboard</Navbar.Brand>
+        <img id="loginLogo" src={logoNegSmall} alt="logo" width="5%" height="5%" />
+          <Navbar.Brand href="/">
+            Dashboard
+          </Navbar.Brand>
           <Navbar.Toggle aria-controls='responsive-navbar-nav' />
           <Navbar.Collapse id="responsive-navbar-nav">
             <Nav className="me-auto" >

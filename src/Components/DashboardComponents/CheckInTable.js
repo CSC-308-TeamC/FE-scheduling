@@ -46,10 +46,10 @@ function TableBody(props){
         <td>{appointment.repeating ? 'Yes' : 'No'}</td>
         <td>{appointment.notes}</td>
         <td>
-          <Button variant="outline-info" disabled={props.buttonsDisabled[index]} onClick={() => props.checkInAppointment(appointment._id, index)}>Check In</Button>      
+          <Button variant="outline-info" disabled={false} onClick={() => props.checkInAppointment(appointment._id, index)}>Check In</Button>      
         </td>
         <td>
-          <Button variant="outline-warning" disabled={props.buttonsDisabled[index]}  onClick={() => props.checkOutAppointment(appointment._id, index)}>Check Out</Button>
+          <Button variant="outline-warning" disabled={false}  onClick={() => props.checkOutAppointment(appointment._id, index)}>Check Out</Button>
         </td>
       </tr>
     );

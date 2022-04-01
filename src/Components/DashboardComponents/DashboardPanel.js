@@ -9,11 +9,14 @@ import CardTable from './CardTable';
 
 function DashboardPanel(props) { 
   const [typeChartData, setTypeChartData] = useState({data: {}, options:{}});
+
+  const [todaysAppointments, setTodaysAppointments] = useState([]);
   const [todaysQueue, setTodaysQueue] = useState([]);
+  
   const [checkedInAppointments, setCheckedInAppointments] = useState([]);
   const [checkedOutAppointments, setCheckedOutAppointments] = useState([]);
+  
   const [nextAppointment, setNextAppointment] = useState([]);
-
   const [buttonsDisabled, setButtonDisabled] = useState([]);
 
   useEffect(() => {
@@ -27,43 +30,51 @@ function DashboardPanel(props) {
         else if(appointment.type === 'Nails')
           typeCounts[2]++;
       });
+    }
 
+    setTypeChartData({
+      data: { 
+        labels: ['Bath', 'Groom', 'Nails'],
+        datasets: [{
+          label: 'Appointment Types',
+          data: typeCounts,
+          backgroundColor: [
+            'rgba(54, 162, 235, 0.35)',
+            'rgba(255, 99, 132, 0.35)',
+            'rgba(255, 206, 86, 0.35)'
+          ],
+          borderColor: [              
+            'rgba(54, 162, 235, 1)',
+            'rgba(255, 99, 132, 1)',
+            'rgba(255, 206, 86, 1)'
+          ],
+          borderWidth: 2,
+        }]
+      },
+      options: {},
+    });
+  }, [todaysQueue]);
+
+
+  useEffect(() => {
       //Update these if statements to not be reliant on State properties
-      if(todaysQueue.length === 0)
-        setTodaysQueue(props.appointmentData)
+    if (props.appointmentData.length > todaysQueue.length)
+      setTodaysQueue(props.appointmentData)
 
-      if(buttonsDisabled.length === 0){
-        let falseyArray = Array(props.appointmentData.length).fill(false);
-        setButtonDisabled(falseyArray);
-      }
+    AppointmentGateway.getTodays().then(result => {
+      if (result)
+        setTodaysAppointments(result);
+    });
+
+    setNextAppointment([props.appointmentData[0]]);
+
+
+      // if(buttonsDisabled.length === 0){
+      //   let falseyArray = Array(props.appointmentData.length).fill(false);
+      //   setButtonDisabled(falseyArray);
+      // }
 
       //Needs to be Changed to grab proper upcoming appointment based on time and checkin
-      setNextAppointment([props.appointmentData[0]]);
-
-      setTypeChartData({
-        data: { 
-          labels: ['Bath', 'Groom', 'Nails'],
-          datasets: [{
-            label: 'Appointment Types',
-            data: typeCounts,
-            backgroundColor: [
-              'rgba(54, 162, 235, 0.35)',
-              'rgba(255, 99, 132, 0.35)',
-              'rgba(255, 206, 86, 0.35)'
-            ],
-            borderColor: [              
-              'rgba(54, 162, 235, 1)',
-              'rgba(255, 99, 132, 1)',
-              'rgba(255, 206, 86, 1)'
-            ],
-            borderWidth: 2,
-          }]
-        },
-        options: {},
-      });
-    }    
-
-
   }, [props.appointmentData]);
 
   function removeFromTodaysQueue(appointmentId) {
@@ -72,12 +83,19 @@ function DashboardPanel(props) {
     }));
   }
 
-  function checkInAppointment(appointmentId){
-    //removeFromTodaysQueue(appointmentId);
+  function disableCheckin(index){
+    let disabledStates = [...buttonsDisabled];
+    disabledStates[index] = true;
+    setButtonDisabled(disabledStates);
+  }
+
+  function checkInAppointment(appointmentId, index){
+    removeFromTodaysQueue(appointmentId);
+    //disableCheckin(index);
     setCheckedInAppointments([...checkedInAppointments, props.appointmentData.find(appointment => appointment._id === appointmentId)])
   }
 
-  function checkOutAppointment(appointmentId){
+  function checkOutAppointment(appointmentId, index){
     if(checkedInAppointments.length !== 0)
       setCheckedInAppointments(checkedInAppointments.filter(function (appointment) {
         return appointment._id !== appointmentId;
@@ -95,12 +113,11 @@ function DashboardPanel(props) {
 
 
 function TypeChart(){
-
     if(Object.keys(typeChartData.data).length !== 0)
       return (<Doughnut data={typeChartData.data} 
         height={300} width={300} options={{maintainAspectRatio: false}}/>)
 
-    return (<p>No Appointments to Display</p>)
+    return (<>No Appointments to Display</>)
   }
 
   return (
