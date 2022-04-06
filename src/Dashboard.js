@@ -9,21 +9,12 @@ import logoNegSmall from './imgs/logo-negative.png';
 import DashboardPanel from './Components/DashboardComponents/DashboardPanel';
 
 function Dashboard() {
-  const [todaysAppointments, setTodaysAppointments] = useState([]);
-  
-  useEffect(() => {
-    AppointmentGateway.getTodays().then(result => {
-      if(result)
-        setTodaysAppointments(result);
-    });
-  }, []);
-
   return (
-      <DashboardHeader todaysAppointments={todaysAppointments}/>
+      <DashboardHeader/>
   ); 
 }
 
-function DashboardHeader(props){
+function DashboardHeader(){
   return (
     <Router>
       <div style={{paddingBottom: 10}}>
@@ -43,7 +34,7 @@ function DashboardHeader(props){
         </Navbar >
       </div>
       <Routes>
-        <Route path='/' element ={<DashboardPanel appointmentData={props.todaysAppointments} />}/> 
+        <Route path='/' element ={<DashboardPanel/>}/> 
         <Route path='/appointments' element={<AppointmentPage/>}/>
         <Route path='/clients' element={<ClientPage/>}/>
         <Route path='/dogs' element={<DogPage/>}/>
