@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useRef, useState, useEffect} from 'react';
 import {Form, Container, Button} from 'react-bootstrap';
 import Select from 'react-select';
 import Breeds from '../../../Enums/Breeds'
@@ -14,25 +14,27 @@ function DogForm(props) {
        }
     ); 
 
-  const [breeds, setBreeds] = useState([]);
-  const [submitLabel, setSubmitLabel] = useState("Submit");
-  const [selectStates, setSelectStates] = useState({});
-  
+  const breeds = useRef([]);
+  const submitLabel = useRef("Submit");
+  const selectStates = useRef({});
+
+
+    useEffect(() => {
+      let breedsInitialize = Array.from({ length: Object.keys(Breeds).length }, () => ({ label: '', category: 'breed' }));
+
+      Object.values(Breeds).forEach((breed, index) => {
+        breedsInitialize[index].label = breed;
+      });
+
+      breeds.current = breedsInitialize;
+    }, []);
 
     useEffect(()=> {
-      let breedsInitialize = Array.from({ length: Object.keys(Breeds).length }, () => ({ label: '', category: 'breed' }));
-      let index = 0;
-      Object.values(Breeds).forEach(breed => {
-        breedsInitialize[index].label = breed;
-        index++;
-      });
-      setBreeds(breedsInitialize);
-
       if(props.updateObjectId){
-        setSubmitLabel("Update");
+        submitLabel.current = "Update";
         getDogById(props.updateObjectId).then( result => {
-          setSelectStates({breed: {label: result.breed, category: 'breed'},  
-                           client: props.clientNames.find(client => client.id === result.clientId)});
+          selectStates.current = {breed: {label: result.breed, category: 'breed'},  
+                                  client: props.clientNames.find(client => client.id === result.clientId)};
           setDog({ 
             name: result.name,
             breed: result.breed,
@@ -49,11 +51,11 @@ function DogForm(props) {
 
     function handleSelectChange(selection){
       if(selection.category === "breed"){
+        selectStates.current = {...selectStates.current, selection};
         setDog({...dog, breed: selection.label});
-        setSelectStates({selection});
       }else{
+        selectStates.current = {...selectStates.current, selection};
         setDog({...dog, clientId: selection.id});
-        setSelectStates({selection});
       }
     }
 
@@ -83,9 +85,9 @@ function DogForm(props) {
 
         <Form.Group className="mb-3" controlId="dogFormBreed">
           <Form.Label>Breed</Form.Label>
-          <Select options={breeds} placeholder={"Select Breed..."}
+          <Select options={breeds.current} placeholder={"Select Breed..."}
               isSearchable={true}
-              value={selectStates.breed}
+              value={selectStates.current.breed}
               getOptionValue={(selection) => selection.label}
               onChange={(selection) => handleSelectChange(selection)} />
         </Form.Group>
@@ -93,13 +95,13 @@ function DogForm(props) {
         <Form.Group className="mb-3" controlId="dogFormClient">
           <Form.Label>Associated Client</Form.Label>
           <Select options={props.clientNames} placeholder={"Select Client..."}
-            value={selectStates.client}
+            value={selectStates.current.client}
             getOptionValue={(selection) => selection.label}
             onChange={(selection) => handleSelectChange(selection)}/>
         </Form.Group>
 
         <Form.Group className="mb-3" controlId="dogFormSubmission">
-          <Button variant="primary" type="submit" value="Submit" onClick={submitForm}>{submitLabel}</Button>
+          <Button variant="primary" type="submit" value="Submit" onClick={submitForm}>{submitLabel.current}</Button>
         </Form.Group>
       </Form>
     </Container>

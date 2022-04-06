@@ -1,129 +1,149 @@
-import { useState, useEffect } from 'react';
+//React & Boostrap 
+import { useRef, useState, useEffect, useCallback } from 'react';
 import { Container, Row, Col, Card, Stack } from 'react-bootstrap';
-import 'chart.js/auto';
-import { Doughnut } from 'react-chartjs-2';
+//API calls
+import { getById as getAppointmentById, updateRecord as updateAppointment, getTodays as getTodaysAppointments } from '../../API-Access/AppointmentGateway';
+//Enumerations
+import Statuses from '../../Enums/Statuses';
+import Types from '../../Enums/Types';
+//Custom or Module Components
+import ArrivingAlert from './ArrivingAlert';
 import Clock from 'react-live-clock';
 import CheckInTable from './CheckInTable';
 import CardTable from './CardTable';
+import 'chart.js/auto';
+import { Doughnut } from 'react-chartjs-2';
+import UpcomingTimer from './UpcomingTimer';
 
-
-function DashboardPanel(props) { 
-  const [typeChartData, setTypeChartData] = useState({data: {}, options:{}});
-
+function DashboardPanel() { 
   const [todaysAppointments, setTodaysAppointments] = useState([]);
-  const [todaysQueue, setTodaysQueue] = useState([]);
-  
-  const [checkedInAppointments, setCheckedInAppointments] = useState([]);
-  const [checkedOutAppointments, setCheckedOutAppointments] = useState([]);
-  
+
   const [nextAppointment, setNextAppointment] = useState([]);
-  const [buttonsDisabled, setButtonDisabled] = useState([]);
+  const timeOfNextAppointment= useRef();
 
-  useEffect(() => {
-    let typeCounts = [0,0,0]
-    if(props.appointmentData){
-      props.appointmentData.forEach(appointment => {
-        if(appointment.type === 'Bath')
-          typeCounts[0]++;
-        else if(appointment.type === 'Groom')
-          typeCounts[1]++;
-        else if(appointment.type === 'Nails')
-          typeCounts[2]++;
-      });
+  const typeChartData = useRef({data: {}, options:{}});
+
+  const getNextAppointment = useCallback(() => {
+    let nextApp = [];
+    todaysAppointments.forEach(appointment => {
+      if(appointment.status !== Statuses.checkedIn && appointment.status !== Statuses.checkedOut) {
+        if (!nextApp[0]) {
+          nextApp[0] = appointment;
+          let now = new Date();
+          let [hour, minute] = appointment.dateTime.split(':');
+          let date = new Date(now.getFullYear(), now.getMonth(), now.getDay() + 4, parseInt(hour) + 10, parseInt(minute), 0);
+          //timeOfNextAppointment.current = date;
+        }
+        else if (compareDate(appointment, nextApp[0]))
+          nextApp[0] = appointment;
+      }
+    });
+    setNextAppointment(nextApp);
+  }, [todaysAppointments]);
+
+  function compareDate(appointment1, appointment2) {
+    let now = new Date();
+    let [hour, minute] = appointment1.dateTime.split(':');
+    let date1 = new Date(now.getFullYear(), now.getMonth(), now.getDay(), parseInt(hour), parseInt(minute), 0);
+    [hour, minute] = appointment2.dateTime.split(':');
+    let date2 = new Date(now.getFullYear(), now.getMonth(), now.getDay(), parseInt(hour), parseInt(minute), 0);
+    if (date1 < date2) {
+      timeOfNextAppointment.current = date1;
+      return true;
     }
+    return false;
+  }
 
-    setTypeChartData({
-      data: { 
-        labels: ['Bath', 'Groom', 'Nails'],
+
+
+  useEffect(() => {  
+    let testDate = new Date();
+    testDate.setSeconds(testDate.getSeconds() + 600);
+    timeOfNextAppointment.current = testDate;
+    console.log(timeOfNextAppointment.current);
+
+    let typeCounts = Array.from({ length: Object.keys(Types).length }, () => 0);
+    todaysAppointments.forEach(appointment => {
+      Object.values(Types).some((type, index) => {
+        if (appointment.type === type) {
+          typeCounts[index]++;
+        }
+        return appointment.type === type;
+      })
+    });
+
+    let labels = Object.values(Types);
+    typeChartData.current = {
+      data: {
+        labels: labels,
         datasets: [{
           label: 'Appointment Types',
           data: typeCounts,
           backgroundColor: [
             'rgba(54, 162, 235, 0.35)',
             'rgba(255, 99, 132, 0.35)',
-            'rgba(255, 206, 86, 0.35)'
+            'rgba(255, 206, 86, 0.35)',
+            'rgba(153, 102, 255, 0.35)',
           ],
-          borderColor: [              
+          borderColor: [
             'rgba(54, 162, 235, 1)',
             'rgba(255, 99, 132, 1)',
-            'rgba(255, 206, 86, 1)'
+            'rgba(255, 206, 86, 1)',
+            'rgba(153, 102, 255, 1)',
           ],
           borderWidth: 2,
         }]
       },
       options: {},
-    });
-  }, [todaysQueue]);
+    };
+
+    getNextAppointment();
+  }, [todaysAppointments, getNextAppointment]);
 
 
   useEffect(() => {
-      //Update these if statements to not be reliant on State properties
-    if (props.appointmentData.length > todaysQueue.length)
-      setTodaysQueue(props.appointmentData)
-
-    AppointmentGateway.getTodays().then(result => {
-      if (result)
+    getTodaysAppointments().then(result => {
+      if(result){
         setTodaysAppointments(result);
+      }
     });
+  }, []);
 
-    setNextAppointment([props.appointmentData[0]]);
+  async function checkInAppointment(appointmentId){
+    let result = await getAppointmentById(appointmentId, false);
+    result.status = Statuses.checkedIn;
+    await updateAppointment(result);
 
-
-      // if(buttonsDisabled.length === 0){
-      //   let falseyArray = Array(props.appointmentData.length).fill(false);
-      //   setButtonDisabled(falseyArray);
-      // }
-
-      //Needs to be Changed to grab proper upcoming appointment based on time and checkin
-  }, [props.appointmentData]);
-
-  function removeFromTodaysQueue(appointmentId) {
-    setTodaysQueue(todaysQueue.filter(function (appointment) {
-      return appointment._id !== appointmentId;
-    }));
+    getTodaysAppointments().then(result => {
+      setTodaysAppointments(result);
+    });
   }
 
-  function disableCheckin(index){
-    let disabledStates = [...buttonsDisabled];
-    disabledStates[index] = true;
-    setButtonDisabled(disabledStates);
+  async function checkOutAppointment(appointmentId){
+    let result = await getAppointmentById(appointmentId, false);
+    result.status = Statuses.checkedOut;
+    await updateAppointment(result);
+
+    getTodaysAppointments().then(result => {
+      setTodaysAppointments(result);
+    });
   }
 
-  function checkInAppointment(appointmentId, index){
-    removeFromTodaysQueue(appointmentId);
-    //disableCheckin(index);
-    setCheckedInAppointments([...checkedInAppointments, props.appointmentData.find(appointment => appointment._id === appointmentId)])
-  }
-
-  function checkOutAppointment(appointmentId, index){
-    if(checkedInAppointments.length !== 0)
-      setCheckedInAppointments(checkedInAppointments.filter(function (appointment) {
-        return appointment._id !== appointmentId;
-      }));
-    
-    setCheckedOutAppointments([...checkedOutAppointments, props.appointmentData.find(appointment => appointment._id === appointmentId)])
-  }
-
-  function reCheckInAppointment(appointmentId){
-    setCheckedOutAppointments(checkedOutAppointments.filter(function (appointment) {
-      return appointment._id !== appointmentId;
-    }));
-    setCheckedInAppointments([...checkedInAppointments, props.appointmentData.find(appointment => appointment._id === appointmentId)])
-  }
 
 
 function TypeChart(){
-    if(Object.keys(typeChartData.data).length !== 0)
-      return (<Doughnut data={typeChartData.data} 
-        height={300} width={300} options={{maintainAspectRatio: false}}/>)
+    if(Object.keys(typeChartData.current.data).length !== 0)
+      return (<Doughnut data={typeChartData.current.data} height={300} width={300} options={{maintainAspectRatio: false}}/>)
 
     return (<>No Appointments to Display</>)
   }
 
+
+
   return (
     <Container fluid>
       <Stack gap={3}>
-
+        
         <Row xs={2}>
           <Col>
             <Card className="text-center">
@@ -139,9 +159,11 @@ function TypeChart(){
                 Next Appointment
               </Card.Title>
               <Card.Body>
-                <CardTable appointmentData={nextAppointment} inProgress={null} />
+                <CardTable appointmentData={nextAppointment}/>
               </Card.Body>
-              <Card.Footer className="text-muted">Arriving in 30 minutes</Card.Footer>
+              <Card.Footer className="text-muted">
+                <UpcomingTimer expiryTimestamp={timeOfNextAppointment}/>
+              </Card.Footer>
             </Card>
           </Col>
           <Col>
@@ -167,7 +189,7 @@ function TypeChart(){
                 </Card.Title>
               </Card.Header>
               <Card.Body>
-                <CheckInTable appointmentData={todaysQueue} checkInAppointment={checkInAppointment} checkOutAppointment={checkOutAppointment}/>
+                <CheckInTable appointmentData={todaysAppointments} checkInAppointment={checkInAppointment} checkOutAppointment={checkOutAppointment}/>
               </Card.Body>
             </Card>
           </Col>
@@ -182,7 +204,7 @@ function TypeChart(){
                 </Card.Title>
               </Card.Header>
               <Card.Body>
-                <CardTable appointmentData={checkedInAppointments} inProgress={true} appointmentFunction={checkOutAppointment}/>
+                <CardTable appointmentData={todaysAppointments} statusKey={Statuses.checkedIn} appointmentFunction={checkOutAppointment}/>
               </Card.Body>
             </Card>
           </Col>
@@ -194,7 +216,7 @@ function TypeChart(){
                 </Card.Title>
               </Card.Header>
               <Card.Body>
-                <CardTable appointmentData={checkedOutAppointments} inProgress={false} appointmentFunction={reCheckInAppointment}/>
+                <CardTable appointmentData={todaysAppointments} statusKey={Statuses.checkedOut} appointmentFunction={checkInAppointment}/>
               </Card.Body>
             </Card>
           </Col>

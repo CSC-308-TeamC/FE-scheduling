@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
-import AppointmentForm from '../Forms/AppointmentForm';
-import ClientForm from '../Forms/ClientForm';
-import DogForm from '../Forms/DogForm';
+import AppointmentForm from './Forms/AppointmentForm';
+import ClientForm from './Forms/ClientForm';
+import DogForm from './Forms/DogForm';
 import {Button, Modal} from 'react-bootstrap';
 
 function UpdateModal(props){

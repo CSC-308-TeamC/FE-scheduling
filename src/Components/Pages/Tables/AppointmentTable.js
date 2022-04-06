@@ -1,13 +1,13 @@
 import React from 'react';
 import { Container, Table, Button} from 'react-bootstrap';
-import UpdateModal from './UpdateModal';
+import UpdateModal from '../UpdateModal';
 
 
 
 function AppointmentTable(props) { 
   return (
     <Container fluid>
-      <Table>
+      <Table bordered striped hover>
         <TableHeader />
         <TableBody appointmentData={props.appointmentData} clientNames={props.clientNames} dogNames={props.dogNames}                  
                    updateAppointment={props.updateAppointment} removeAppointment={props.removeAppointment} />

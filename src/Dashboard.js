@@ -18,10 +18,6 @@ function Dashboard() {
     });
   }, []);
 
-  function getTodays(){
-    return todaysAppointments;
-  }
-
   return (
       <DashboardHeader todaysAppointments={todaysAppointments}/>
   ); 

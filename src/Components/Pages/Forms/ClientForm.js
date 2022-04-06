@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useRef, useState, useEffect} from 'react';
 import { Row, Col, Form, Container, Button } from 'react-bootstrap'
 import {getById as getClientById} from '../../../API-Access/ClientGateway'
 
@@ -12,11 +12,11 @@ function ClientForm(props) {
          }
    );
 
-   const [submitLabel, setSubmitLabel] = useState("Submit");
+   const submitLabel = useRef("Submit");
 
    useEffect(() => {
       if (props.updateObjectId) {
-         setSubmitLabel("Update");
+         submitLabel.current = "Update";
          getClientById(props.updateObjectId).then((result) => {
             setClient({
                firstName: result.fullName.split(" ")[0],
@@ -77,7 +77,7 @@ function ClientForm(props) {
                <Form.Control type="text" placeholder="Dogs"  name="dogs" value={client.dogs} onChange={handleChange} />
             </Form.Group>
             <Form.Group className="mb-3" controlId="clientFormSubmission">
-               <Button variant="primary" type="submit" value="Submit" onClick={submitForm}>{submitLabel}</Button>
+               <Button variant="primary" type="submit" value="Submit" onClick={submitForm}>{submitLabel.current}</Button>
             </Form.Group>
          </Form>
       </Container>

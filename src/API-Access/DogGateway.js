@@ -1,10 +1,10 @@
 import axios from 'axios';
 
-const connectionString = 'http://localhost:5000/dogs';
+const requestString = 'http://localhost:5000/dogs';
 
 export async function getAll() {
   try {
-    const response = await axios.get(connectionString);
+    const response = await axios.get(requestString);
     return response.data.dogData;
   } catch (error) {
     console.log(error);
@@ -14,7 +14,7 @@ export async function getAll() {
 
 export async function getById(id) {
   try {
-    const response = await axios.get(connectionString + "/" + id);
+    const response = await axios.get(requestString + "/" + id);
     return response.data.dogData;
   } catch (error) {
     console.log(error);
@@ -24,7 +24,7 @@ export async function getById(id) {
 
 export async function createRecord(dog){
   try {
-    const response = await axios.post(connectionString, dog);
+    const response = await axios.post(requestString, dog);
     return response.data.dogData;
  }
  catch (error) {
@@ -35,7 +35,7 @@ export async function createRecord(dog){
 
 export async function updateRecord(dog){
   try{
-    const response = await axios.patch(connectionString + "/" + dog._id, dog);
+    const response = await axios.patch(requestString, dog);
     return response.data.dogData;
   }catch(error){
     console.log(error);
@@ -45,7 +45,7 @@ export async function updateRecord(dog){
 
 export async function deleteById(id) {
   try {
-    const response = await axios.delete(connectionString + "/" + id);
+    const response = await axios.delete(requestString + "/" + id);
     return response;
   }
   catch (error) {

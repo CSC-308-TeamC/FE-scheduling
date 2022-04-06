@@ -1,29 +1,39 @@
 import React from 'react';
 import { Container, Table, Button} from 'react-bootstrap';
+import Statuses from '../../Enums/Statuses'
 
-function CardTable(props) { 
-  return (
-    <Container fluid>
-      <Table>
-        <TableHeader appointmentData={props.appointmentData} inProgress={props.inProgress}/>
-        <TableBody appointmentData={props.appointmentData} inProgress={props.inProgress} appointmentFunction={props.appointmentFunction}/>
-      </Table>
-    </Container>
-  );
+function CardTable(props) {
+    let filteredData = filterAppointmentsByStatus(props.appointmentData, props.statusKey)
+    return (
+        <Container fluid>
+            <Table borderless striped hover>
+                <TableHeader appointmentData={filteredData} statusKey={props.statusKey} />
+                <TableBody appointmentData={filteredData} statusKey={props.statusKey} updateAppointmentStatus={props.appointmentFunction} />
+            </Table>
+        </Container>
+    );
+}
+
+function filterAppointmentsByStatus(appointmentData, statusKey){
+    let filteredData = appointmentData;
+    if(statusKey)
+        filteredData = appointmentData.filter(appointment => {
+            return appointment.status === statusKey;
+          });
+    return filteredData;
 }
 
 function ButtonVariant(props){
-    if(props.inProgress === null)
-        return (null)
-    else if(props.inProgress)
-        return (<Button variant="outline-warning" onClick={() => props.appointmentFunction(props.appointmentId)}>Check Out</Button>)
+    if(props.appointmentStatus === Statuses.checkedIn)
+        return (<Button variant="outline-warning" onClick={() => props.updateAppointmentStatus(props.appointmentId)}>Check Out</Button>)
+    else if(props.appointmentStatus === Statuses.checkedOut)
+        return (<Button variant="outline-info" onClick={() => props.updateAppointmentStatus(props.appointmentId)}>Re-Check In</Button>)   
     else
-        return (<Button variant="outline-info" onClick={() => props.appointmentFunction(props.appointmentId)}>Re-Check In</Button>)   
-
+        return (null)
 }
 
 function TableHeader(props) {
-    if(props.appointmentData[0]){
+    if(props.appointmentData.length > 0){
         return (
             <thead>
                 <tr>
@@ -32,21 +42,23 @@ function TableHeader(props) {
                     <th>Time</th>
                     <th>Client Name</th>
                     <th>Dog Name</th>
+                    <th></th>
                 </tr>
             </thead>
         );
     }
-    else if(props.inProgress === null)
-        return (<>No Upcoming Appointment.</>)
-    else if(props.inProgress)
-        return(<>No Appointments Checked In.</>)
+    else if(props.statusKey === Statuses.checkedIn)
+        return(<>No Appointments Checked In.</>); 
+    else if(props.statusKey === Statuses.checkedOut)
+        return(<>No Appointments Checked Out.</>);
     else
-        return(<>No Appointments Checked Out.</>)
+        return (<>No Upcoming Appointment.</>);
+        
 }
 
 function TableBody(props){
     let rows = [];
-    if(props.appointmentData[0]){
+    if(props.appointmentData.length > 0){
         rows = props.appointmentData.map((appointment, index) => {
             return (
                 <tr key={index}>
@@ -56,7 +68,7 @@ function TableBody(props){
                     <td>{appointment.clientName}</td>
                     <td>{appointment.dogName}</td>
                     <td>
-                        <ButtonVariant inProgress={props.inProgress} appointmentFunction={props.appointmentFunction} appointmentId={appointment._id} />
+                        <ButtonVariant appointmentStatus={appointment.status} updateAppointmentStatus={props.updateAppointmentStatus} appointmentId={appointment._id} />
                     </td>
                 </tr>
             );

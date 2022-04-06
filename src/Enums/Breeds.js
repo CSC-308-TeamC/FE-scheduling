@@ -1,4 +1,4 @@
-const Breeds = {
+const Breeds = Object.freeze({
     Affenpinscher: "Affenpinscher",
     Afghan_Hound: "Afghan Hound",
     Africanis: "Africanis",
@@ -491,6 +491,6 @@ const Breeds = {
     Wirehaired_Vizsla: "Wirehaired Vizsla",
     Wirehaired_Pointing_Griffon: "Wirehaired Pointing Griffon",
     Yorkshire_Terrier: "Yorkshire Terrier",
-}
+});
 
 export default Breeds;

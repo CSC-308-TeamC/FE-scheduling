@@ -1,13 +1,13 @@
 import React from 'react';
 import { Button, Container, Table } from 'react-bootstrap';
-import UpdateModal from './UpdateModal';
+import UpdateModal from '../UpdateModal';
 
 
 
 function DogTable(props) { 
     return (
       <Container fluid>
-        <Table>
+        <Table bordered striped hover>
           <TableHeader />
           <TableBody dogData={props.dogData} clientNames={props.clientNames}
                      updateDog={props.updateDog} removeDog={props.removeDog} />
