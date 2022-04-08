@@ -1,7 +1,6 @@
-import React, {useState, useEffect} from 'react';
+import React from 'react';
 import { BrowserRouter as Router, Routes, Route} from 'react-router-dom';
 import { Navbar, Nav} from 'react-bootstrap'
-import * as AppointmentGateway from './API-Access/AppointmentGateway';
 import AppointmentPage from './Components/Pages/AppointmentPage';
 import ClientPage from './Components/Pages/ClientPage';
 import DogPage from './Components/Pages/DogPage';

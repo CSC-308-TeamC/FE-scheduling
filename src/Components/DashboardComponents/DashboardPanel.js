@@ -17,52 +17,52 @@ import UpcomingTimer from './UpcomingTimer';
 
 function DashboardPanel() { 
   const [todaysAppointments, setTodaysAppointments] = useState([]);
-
   const [nextAppointment, setNextAppointment] = useState([]);
-  const timeOfNextAppointment= useRef();
 
+  const timeOfNextAppointment = useRef(new Date());
+
+  //time.setSeconds(time.getSeconds() + 600);
+  //const timeOfNextAppointment = useRef();
   const typeChartData = useRef({data: {}, options:{}});
 
-  const getNextAppointment = useCallback(() => {
-    let nextApp = [];
-    todaysAppointments.forEach(appointment => {
-      if(appointment.status !== Statuses.checkedIn && appointment.status !== Statuses.checkedOut) {
-        if (!nextApp[0]) {
-          nextApp[0] = appointment;
-          let now = new Date();
-          let [hour, minute] = appointment.dateTime.split(':');
-          let date = new Date(now.getFullYear(), now.getMonth(), now.getDay() + 4, parseInt(hour) + 10, parseInt(minute), 0);
-          //timeOfNextAppointment.current = date;
-        }
-        else if (compareDate(appointment, nextApp[0]))
-          nextApp[0] = appointment;
-      }
-    });
-    setNextAppointment(nextApp);
-  }, [todaysAppointments]);
-
-  function compareDate(appointment1, appointment2) {
-    let now = new Date();
-    let [hour, minute] = appointment1.dateTime.split(':');
-    let date1 = new Date(now.getFullYear(), now.getMonth(), now.getDay(), parseInt(hour), parseInt(minute), 0);
-    [hour, minute] = appointment2.dateTime.split(':');
-    let date2 = new Date(now.getFullYear(), now.getMonth(), now.getDay(), parseInt(hour), parseInt(minute), 0);
+  const compareStringDate = useCallback((appointment1, appointment2) => {
+    let date1 = buildDateFromString(appointment1.dateTime);
+    let date2 = buildDateFromString(appointment2.dateTime);
     if (date1 < date2) {
       timeOfNextAppointment.current = date1;
       return true;
     }
     return false;
-  }
+  }, []);
 
+  const getNextAppointment = useCallback(() => {
+    let nextApp;
+    todaysAppointments.forEach(appointment => {
+      if(appointment.status !== Statuses.checkedIn && appointment.status !== Statuses.checkedOut) {
+        if (!nextApp) {
+          nextApp = appointment;
+          timeOfNextAppointment.current = buildDateFromString(appointment.dateTime);
+        }
+        else if (compareStringDate(appointment, nextApp))
+          nextApp = appointment;
+      }
+    });
+    if(nextApp)
+      setNextAppointment([nextApp]); 
+  }, [todaysAppointments, compareStringDate]);
+
+
+  useEffect(() => {
+    getTodaysAppointments().then(result => {
+      if(result){
+        setTodaysAppointments(result);
+      }
+    });
+  }, []);
 
 
   useEffect(() => {  
-    let testDate = new Date();
-    testDate.setSeconds(testDate.getSeconds() + 600);
-    timeOfNextAppointment.current = testDate;
-    console.log(timeOfNextAppointment.current);
-
-    let typeCounts = Array.from({ length: Object.keys(Types).length }, () => 0);
+   let typeCounts = Array.from({ length: Object.keys(Types).length }, () => 0);
     todaysAppointments.forEach(appointment => {
       Object.values(Types).some((type, index) => {
         if (appointment.type === type) {
@@ -98,16 +98,9 @@ function DashboardPanel() {
     };
 
     getNextAppointment();
+    //console.log(timeOfNextAppointment.current)
   }, [todaysAppointments, getNextAppointment]);
 
-
-  useEffect(() => {
-    getTodaysAppointments().then(result => {
-      if(result){
-        setTodaysAppointments(result);
-      }
-    });
-  }, []);
 
   async function checkInAppointment(appointmentId){
     let result = await getAppointmentById(appointmentId, false);
@@ -129,13 +122,23 @@ function DashboardPanel() {
     });
   }
 
+  function buildDateFromString(timeString){
+    let date = new Date();
+    let [hour, minute] = timeString.split(':');
+    hour = parseInt(hour);
+    minute = parseInt(minute);
+    if(timeString.includes("PM"))
+      hour+=12;
 
+    date.setHours(hour, minute, 0);
+    return date;
+  }
 
-function TypeChart(){
+  function TypeChart() {
     if(Object.keys(typeChartData.current.data).length !== 0)
-      return (<Doughnut data={typeChartData.current.data} height={300} width={300} options={{maintainAspectRatio: false}}/>)
+      return(<Doughnut data={typeChartData.current.data} height={300} width={300} options={{ maintainAspectRatio: false }} />)
 
-    return (<>No Appointments to Display</>)
+    return(<>No Appointments to Display</>)
   }
 
 
@@ -162,7 +165,7 @@ function TypeChart(){
                 <CardTable appointmentData={nextAppointment}/>
               </Card.Body>
               <Card.Footer className="text-muted">
-                <UpcomingTimer expiryTimestamp={timeOfNextAppointment}/>
+                <UpcomingTimer targetDate={timeOfNextAppointment.current}/>
               </Card.Footer>
             </Card>
           </Col>

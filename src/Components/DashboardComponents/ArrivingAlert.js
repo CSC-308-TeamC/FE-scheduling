@@ -22,3 +22,5 @@ function ArrivingAlert(props){
     
     
 }
+
+export default ArrivingAlert;
