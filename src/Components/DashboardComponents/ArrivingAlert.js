@@ -11,9 +11,7 @@ function ArrivingAlert(props){
     if(show){
         return (
             <Alert dismissible={true} variant="success" onClose={() => setShow(false)}>
-                <p>
-                    Your next appoinment is arriving.
-                </p>
+                <Alert.Heading>Your next appoinment is arriving.</Alert.Heading>
             </Alert>
         ); 
     }else{

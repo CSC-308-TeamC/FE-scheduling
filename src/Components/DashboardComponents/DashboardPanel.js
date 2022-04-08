@@ -18,11 +18,9 @@ import UpcomingTimer from './UpcomingTimer';
 function DashboardPanel() { 
   const [todaysAppointments, setTodaysAppointments] = useState([]);
   const [nextAppointment, setNextAppointment] = useState([]);
+  const [showAlert, setShowAlert] = useState(true);
 
   const timeOfNextAppointment = useRef(new Date());
-
-  //time.setSeconds(time.getSeconds() + 600);
-  //const timeOfNextAppointment = useRef();
   const typeChartData = useRef({data: {}, options:{}});
 
   const compareStringDate = useCallback((appointment1, appointment2) => {
@@ -98,7 +96,6 @@ function DashboardPanel() {
     };
 
     getNextAppointment();
-    //console.log(timeOfNextAppointment.current)
   }, [todaysAppointments, getNextAppointment]);
 
 
@@ -134,6 +131,12 @@ function DashboardPanel() {
     return date;
   }
 
+  function setAlertVisible(){
+    // console.log("setting alert to showin")
+    // if(!showAlert)
+    //   setShowAlert(true);
+  }
+  
   function TypeChart() {
     if(Object.keys(typeChartData.current.data).length !== 0)
       return(<Doughnut data={typeChartData.current.data} height={300} width={300} options={{ maintainAspectRatio: false }} />)
@@ -141,12 +144,9 @@ function DashboardPanel() {
     return(<>No Appointments to Display</>)
   }
 
-
-
   return (
     <Container fluid>
       <Stack gap={3}>
-        
         <Row xs={2}>
           <Col>
             <Card className="text-center">
@@ -165,9 +165,10 @@ function DashboardPanel() {
                 <CardTable appointmentData={nextAppointment}/>
               </Card.Body>
               <Card.Footer className="text-muted">
-                <UpcomingTimer targetDate={timeOfNextAppointment.current}/>
+                <UpcomingTimer targetDate={timeOfNextAppointment.current} expirationCallback={setAlertVisible}/>
               </Card.Footer>
             </Card>
+            <ArrivingAlert show={showAlert}/>
           </Col>
           <Col>
             <Card className="text-center">
