@@ -1,19 +1,21 @@
 import React from 'react';
-import { Container, Table, Button} from 'react-bootstrap';
-import UpdateModal from './UpdateModal';
+import { Button, Spinner, Table } from 'react-bootstrap';
+import UpdateModal from '../UpdateModal';
 
 
 
-function AppointmentTable(props) { 
-  return (
-    <Container>
-      <Table>
-        <TableHeader />
-        <TableBody appointmentData={props.appointmentData} clientNames={props.clientNames} dogNames={props.dogNames}                  
-                   updateAppointment={props.updateAppointment} removeAppointment={props.removeAppointment} />
-      </Table>
-    </Container>
-  );
+function AppointmentTable(props) {
+  if(props.appointmentData.length === 0){
+    return (<Spinner animation="grow"/>);
+  } else{
+    return (
+        <Table bordered striped hover>
+          <TableHeader />
+          <TableBody appointmentData={props.appointmentData} clientNames={props.clientNames} dogNames={props.dogNames}
+            updateAppointment={props.updateAppointment} removeAppointment={props.removeAppointment} />
+        </Table>
+    );
+  }
 }
 
 function TableHeader() {

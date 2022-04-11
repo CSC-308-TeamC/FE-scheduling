@@ -1,38 +1,27 @@
-import React, {useState, useEffect} from 'react';
-import { BrowserRouter as Router,Routes, Route} from 'react-router-dom';
-import { Navbar, Nav, Container } from 'react-bootstrap'
-import * as AppointmentGateway from './API-Access/AppointmentGateway';
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route} from 'react-router-dom';
+import { Navbar, Nav} from 'react-bootstrap'
 import AppointmentPage from './Components/Pages/AppointmentPage';
 import ClientPage from './Components/Pages/ClientPage';
 import DogPage from './Components/Pages/DogPage';
-import AppointmentTable from './Components/Pages/Tables/AppointmentTable';
 import logoNegSmall from './imgs/logo-negative.png';
-import DashboardPanel from './Components/DashboardPanel';
+import DashboardPanel from './Components/DashboardComponents/DashboardPanel';
 
 function Dashboard() {
-  const [todaysAppointments, setTodaysAppointments] = useState([]);
-  
-  useEffect(() => {
-    AppointmentGateway.getTodays().then(result => {
-      if(result)
-        setTodaysAppointments(result);
-    });
-  }, []);
-
   return (
-    <div>
-      <DashboardHeader todaysAppointments={todaysAppointments}/>
-    </div>
+      <DashboardHeader/>
   ); 
 }
 
-function DashboardHeader(props){
+function DashboardHeader(){
   return (
     <Router>
-      <Navbar bg='dark' variant='dark'>
-        <Container>
+      <div style={{paddingBottom: 10}}>
+        <Navbar bg='dark' variant='dark' >
         <img id="loginLogo" src={logoNegSmall} alt="logo" width="5%" height="5%" />
-          <Navbar.Brand href="/">Dashboard</Navbar.Brand>
+          <Navbar.Brand href="/">
+            Dashboard
+          </Navbar.Brand>
           <Navbar.Toggle aria-controls='responsive-navbar-nav' />
           <Navbar.Collapse id="responsive-navbar-nav">
             <Nav className="me-auto" >
@@ -41,11 +30,10 @@ function DashboardHeader(props){
               <Nav.Link href="/dogs">Dogs</Nav.Link>
             </Nav>
           </Navbar.Collapse>
-        </Container>
-      </Navbar >
-
+        </Navbar >
+      </div>
       <Routes>
-        <Route path='/' element ={<><DashboardPanel/><AppointmentTable appointmentData={props.todaysAppointments}/></>}/> 
+        <Route path='/' element ={<DashboardPanel/>}/> 
         <Route path='/appointments' element={<AppointmentPage/>}/>
         <Route path='/clients' element={<ClientPage/>}/>
         <Route path='/dogs' element={<DogPage/>}/>

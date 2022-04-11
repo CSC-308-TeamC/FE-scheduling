@@ -1,10 +1,10 @@
 import axios from 'axios';
 
-const connectionString = 'http://localhost:5000/appointments';
+const requestString = 'http://localhost:5000/appointments';
 
 export async function getAll() {
   try {
-    const response = await axios.get(connectionString);
+    const response = await axios.get(requestString);
     return response.data.appointmentData;
   } catch (error) {
     console.log(error);
@@ -12,9 +12,9 @@ export async function getAll() {
   }
 }
 
-export async function getById(id){
+export async function getById(id, format = true){
   try{
-    const response = await axios.get(connectionString + "/" + id);
+    const response = await axios.get(requestString + "/" + id + "/" + format);
     
     return response.data.appointmentData;
   }catch(error){
@@ -35,7 +35,7 @@ export async function getTodays(){
 
 export async function createRecord(appointment){
   try {
-    const response = await axios.post(connectionString, appointment);
+    const response = await axios.post(requestString, appointment);
     return response.data.appointmentData;
  }
  catch (error) {
@@ -46,7 +46,7 @@ export async function createRecord(appointment){
 
 export async function updateRecord(appointment){
   try{
-    const response = await axios.patch(connectionString + "/" + appointment._id, appointment);
+    const response = await axios.patch(requestString, appointment);
     return response.data.appointmentData;
   }catch(error){
     console.log(error);
@@ -56,7 +56,7 @@ export async function updateRecord(appointment){
 
 export async function deleteById(id) {
   try {
-    const response = await axios.delete(connectionString + "/" + id);
+    const response = await axios.delete(requestString + "/" + id);
     return response;
   }
   catch (error) {

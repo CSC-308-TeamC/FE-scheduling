@@ -1,17 +1,19 @@
 import React from 'react';
-import { Button, Container, Table } from 'react-bootstrap';
-import UpdateModal from './UpdateModal';
+import { Button, Spinner, Table } from 'react-bootstrap';
+import UpdateModal from '../UpdateModal';
 
 
 function ClientTable(props) { 
+  if(props.clientData.length === 0){
+    return (<Spinner animation="grow" />);
+  } else {
     return (
-      <Container>
-            <Table>
-              <TableHeader />
-              <TableBody clientData={props.clientData} updateClient={props.updateClient} removeClient={props.removeClient} />
-            </Table>
-      </Container>
+      <Table bordered striped hover>
+        <TableHeader />
+        <TableBody clientData={props.clientData} updateClient={props.updateClient} removeClient={props.removeClient} />
+      </Table>
     );
+  }
  }
 
 function TableHeader() {

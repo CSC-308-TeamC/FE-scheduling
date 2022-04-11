@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react';
 import * as ClientGateway from '../../API-Access/ClientGateway'
 import ClientForm from './Forms/ClientForm';
 import ClientTable from './Tables/ClientTable';
+import {Col, Row, Stack} from 'react-bootstrap'
 
 function ClientPage() {
   const [clients, setClients] = useState([]);
@@ -43,10 +44,18 @@ function ClientPage() {
   }
 
   return (
-    <>
-      <ClientForm handleSubmit={createClient} />
-      <ClientTable clientData={clients} updateClient={updateClient} removeClient={removeClient} />
-    </>
+    <Stack gap={2}>
+      <Row>
+        <Col xs={{ span: 10, offset: 1 }}>
+          <ClientForm handleSubmit={createClient} />
+        </Col>
+      </Row>
+      <Row>
+        <Col xs={{ span: 10, offset: 1 }}>
+          <ClientTable clientData={clients} updateClient={updateClient} removeClient={removeClient} />
+        </Col>
+      </Row>
+    </Stack>
   )
 }
 

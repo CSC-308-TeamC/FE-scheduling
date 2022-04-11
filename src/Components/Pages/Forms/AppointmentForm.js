@@ -1,7 +1,9 @@
-import React, {useState, useEffect} from 'react';
-import { Row, Col, Form, Container, Button } from 'react-bootstrap'
+import React, {useRef, useState, useEffect} from 'react';
+import { Row, Col, Form, Button } from 'react-bootstrap'
 import { getById as getAppointmentById} from '../../../API-Access/AppointmentGateway';
 import Datetime from 'react-datetime';
+import Types from '../../../Enums/Types';
+import Statuses from '../../../Enums/Statuses';
 import Select from 'react-select';
 import "react-datetime/css/react-datetime.css";
 
@@ -18,17 +20,37 @@ function AppointmentForm(props) {
        }
     );
 
-    const [submitLabel, setSubmitLabel] = useState("Submit");
-    const [selectStates, setSelectStates] = useState({});
+    const appointmentStatuses = useRef([]);
+    const appointmentTypes = useRef([]);
+
+    useEffect(() => {
+      appointmentStatuses.current = Array.from({ length: Object.keys(Statuses).length }, () => ({ label: '', category: 'status' }));
+      appointmentTypes.current = Array.from({ length: Object.keys(Types).length }, () => ({ label: '', category: 'type' }));
+
+      Object.values(Statuses).forEach((status, index) => {
+        appointmentStatuses.current[index].label = status;
+      });
+
+      Object.values(Types).forEach((type, index) => {
+        appointmentTypes.current[index].label = type;
+      });
+
+    }, []);
+    
+    const submitLabel = useRef("Submit");
+    const selectStates = useRef({});
 
     useEffect(()=> {
       if(props.updateObjectId){
-        setSubmitLabel("Update")
-        getAppointmentById(props.updateObjectId).then((result) => {
-          setSelectStates({type: {label: result.type, category: 'type'},
+        submitLabel.current = "Update";
+        getAppointmentById(props.updateObjectId, false).then((result) => {
+          console.log(result)
+          console.log(props.clientNames)
+          selectStates.current = {type: {label: result.type, category: 'type'},
                            status: {label: result.status, category: 'status'}, 
-                           client: props.clientNames.find(client => client._id === result.clientId),
-                           dog: props.dogNames.find(dog => dog._id === result.dogId)})
+                           client: props.clientNames.find(client => client.id === result.clientId),
+                           dog: props.dogNames.find(dog => dog.id === result.dogId)};
+
           setAppointment({
             type: result.type,
             status: result.status,
@@ -45,17 +67,17 @@ function AppointmentForm(props) {
 
   function handleSelectChange(selection) {
     if(selection.category === "type"){
+      selectStates.current = {...selectStates.current, type: selection};
       setAppointment({ ...appointment, type: selection.label});
-      setSelectStates({...selectStates, type: selection});
     }else if(selection.category === "status"){
+      selectStates.current = {...selectStates.current, status: selection};
       setAppointment({ ...appointment, status: selection.label});
-      setSelectStates({...selectStates, status: selection});
     }else if(selection.category === "clientName"){
+      selectStates.current = {...selectStates.current, client: selection};
       setAppointment({ ...appointment, clientId: selection.id});
-      setSelectStates({...selectStates, client: selection})
     }else{
+      selectStates.current = {...selectStates.current, dog: selection};
       setAppointment({ ...appointment, dogId: selection.id});
-      setSelectStates({...selectStates, dog: selection});
     }
   }
 
@@ -73,19 +95,11 @@ function AppointmentForm(props) {
     }
 
     function submitForm(){
-      // setAppointment({
-      //   ...appointment,
-      //   type: appointment.type.label,
-      //   status: appointment.status.label,
-      //   clientId: appointment.clientId.id,
-      //   dogId: appointment.dogId.id,
-      // });
-
-      if (props.updateObjectId){
+      if(props.updateObjectId)
         props.handleSubmit(appointment, props.updateObjectId);
-      }else{
+      else
         props.handleSubmit(appointment);
-      }
+      
 
       setAppointment({  
         type: '',
@@ -98,29 +112,21 @@ function AppointmentForm(props) {
      });
     }
 
-  var appointmentTypes = [{label: 'Groom', category: 'type'},  
-                            {label: 'Bath', category: 'type' }, 
-                            {label: 'Nails', category: 'type'}];
-  var appointmentStatuses = [{label: 'Scheduled', category: 'status' },
-                               {label: 'Postponed', category: 'status' }, 
-                               {label: 'Completed', category: 'status' }];
-
   return (
-    <Container>
       <Form>
         <Row className="mb-3">
           <Form.Group as={Col} controlId="appointmentFormType">
             <Form.Label>Appointment Type</Form.Label>
-            <Select options={appointmentTypes} placeholder={"Select Type..."}
+            <Select options={appointmentTypes.current} placeholder={"Select Type..."}
               isSearchable={false}
-              value={selectStates.type}
+              value={selectStates.current.type}
               getOptionValue={(selection) => selection.label}
               onChange={(selection) => handleSelectChange(selection) } />
           </Form.Group>
           <Form.Group as={Col} controlId="appointFormStatus">
             <Form.Label>Appointment Status</Form.Label>
-            <Select options={appointmentStatuses} placeholder={"Select Status..."}
-              value={selectStates.status}
+            <Select options={appointmentStatuses.current} placeholder={"Select Status..."}
+              value={selectStates.current.status}
               isSearchable={false}
               getOptionValue={(selection) => selection.label}
               onChange={(selection) => handleSelectChange(selection)} />
@@ -130,14 +136,14 @@ function AppointmentForm(props) {
           <Form.Group as={Col} className="mb-3" controlId="appointmentFormCLient">
             <Form.Label>Client Name</Form.Label>
             <Select options={props.clientNames} placeholder={"Select Client..."}
-              value={selectStates.client}
+              value={selectStates.current.client}
               getOptionValue={(selection) => selection.label}
               onChange={(selection) => handleSelectChange(selection)} />
           </Form.Group>
           <Form.Group as={Col} className="mb-3" controlId="appointmentFormCLient">
             <Form.Label>Dog Name</Form.Label>
             <Select options={props.dogNames} placeholder={"Select Dog..."}
-              value={selectStates.dog}
+              value={selectStates.current.dog}
               getOptionValue={(selection) => selection.label}
               onChange={(selection) => handleSelectChange(selection)} />
           </Form.Group>
@@ -155,12 +161,10 @@ function AppointmentForm(props) {
         </Form.Group>
 
         <Form.Group className="mb-3" controlId="appointmentFormSubmission">
-          <Button variant="primary" type="submit" value="Submit" onClick={submitForm}>{submitLabel}</Button>
+          <Button variant="primary" type="submit" value="Submit" onClick={submitForm}>{submitLabel.current}</Button>
         </Form.Group>
         
       </Form>
-      
-    </Container>
   );
 
 }
