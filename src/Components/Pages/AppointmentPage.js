@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import * as AppointmentGateway from '../../API-Access/AppointmentGateway';
 import {getAll as getAllClients} from '../../API-Access/ClientGateway'
 import {getAll as getAllDogs} from '../../API-Access/DogGateway'
 import AppointmentForm from './Forms/AppointmentForm';
 import AppointmentTable from './Tables/AppointmentTable';
+import {Col, Row, Stack} from 'react-bootstrap'
 
 
 function AppointmentPage() {
@@ -66,13 +67,20 @@ function AppointmentPage() {
         }
     }
 
-
     return (
-        <>
-            <AppointmentForm handleSubmit={createAppointment} clientNames={clientNames} dogNames={dogNames}/>
-            <AppointmentTable appointmentData={appointments} clientNames={clientNames} dogNames={dogNames}
-            updateAppointment={updateAppointment} removeAppointment={removeAppointment}  />
-        </>
+        <Stack gap={2}>
+            <Row>
+                <Col xs={{ span: 10, offset: 1 }}>
+                    <AppointmentForm handleSubmit={createAppointment} clientNames={clientNames} dogNames={dogNames} />
+                </Col>
+            </Row>
+            <Row>
+                <Col xs={{ span: 10, offset: 1 }}>
+                    <AppointmentTable appointmentData={appointments} clientNames={clientNames} dogNames={dogNames}
+                        updateAppointment={updateAppointment} removeAppointment={removeAppointment} />
+                </Col>
+            </Row>
+        </Stack>
     )
 }
 

@@ -3,15 +3,25 @@ import { Container, Table, Button} from 'react-bootstrap';
 import Statuses from '../../Enums/Statuses'
 
 function CardTable(props) {
-    let filteredData = filterAppointmentsByStatus(props.appointmentData, props.statusKey)
-    return (
-        <Container fluid>
-            <Table borderless striped hover>
-                <TableHeader appointmentData={filteredData} statusKey={props.statusKey} />
-                <TableBody appointmentData={filteredData} statusKey={props.statusKey} updateAppointmentStatus={props.appointmentFunction} />
-            </Table>
-        </Container>
-    );
+    let filteredData = filterAppointmentsByStatus(props.appointmentData, props.statusKey);
+
+    if(filteredData.length === 0){
+        if (props.statusKey === Statuses.checkedIn)
+            return (<>No Appointments Checked In.</>);
+        else if (props.statusKey === Statuses.checkedOut)
+            return (<>No Appointments Checked Out.</>);
+        else
+            return (<>No Upcoming Appointment.</>);
+    }
+    else
+        return (
+            <Container fluid>
+                <Table borderless striped hover>
+                    <TableHeader appointmentData={filteredData} statusKey={props.statusKey} />
+                    <TableBody appointmentData={filteredData} statusKey={props.statusKey} updateAppointmentStatus={props.appointmentFunction} />
+                </Table>
+            </Container>
+        );
 }
 
 function filterAppointmentsByStatus(appointmentData, statusKey){
@@ -46,14 +56,7 @@ function TableHeader(props) {
                 </tr>
             </thead>
         );
-    }
-    else if(props.statusKey === Statuses.checkedIn)
-        return(<>No Appointments Checked In.</>); 
-    else if(props.statusKey === Statuses.checkedOut)
-        return(<>No Appointments Checked Out.</>);
-    else
-        return (<>No Upcoming Appointment.</>);
-        
+    }       
 }
 
 function TableBody(props){

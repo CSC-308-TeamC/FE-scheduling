@@ -3,6 +3,7 @@ import {getAll as getAllClients} from '../../API-Access/ClientGateway'
 import * as DogGateway from '../../API-Access/DogGateway'
 import DogForm from '../../Components/Pages/Forms/DogForm';
 import DogTable from '../../Components/Pages/Tables/DogTable';
+import {Col, Row, Stack} from 'react-bootstrap'
 
 function DogPage() {
     const [clientNames, setClientNames] = useState([]);
@@ -56,10 +57,18 @@ function DogPage() {
     }
 
     return(
-        <>
-            <DogForm handleSubmit={createDog} clientNames={clientNames}/>
-            <DogTable dogData={dogs} clientNames={clientNames} updateDog={updateDog} removeDog={removeDog} />
-        </>
+        <Stack gap={2}>
+            <Row>
+                <Col xs={{ span: 10, offset: 1 }}>
+                    <DogForm handleSubmit={createDog} clientNames={clientNames} />
+                </Col>
+            </Row>
+            <Row>
+                <Col xs={{ span: 10, offset: 1 }}>
+                    <DogTable dogData={dogs} clientNames={clientNames} updateDog={updateDog} removeDog={removeDog} />
+                </Col>
+            </Row>
+        </Stack>  
     )
 }
 

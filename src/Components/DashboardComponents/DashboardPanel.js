@@ -121,13 +121,13 @@ function DashboardPanel() {
 
   function buildDateFromString(timeString){
     let date = new Date();
-    let [hour, minute] = timeString.split(':');
+    let [hour, minute] = timeString.split(':'); //Formatted as e.g. "06:00 AM" 
     hour = parseInt(hour);
     minute = parseInt(minute);
     if(timeString.includes("PM"))
       hour+=12;
-
     date.setHours(hour, minute, 0);
+    
     return date;
   }
 
@@ -139,7 +139,7 @@ function DashboardPanel() {
   
   function TypeChart() {
     if(Object.keys(typeChartData.current.data).length !== 0)
-      return(<Doughnut data={typeChartData.current.data} height={300} width={300} options={{ maintainAspectRatio: false }} />)
+      return(<Doughnut data={typeChartData.current.data} height={325} width={325} options={{ maintainAspectRatio: false }} />)
 
     return(<>No Appointments to Display</>)
   }

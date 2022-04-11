@@ -1,5 +1,5 @@
 import React, {useRef, useState, useEffect} from 'react';
-import { Row, Col, Form, Container, Button } from 'react-bootstrap'
+import { Row, Col, Form, Button } from 'react-bootstrap'
 import { getById as getAppointmentById} from '../../../API-Access/AppointmentGateway';
 import Datetime from 'react-datetime';
 import Types from '../../../Enums/Types';
@@ -25,12 +25,11 @@ function AppointmentForm(props) {
 
     useEffect(() => {
       appointmentStatuses.current = Array.from({ length: Object.keys(Statuses).length }, () => ({ label: '', category: 'status' }));
+      appointmentTypes.current = Array.from({ length: Object.keys(Types).length }, () => ({ label: '', category: 'type' }));
 
       Object.values(Statuses).forEach((status, index) => {
         appointmentStatuses.current[index].label = status;
       });
-
-      appointmentTypes.current = Array.from({ length: Object.keys(Types).length }, () => ({ label: '', category: 'type' }));
 
       Object.values(Types).forEach((type, index) => {
         appointmentTypes.current[index].label = type;
@@ -40,6 +39,7 @@ function AppointmentForm(props) {
     
     const submitLabel = useRef("Submit");
     const selectStates = useRef({});
+
     useEffect(()=> {
       if(props.updateObjectId){
         submitLabel.current = "Update";
@@ -95,11 +95,11 @@ function AppointmentForm(props) {
     }
 
     function submitForm(){
-      if(props.updateObjectId){
+      if(props.updateObjectId)
         props.handleSubmit(appointment, props.updateObjectId);
-      }else{
+      else
         props.handleSubmit(appointment);
-      }
+      
 
       setAppointment({  
         type: '',
@@ -113,7 +113,6 @@ function AppointmentForm(props) {
     }
 
   return (
-    <Container fluid>
       <Form>
         <Row className="mb-3">
           <Form.Group as={Col} controlId="appointmentFormType">
@@ -166,8 +165,6 @@ function AppointmentForm(props) {
         </Form.Group>
         
       </Form>
-      
-    </Container>
   );
 
 }

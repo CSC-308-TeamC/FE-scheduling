@@ -1,19 +1,21 @@
 import React from 'react';
-import { Button, Container, Table } from 'react-bootstrap';
+import { Button, Spinner, Table } from 'react-bootstrap';
 import UpdateModal from '../UpdateModal';
 
 
 
 function DogTable(props) { 
+  if(props.dogData.length === 0){
+    return (<Spinner animation="grow" />);
+  } else {
     return (
-      <Container fluid>
-        <Table bordered striped hover>
-          <TableHeader />
-          <TableBody dogData={props.dogData} clientNames={props.clientNames}
-                     updateDog={props.updateDog} removeDog={props.removeDog} />
-        </Table>
-      </Container>
+      <Table bordered striped hover>
+        <TableHeader />
+        <TableBody dogData={props.dogData} clientNames={props.clientNames}
+          updateDog={props.updateDog} removeDog={props.removeDog} />
+      </Table>
     );
+  }
  }
 
 function TableHeader() {

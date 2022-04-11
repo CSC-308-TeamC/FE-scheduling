@@ -1,9 +1,8 @@
 import React, {useRef, useState, useEffect} from 'react';
-import {Form, Container, Button} from 'react-bootstrap';
+import {Form, Button} from 'react-bootstrap';
 import Select from 'react-select';
 import Breeds from '../../../Enums/Breeds'
 import { getById as getDogById } from '../../../API-Access/DogGateway'
-//import 'react-bootstrap-typeahead/css/Typeahead.css';
 
 function DogForm(props) {   
     const [dog, setDog] = useState(
@@ -75,37 +74,35 @@ function DogForm(props) {
 
 
   return (
-    <Container fluid>
-      <Form>
-        <Form.Group className="mb-3" controlId="dogFormName">
-          <Form.Label>Dog Name</Form.Label>
-          <Form.Control type="text" placeholder="Name" name="name" value={dog.name} 
-                        onChange={(event) => handleNameChange(event)} />
-        </Form.Group>
+    <Form>
+      <Form.Group className="mb-3" controlId="dogFormName">
+        <Form.Label>Dog Name</Form.Label>
+        <Form.Control type="text" placeholder="Name" name="name" value={dog.name}
+          onChange={(event) => handleNameChange(event)} />
+      </Form.Group>
 
-        <Form.Group className="mb-3" controlId="dogFormBreed">
-          <Form.Label>Breed</Form.Label>
-          <Select options={breeds.current} placeholder={"Select Breed..."}
-              isSearchable={true}
-              value={selectStates.current.breed}
-              getOptionValue={(selection) => selection.label}
-              onChange={(selection) => handleSelectChange(selection)} />
-        </Form.Group>
+      <Form.Group className="mb-3" controlId="dogFormBreed">
+        <Form.Label>Breed</Form.Label>
+        <Select options={breeds.current} placeholder={"Select Breed..."}
+          isSearchable={true}
+          value={selectStates.current.breed}
+          getOptionValue={(selection) => selection.label}
+          onChange={(selection) => handleSelectChange(selection)} />
+      </Form.Group>
 
-        <Form.Group className="mb-3" controlId="dogFormClient">
-          <Form.Label>Associated Client</Form.Label>
-          <Select options={props.clientNames} placeholder={"Select Client..."}
-            value={selectStates.current.client}
-            getOptionValue={(selection) => selection.label}
-            onChange={(selection) => handleSelectChange(selection)}/>
-        </Form.Group>
+      <Form.Group className="mb-3" controlId="dogFormClient">
+        <Form.Label>Associated Client</Form.Label>
+        <Select options={props.clientNames} placeholder={"Select Client..."}
+          value={selectStates.current.client}
+          getOptionValue={(selection) => selection.label}
+          onChange={(selection) => handleSelectChange(selection)} />
+      </Form.Group>
 
-        <Form.Group className="mb-3" controlId="dogFormSubmission">
-          <Button variant="primary" type="submit" value="Submit" onClick={submitForm}>{submitLabel.current}</Button>
-        </Form.Group>
-      </Form>
-    </Container>
-); 
+      <Form.Group className="mb-3" controlId="dogFormSubmission">
+        <Button variant="primary" type="submit" value="Submit" onClick={submitForm}>{submitLabel.current}</Button>
+      </Form.Group>
+    </Form>
+  );
 }
 
 export default DogForm;

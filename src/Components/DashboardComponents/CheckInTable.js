@@ -3,35 +3,36 @@ import { Container, Table, Button} from 'react-bootstrap';
 import Statuses from '../../Enums/Statuses';
 
 function CheckInTable(props) { 
-  return (
-    <Container fluid>
-      <Table bordered striped hover>
-        <TableHeader appointmentData={props.appointmentData} />
-        <TableBody appointmentData={props.appointmentData} buttonsDisabled={props.buttonsDisabled} checkInAppointment={props.checkInAppointment} checkOutAppointment={props.checkOutAppointment} />
-      </Table>
-    </Container>
-  );
+  if (props.appointmentData.length === 0)
+    return (<>No Upcoming Appointments.</>)
+  else
+    return (
+      <Container fluid>
+        <Table bordered striped hover>
+          <TableHeader appointmentData={props.appointmentData} />
+          <TableBody appointmentData={props.appointmentData} buttonsDisabled={props.buttonsDisabled} checkInAppointment={props.checkInAppointment} checkOutAppointment={props.checkOutAppointment} />
+        </Table>
+      </Container>
+    );
 }
 
 function TableHeader(props) {
-  if (props.appointmentData.length !== 0) {
-    return (
-      <thead>
-        <tr>
-          <th>Type</th>
-          <th>Status</th>
-          <th>Time</th>
-          <th>Client Name</th>
-          <th>Dog Name</th>
-          <th>Repeating</th>
-          <th>Notes</th>
-          <th></th>
-          <th></th>
-        </tr>
-      </thead>
-    );
-  }else 
-    return (<>No Upcoming Appointments.</>)
+  return (
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Status</th>
+        <th>Time</th>
+        <th>Client Name</th>
+        <th>Dog Name</th>
+        <th>Repeating</th>
+        <th>Notes</th>
+        <th></th>
+        <th></th>
+      </tr>
+    </thead>
+  );
+
 }
 
 function TableBody(props){

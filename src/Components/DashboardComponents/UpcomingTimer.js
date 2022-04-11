@@ -7,8 +7,10 @@ const CountDownTimer = ({targetDate, expirationCallback}) => {
     if(targetDate && hours + minutes + seconds <= 0){
         expirationCallback();
         return(<>Apointment Arrived</>);
-    }else{
+    }else if(hours > 0){
         return (<> Appointment Arriving in {hours}:{minutes}:{seconds} </>)
+    }else{
+        return (<> Appointment Arriving in {minutes}:{seconds} </>)
     }
 }
 
