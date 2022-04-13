@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useRef, useState, useEffect} from 'react';
 import AppointmentForm from './Forms/AppointmentForm';
 import ClientForm from './Forms/ClientForm';
 import DogForm from './Forms/DogForm';
@@ -8,15 +8,15 @@ function UpdateModal(props){
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
-    const [clientNames, setClientNames] = useState([]);
-    const [dogNames, setDogNames] = useState([]);
+    const clientNames = useRef([]);
+    const dogNames = useRef([]);
     
     
     useEffect(() => {
       if(props.clientNames)
-        setClientNames(props.clientNames)
+        clientNames.current = props.clientNames;
       if(props.dogNames)
-        setDogNames(props.dogNames)
+        dogNames.current = props.dogNames;
     },[props.clientNames, props.dogNames])
 
     return(
@@ -36,7 +36,7 @@ function UpdateModal(props){
             <Modal.Title>Update Record</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-              <FormInject updateObjectId={props.updateObjectId} updateFunction={props.updateFunction} clientNames={clientNames} dogNames={dogNames} formToInject={props.formToInject}/>
+              <FormInject updateObjectId={props.updateObjectId} updateFunction={props.updateFunction} clientNames={clientNames.current} dogNames={dogNames.current} formToInject={props.formToInject}/>
           </Modal.Body>
         </Modal>
       </>

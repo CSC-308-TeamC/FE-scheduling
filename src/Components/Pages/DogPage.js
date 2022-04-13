@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import {getAll as getAllClients} from '../../API-Access/ClientGateway'
 import * as DogGateway from '../../API-Access/DogGateway'
 import DogForm from '../../Components/Pages/Forms/DogForm';
@@ -6,19 +6,16 @@ import DogTable from '../../Components/Pages/Tables/DogTable';
 import {Col, Row, Stack} from 'react-bootstrap'
 
 function DogPage() {
-    const [clientNames, setClientNames] = useState([]);
     const [dogs, setDogs] = useState([]);
-    
+    const clientNames = useRef([]);
 
     useEffect(() => {
         getAllClients().then(allClients => {
             if(allClients){
-                let clientNames = allClients.map(client => {
+                clientNames.current = allClients.map(client => {
                     return { label: client.fullName, id: client._id, category: "clientName" };
                 })
-                setClientNames(clientNames);
             }
-
         });
 
         DogGateway.getAll().then(result => {
@@ -60,12 +57,12 @@ function DogPage() {
         <Stack gap={2}>
             <Row>
                 <Col xs={{ span: 10, offset: 1 }}>
-                    <DogForm handleSubmit={createDog} clientNames={clientNames} />
+                    <DogForm handleSubmit={createDog} clientNames={clientNames.current} />
                 </Col>
             </Row>
             <Row>
                 <Col xs={{ span: 10, offset: 1 }}>
-                    <DogTable dogData={dogs} clientNames={clientNames} updateDog={updateDog} removeDog={removeDog} />
+                    <DogTable dogData={dogs} clientNames={clientNames.current} updateDog={updateDog} removeDog={removeDog} />
                 </Col>
             </Row>
         </Stack>  

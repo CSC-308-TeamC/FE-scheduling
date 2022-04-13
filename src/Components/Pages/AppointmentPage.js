@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import * as AppointmentGateway from '../../API-Access/AppointmentGateway';
 import {getAll as getAllClients} from '../../API-Access/ClientGateway'
 import {getAll as getAllDogs} from '../../API-Access/DogGateway'
@@ -9,27 +9,23 @@ import {Col, Row, Stack} from 'react-bootstrap'
 
 function AppointmentPage() {
     const [appointments, setAppointments] = useState([]);
-    const [clientNames, setClientNames] = useState([]);
-    const [dogNames, setDogNames] = useState([]);
+    const clientNames = useRef([]);
+    const dogNames = useRef([]);
 
     useEffect(() => {
-        let clientNames = [];
         getAllClients().then(allClients => {
           if(allClients){
-            clientNames = allClients.map(client => {
+            clientNames.current = allClients.map(client => {
               return { label: client.fullName, id: client._id, category: "clientName" };
-            })
-            setClientNames(clientNames);
+            });
           }
         });
   
-        let dogNames = []
         getAllDogs().then(allDogs => {
           if(allDogs){
-            dogNames = allDogs.map(dog => {
+            dogNames.current = allDogs.map(dog => {
               return { label: dog.name, id: dog._id , category: "dogName"};
             });
-            setDogNames(dogNames);
           }
         });
 
@@ -71,12 +67,12 @@ function AppointmentPage() {
         <Stack gap={2}>
             <Row>
                 <Col xs={{ span: 10, offset: 1 }}>
-                    <AppointmentForm handleSubmit={createAppointment} clientNames={clientNames} dogNames={dogNames} />
+                    <AppointmentForm handleSubmit={createAppointment} clientNames={clientNames.current} dogNames={dogNames.current} />
                 </Col>
             </Row>
             <Row>
                 <Col xs={{ span: 10, offset: 1 }}>
-                    <AppointmentTable appointmentData={appointments} clientNames={clientNames} dogNames={dogNames}
+                    <AppointmentTable appointmentData={appointments} clientNames={clientNames.current} dogNames={dogNames.current}
                         updateAppointment={updateAppointment} removeAppointment={removeAppointment} />
                 </Col>
             </Row>

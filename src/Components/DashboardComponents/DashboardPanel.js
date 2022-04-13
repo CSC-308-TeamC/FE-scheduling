@@ -124,7 +124,7 @@ function DashboardPanel() {
     let [hour, minute] = timeString.split(':'); //Formatted as e.g. "06:00 AM" 
     hour = parseInt(hour);
     minute = parseInt(minute);
-    if(timeString.includes("PM"))
+    if(timeString.includes("PM") && hour < 12)
       hour+=12;
     date.setHours(hour, minute, 0);
     

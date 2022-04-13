@@ -17,7 +17,7 @@ function DashboardHeader(){
   return (
     <Router>
       <div style={{paddingBottom: 10}}>
-        <Navbar bg='dark' variant='dark' >
+        <Navbar expand="md" bg='dark' variant='dark' >
         <img id="loginLogo" src={logoNegSmall} alt="logo" width="5%" height="5%" />
           <Navbar.Brand href="/">
             Dashboard
@@ -28,6 +28,9 @@ function DashboardHeader(){
               <Nav.Link href="/appointments">Appointments</Nav.Link>
               <Nav.Link href="/clients">Clients</Nav.Link>
               <Nav.Link href="/dogs">Dogs</Nav.Link>
+            </Nav>
+            <Nav>
+              <Nav.Link href="/">Sign Out</Nav.Link>
             </Nav>
           </Navbar.Collapse>
         </Navbar >
