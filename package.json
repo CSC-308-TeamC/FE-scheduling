@@ -15,6 +15,7 @@
     "moment": "^2.29.1",
     "mongodb": "^4.3.1",
     "mongoose": "^6.2.0",
+    "prettier": "2.6.2",
     "react": "^17.0.2",
     "react-bootstrap": "^2.2.3",
     "react-bootstrap-typeahead": "^6.0.0-alpha.9",
@@ -24,7 +25,7 @@
     "react-live-clock": "^5.6.1",
     "react-router": "^6.2.1",
     "react-router-dom": "^6.2.1",
-    "react-scripts": "5.0.0",
+    "react-scripts": "^5.0.1",
     "react-select": "^5.2.2",
     "use-persisted-state": "^0.3.3",
     "web-vitals": "^2.1.4"
@@ -33,7 +34,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "prepare": "husky install"
   },
   "eslintConfig": {
     "extends": [
@@ -52,5 +54,12 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "husky": "^7.0.4",
+    "lint-staged": "^12.3.8"
+  },
+  "lint-staged": {
+    "**/*": "prettier --write --ignore-unknown"
   }
 }
