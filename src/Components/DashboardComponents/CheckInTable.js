@@ -1,16 +1,20 @@
-import React from 'react';
-import { Container, Table, Button} from 'react-bootstrap';
-import Statuses from '../../Enums/Statuses';
+import React from "react";
+import { Container, Table, Button } from "react-bootstrap";
+import Statuses from "../../Enums/Statuses";
 
-function CheckInTable(props) { 
-  if (props.appointmentData.length === 0)
-    return (<>No Upcoming Appointments.</>)
+function CheckInTable(props) {
+  if (props.appointmentData.length === 0) return <>No Upcoming Appointments.</>;
   else
     return (
       <Container fluid>
         <Table bordered striped hover>
           <TableHeader appointmentData={props.appointmentData} />
-          <TableBody appointmentData={props.appointmentData} buttonsDisabled={props.buttonsDisabled} checkInAppointment={props.checkInAppointment} checkOutAppointment={props.checkOutAppointment} />
+          <TableBody
+            appointmentData={props.appointmentData}
+            buttonsDisabled={props.buttonsDisabled}
+            checkInAppointment={props.checkInAppointment}
+            checkOutAppointment={props.checkOutAppointment}
+          />
         </Table>
       </Container>
     );
@@ -32,10 +36,9 @@ function TableHeader(props) {
       </tr>
     </thead>
   );
-
 }
 
-function TableBody(props){
+function TableBody(props) {
   const rows = props.appointmentData.map((appointment, index) => {
     return (
       <tr key={index}>
@@ -44,29 +47,38 @@ function TableBody(props){
         <td>{appointment.dateTime}</td>
         <td>{appointment.clientName}</td>
         <td>{appointment.dogName}</td>
-        <td>{appointment.repeating ? 'Yes' : 'No'}</td>
+        <td>{appointment.repeating ? "Yes" : "No"}</td>
         <td>{appointment.notes}</td>
         <td>
-          <Button variant="info" disabled={(appointment.status === Statuses.checkedIn || appointment.status === Statuses.checkedOut) ? true : false}
-                  active={(appointment.status === Statuses.checkedIn) ? true : false}
-                  onClick={() => props.checkInAppointment(appointment._id, index)}>Check In</Button>      
+          <Button
+            variant="info"
+            disabled={
+              appointment.status === Statuses.checkedIn ||
+              appointment.status === Statuses.checkedOut
+                ? true
+                : false
+            }
+            active={appointment.status === Statuses.checkedIn ? true : false}
+            onClick={() => props.checkInAppointment(appointment._id, index)}
+          >
+            Check In
+          </Button>
         </td>
         <td>
-          <Button variant="warning" disabled={(appointment.status === Statuses.checkedOut) ? true : false} 
-                  active={(appointment.status === Statuses.checkedOut) ? true : false}
-                  onClick={() => props.checkOutAppointment(appointment._id, index)}>Check Out</Button>
+          <Button
+            variant="warning"
+            disabled={appointment.status === Statuses.checkedOut ? true : false}
+            active={appointment.status === Statuses.checkedOut ? true : false}
+            onClick={() => props.checkOutAppointment(appointment._id, index)}
+          >
+            Check Out
+          </Button>
         </td>
       </tr>
     );
   });
-  
-  return (
-      <tbody>
-        {rows}
-      </tbody>
-    );
+
+  return <tbody>{rows}</tbody>;
 }
-
-
 
 export default CheckInTable;
