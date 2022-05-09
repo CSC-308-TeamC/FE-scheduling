@@ -1,10 +1,11 @@
 import axios from "axios";
-
+import { generateHeader } from "./HeaderGenerator";
 const requestString = "http://localhost:5000/dogs";
 
-export async function getAll() {
+export async function getAll(token) {
+  let header = generateHeader(token);
   try {
-    const response = await axios.get(requestString);
+    const response = await axios.get(requestString, header);
     return response.data.dogData;
   } catch (error) {
     console.log(error);
@@ -12,9 +13,10 @@ export async function getAll() {
   }
 }
 
-export async function getById(id) {
+export async function getById(id, token) {
+  let header = generateHeader(token);
   try {
-    const response = await axios.get(requestString + "/" + id);
+    const response = await axios.get(requestString + "/" + id, header);
     return response.data.dogData;
   } catch (error) {
     console.log(error);
@@ -22,9 +24,10 @@ export async function getById(id) {
   }
 }
 
-export async function createRecord(dog) {
+export async function createRecord(dog, token) {
+  let header = generateHeader(token);
   try {
-    const response = await axios.post(requestString, dog);
+    const response = await axios.post(requestString, dog, header);
     return response.data.dogData;
   } catch (error) {
     console.log(error);
@@ -32,9 +35,10 @@ export async function createRecord(dog) {
   }
 }
 
-export async function updateRecord(dog) {
+export async function updateRecord(dog, token) {
+  let header = generateHeader(token);
   try {
-    const response = await axios.patch(requestString, dog);
+    const response = await axios.patch(requestString, dog, header);
     return response.data.dogData;
   } catch (error) {
     console.log(error);
@@ -42,9 +46,10 @@ export async function updateRecord(dog) {
   }
 }
 
-export async function deleteById(id) {
+export async function deleteById(id, token) {
+  let header = generateHeader(token);
   try {
-    const response = await axios.delete(requestString + "/" + id);
+    const response = await axios.delete(requestString + "/" + id, header);
     return response;
   } catch (error) {
     console.log(error);

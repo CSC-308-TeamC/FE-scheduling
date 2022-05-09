@@ -3,18 +3,20 @@ import * as ClientGateway from "../../API-Access/ClientGateway";
 import ClientForm from "./Forms/ClientForm";
 import ClientTable from "./Tables/ClientTable";
 import { Col, Row, Stack } from "react-bootstrap";
+import { useCookies } from "react-cookie";
 
 function ClientPage() {
+  const [cookies, setCookies] = useCookies();
   const [clients, setClients] = useState([]);
 
   useEffect(() => {
-    ClientGateway.getAll().then((result) => {
+    ClientGateway.getAll(cookies.auth_token).then((result) => {
       if (result) setClients(result);
     });
   }, []);
 
   function createClient(client) {
-    ClientGateway.createRecord(client).then((result) => {
+    ClientGateway.createRecord(client, cookies.auth_token).then((result) => {
       if (result && result.status === 201)
         setClients([...clients, result.data]);
     });
@@ -22,7 +24,7 @@ function ClientPage() {
 
   function updateClient(client, id) {
     client._id = id;
-    ClientGateway.updateRecord(client).then((result) => {
+    ClientGateway.updateRecord(client, cookies.auth_token).then((result) => {
       if (result && result.status === 200) {
         setClients([...clients, result.data]);
       }
@@ -31,14 +33,16 @@ function ClientPage() {
 
   function removeClient(index) {
     if (index < clients.length && index > -1) {
-      ClientGateway.deleteById(clients[index]._id).then((result) => {
-        if (result && result.status === 204) {
-          const updated = clients.filter((client, i) => {
-            return i !== index;
-          });
-          setClients(updated);
+      ClientGateway.deleteById(clients[index]._id, cookies.auth_token).then(
+        (result) => {
+          if (result && result.status === 204) {
+            const updated = clients.filter((client, i) => {
+              return i !== index;
+            });
+            setClients(updated);
+          }
         }
-      });
+      );
     }
   }
 

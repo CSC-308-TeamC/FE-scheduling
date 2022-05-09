@@ -1,10 +1,13 @@
 import React, { useRef, useState, useEffect } from "react";
-import { Form, Button } from "react-bootstrap";
+import { Button, Col, Form, Row } from "react-bootstrap";
+import { getAll as getAllClients } from "../../../API-Access/ClientGateway";
 import Select from "react-select";
 import Breeds from "../../../Enums/Breeds";
 import { getById as getDogById } from "../../../API-Access/DogGateway";
+import { useCookies } from "react-cookie";
 
 function DogForm(props) {
+  const [cookies, setCookies] = useCookies();
   const [dog, setDog] = useState({
     name: "",
     breed: "",
@@ -14,8 +17,23 @@ function DogForm(props) {
   const breeds = useRef([]);
   const submitLabel = useRef("Submit");
   const selectStates = useRef({});
+  const [clientSelectList, setClientSelectList] = useState([]);
 
   useEffect(() => {
+    let clientSelectData = [];
+    getAllClients(cookies.auth_token).then((allClients) => {
+      if (allClients) {
+        clientSelectData = allClients.map((client) => {
+          return {
+            label: client.fullName,
+            id: client._id,
+            category: "clientName",
+          };
+        });
+        setClientSelectList(clientSelectData);
+      }
+    });
+
     let breedsInitialize = Array.from(
       { length: Object.keys(Breeds).length },
       () => ({ label: "", category: "breed" })
@@ -26,17 +44,17 @@ function DogForm(props) {
     });
 
     breeds.current = breedsInitialize;
-  }, []);
 
-  useEffect(() => {
     if (props.updateObjectId) {
       submitLabel.current = "Update";
-      getDogById(props.updateObjectId).then((result) => {
+      getDogById(props.updateObjectId, cookies.auth_token).then((result) => {
         selectStates.current = {
           breed: { label: result.breed, category: "breed" },
-          client: props.clientNames.find(
-            (client) => client.id === result.clientId
-          ),
+          client: {
+            label: result.fullName,
+            id: result.client._id,
+            category: "clientName",
+          },
         };
         setDog({
           name: result.name,
@@ -45,7 +63,7 @@ function DogForm(props) {
         });
       });
     }
-  }, [props.updateObjectId, props.clientNames]);
+  }, [props.updateObjectId]);
 
   function handleNameChange(event) {
     const { value } = event.target;
@@ -74,52 +92,69 @@ function DogForm(props) {
   }
 
   return (
-    <Form>
-      <Form.Group className="mb-3" controlId="dogFormName">
-        <Form.Label>Dog Name</Form.Label>
-        <Form.Control
-          type="text"
-          placeholder="Name"
-          name="name"
-          value={dog.name}
-          onChange={(event) => handleNameChange(event)}
-        />
-      </Form.Group>
+    <>
+      <Row>
+        <Form>
+          <Form.Group className="mb-3" controlId="dogFormName">
+            <Form.Label>Dog Name</Form.Label>
+            <Form.Control
+              type="text"
+              placeholder="Name"
+              name="name"
+              value={dog.name}
+              onChange={(event) => handleNameChange(event)}
+            />
+          </Form.Group>
 
-      <Form.Group className="mb-3" controlId="dogFormBreed">
-        <Form.Label>Breed</Form.Label>
-        <Select
-          options={breeds.current}
-          placeholder={"Select Breed..."}
-          isSearchable={true}
-          value={selectStates.current.breed}
-          getOptionValue={(selection) => selection.label}
-          onChange={(selection) => handleSelectChange(selection)}
-        />
-      </Form.Group>
+          <Form.Group className="mb-3" controlId="dogFormBreed">
+            <Form.Label>Breed</Form.Label>
+            <Select
+              options={breeds.current}
+              placeholder={"Select Breed..."}
+              isSearchable={true}
+              value={selectStates.current.breed}
+              getOptionValue={(selection) => selection.label}
+              onChange={(selection) => handleSelectChange(selection)}
+            />
+          </Form.Group>
 
-      <Form.Group className="mb-3" controlId="dogFormClient">
-        <Form.Label>Associated Client</Form.Label>
-        <Select
-          options={props.clientNames}
-          placeholder={"Select Client..."}
-          value={selectStates.current.client}
-          getOptionValue={(selection) => selection.label}
-          onChange={(selection) => handleSelectChange(selection)}
-        />
-      </Form.Group>
+          <Form.Group className="mb-3" controlId="dogFormClient">
+            <Form.Label>Associated Client</Form.Label>
+            <Select
+              options={clientSelectList}
+              placeholder={"Select Client..."}
+              value={selectStates.current.client}
+              getOptionValue={(selection) => selection.label}
+              onChange={(selection) => handleSelectChange(selection)}
+            />
+          </Form.Group>
 
-      <Form.Group className="mb-3" controlId="dogFormSubmission">
-        <Button
-          variant="primary"
-          type="submit"
-          value="Submit"
-          onClick={submitForm}
-        >
-          {submitLabel.current}
-        </Button>
-      </Form.Group>
-    </Form>
+          <Form.Group className="mb-3" controlId="dogFormSubmission">
+            <Button
+              variant="primary"
+              type="submit"
+              value="Submit"
+              onClick={submitForm}
+            >
+              {submitLabel.current}
+            </Button>
+          </Form.Group>
+        </Form>
+      </Row>
+
+      <Row>
+        <Col xs={{ span: 2, offset: 10 }}>
+          <Button
+            variant="primary"
+            type="submit"
+            value="Submit"
+            onClick={submitForm}
+          >
+            {submitLabel.current}
+          </Button>
+        </Col>
+      </Row>
+    </>
   );
 }
 

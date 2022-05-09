@@ -1,13 +1,17 @@
 import React, { useRef, useState, useEffect } from "react";
 import { Row, Col, Form, Button } from "react-bootstrap";
 import { getById as getAppointmentById } from "../../../API-Access/AppointmentGateway";
+import { getAll as getAllClients } from "../../../API-Access/ClientGateway";
+import { getAll as getAllDogs } from "../../../API-Access/DogGateway";
 import Datetime from "react-datetime";
 import Types from "../../../Enums/Types";
 import Statuses from "../../../Enums/Statuses";
 import Select from "react-select";
 import "react-datetime/css/react-datetime.css";
+import { useCookies } from "react-cookie";
 
 function AppointmentForm(props) {
+  const [cookies, setCookies] = useCookies();
   const [appointment, setAppointment] = useState({
     type: "",
     status: "",
@@ -20,8 +24,43 @@ function AppointmentForm(props) {
 
   const appointmentStatuses = useRef([]);
   const appointmentTypes = useRef([]);
+  const [clientSelectList, setClientSelectList] = useState();
+  const [dogSelectList, setDogSelectList] = useState();
+  const clientSelectSet = useRef();
+  const dogSelectSet = useRef();
 
   useEffect(() => {
+    let clientSelectData = [];
+    getAllClients(cookies.auth_token).then((allClients) => {
+      if (allClients) {
+        clientSelectData = allClients.map((client) => {
+          return {
+            label: client.fullName,
+            id: client._id,
+            category: "clientName",
+          };
+        });
+        clientSelectSet.current = clientSelectData;
+        setClientSelectList(clientSelectData);
+      }
+    });
+
+    let dogSelectData = [];
+    getAllDogs(cookies.auth_token).then((allDogs) => {
+      if (allDogs) {
+        dogSelectData = allDogs.map((dog) => {
+          return {
+            label: dog.name,
+            id: dog._id,
+            clientName: dog.clientName,
+            category: "dogName",
+          };
+        });
+        dogSelectSet.current = dogSelectData;
+        setDogSelectList(dogSelectData);
+      }
+    });
+
     appointmentStatuses.current = Array.from(
       { length: Object.keys(Statuses).length },
       () => ({ label: "", category: "status" })
@@ -46,43 +85,58 @@ function AppointmentForm(props) {
   useEffect(() => {
     if (props.updateObjectId) {
       submitLabel.current = "Update";
-      getAppointmentById(props.updateObjectId, false).then((result) => {
-        console.log(result);
-        console.log(props.clientNames);
-        selectStates.current = {
-          type: { label: result.type, category: "type" },
-          status: { label: result.status, category: "status" },
-          client: props.clientNames.find(
-            (client) => client.id === result.clientId
-          ),
-          dog: props.dogNames.find((dog) => dog.id === result.dogId),
-        };
+      getAppointmentById(props.updateObjectId, false, cookies.auth_token).then(
+        (result) => {
+          selectStates.current = {
+            type: { label: result.type, category: "type" },
+            status: { label: result.status, category: "status" },
+            client: props.clientSelectData.find(
+              (client) => client.id === result.clientId
+            ),
+            dog: props.dogSelectData.find((dog) => dog.id === result.dogId),
+          };
 
-        setAppointment({
-          type: result.type,
-          status: result.status,
-          clientId: result.clientId,
-          dogId: result.dogId,
-          dateTime: new Date(result.dateTime),
-          notes: result.notes,
-          repeating: result.repeating,
-        });
-      });
+          setAppointment({
+            type: result.type,
+            status: result.status,
+            clientId: result.clientId,
+            dogId: result.dogId,
+            dateTime: new Date(result.dateTime),
+            notes: result.notes,
+            repeating: result.repeating,
+          });
+        }
+      );
     }
-  }, [props.updateObjectId, props.clientNames, props.dogNames]);
+  }, [props.updateObjectId, props.clientSelectData, props.dogSelectData]);
 
   function handleSelectChange(selection) {
     if (selection.category === "type") {
+      //Type Select Dropdown Change
       selectStates.current = { ...selectStates.current, type: selection };
       setAppointment({ ...appointment, type: selection.label });
     } else if (selection.category === "status") {
+      //Status Select Dropdown Change
       selectStates.current = { ...selectStates.current, status: selection };
       setAppointment({ ...appointment, status: selection.label });
     } else if (selection.category === "clientName") {
+      //Client Select Dropdown Change
       selectStates.current = { ...selectStates.current, client: selection };
       setAppointment({ ...appointment, clientId: selection.id });
+      let filteredDogs = dogSelectSet.current.filter(
+        (dog) => dog.clientName === selection.label
+      );
+      setDogSelectList(filteredDogs);
     } else {
-      selectStates.current = { ...selectStates.current, dog: selection };
+      //Dog Select Dropdown Change
+      let associatedClient = clientSelectSet.find(
+        (client) => (client.label = selection.clientName)
+      );
+      selectStates.current = {
+        ...selectStates.current,
+        dog: selection,
+        client: associatedClient,
+      };
       setAppointment({ ...appointment, dogId: selection.id });
     }
   }
@@ -100,7 +154,13 @@ function AppointmentForm(props) {
     setAppointment({ ...appointment, repeating: !appointment.repeating });
   }
 
-  function submitForm() {
+  function submitForm(event) {
+    // const formErrors = validateForm();
+    // if (Object.keys(formErrors).length > 0) {
+    //   event.preventDefault();
+    //   event.stopPropagation();
+    //   setErrors(formErrors);
+    // } else {
     if (props.updateObjectId)
       props.handleSubmit(appointment, props.updateObjectId);
     else props.handleSubmit(appointment);
@@ -114,95 +174,126 @@ function AppointmentForm(props) {
       repeating: false,
       notes: "",
     });
+    //}
   }
 
+  // const validateForm = () => {
+  //   const newErrors = {};
+
+  //   const emailRegex = new RegExp('^[a-zA-Z0-9._:$!%-]+@[a-zA-Z0-9.-]+.[a-zA-Z]$');
+  //   if(!user.email || user.email === '') newErrors.email = "Please enter an email"
+  //   else if(!emailRegex.test(user.email)) newErrors.email = "Please enter a valid email"
+
+  //   if(user.password.localeCompare(confirmedPassword) !== 0) newErrors.confirmedPassword = "Passwords do not match"
+
+  //   const passwordRegex = new RegExp('^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$');
+  //   if(!passwordRegex.test(user.password)) newErrors.password = "Password must be minimum 8 characters and contain at least one letter and number"
+  //   else if(user.password.length === 0) newErrors.password = "Password is required"
+
+  //   return newErrors;
+  // }
+
   return (
-    <Form>
-      <Row className="mb-3">
-        <Form.Group as={Col} controlId="appointmentFormType">
-          <Form.Label>Appointment Type</Form.Label>
-          <Select
-            options={appointmentTypes.current}
-            placeholder={"Select Type..."}
-            isSearchable={false}
-            value={selectStates.current.type}
-            getOptionValue={(selection) => selection.label}
-            onChange={(selection) => handleSelectChange(selection)}
-          />
-        </Form.Group>
-        <Form.Group as={Col} controlId="appointFormStatus">
-          <Form.Label>Appointment Status</Form.Label>
-          <Select
-            options={appointmentStatuses.current}
-            placeholder={"Select Status..."}
-            value={selectStates.current.status}
-            isSearchable={false}
-            getOptionValue={(selection) => selection.label}
-            onChange={(selection) => handleSelectChange(selection)}
-          />
-        </Form.Group>
-      </Row>
+    <>
       <Row>
-        <Form.Group as={Col} className="mb-3" controlId="appointmentFormCLient">
-          <Form.Label>Client Name</Form.Label>
-          <Select
-            options={props.clientNames}
-            placeholder={"Select Client..."}
-            value={selectStates.current.client}
-            getOptionValue={(selection) => selection.label}
-            onChange={(selection) => handleSelectChange(selection)}
-          />
-        </Form.Group>
-        <Form.Group as={Col} className="mb-3" controlId="appointmentFormCLient">
-          <Form.Label>Dog Name</Form.Label>
-          <Select
-            options={props.dogNames}
-            placeholder={"Select Dog..."}
-            value={selectStates.current.dog}
-            getOptionValue={(selection) => selection.label}
-            onChange={(selection) => handleSelectChange(selection)}
-          />
-        </Form.Group>
+        <Form>
+          <Row className="mb-3">
+            <Form.Group as={Col} controlId="appointmentFormType">
+              <Form.Label>Appointment Type</Form.Label>
+              <Select
+                options={appointmentTypes.current}
+                placeholder={"Select Type..."}
+                isSearchable={false}
+                value={selectStates.current.type}
+                getOptionValue={(selection) => selection.label}
+                onChange={(selection) => handleSelectChange(selection)}
+              />
+            </Form.Group>
+            <Form.Group as={Col} controlId="appointFormStatus">
+              <Form.Label>Appointment Status</Form.Label>
+              <Select
+                options={appointmentStatuses.current}
+                placeholder={"Select Status..."}
+                value={selectStates.current.status}
+                isSearchable={false}
+                getOptionValue={(selection) => selection.label}
+                onChange={(selection) => handleSelectChange(selection)}
+              />
+            </Form.Group>
+          </Row>
+          <Row>
+            <Form.Group
+              as={Col}
+              className="mb-3"
+              controlId="appointmentFormCLient"
+            >
+              <Form.Label>Client Name</Form.Label>
+              <Select
+                options={clientSelectList}
+                placeholder={"Select Client..."}
+                value={selectStates.current.client}
+                getOptionValue={(selection) => selection.label}
+                onChange={(selection) => handleSelectChange(selection)}
+              />
+            </Form.Group>
+            <Form.Group
+              as={Col}
+              className="mb-3"
+              controlId="appointmentFormCLient"
+            >
+              <Form.Label>Dog Name</Form.Label>
+              <Select
+                options={dogSelectList}
+                placeholder={"Select Dog..."}
+                value={selectStates.current.dog}
+                getOptionValue={(selection) => selection.label}
+                onChange={(selection) => handleSelectChange(selection)}
+              />
+            </Form.Group>
+          </Row>
+
+          <Form.Group className="mb-3" controlId="appointmentFormDate">
+            <Form.Label>Date</Form.Label>
+            <Datetime
+              closeOnSelect="true"
+              value={appointment.dateTime}
+              onChange={handleDateChange}
+            />
+          </Form.Group>
+
+          <Form.Group className="mb-3" controlId="appointmentFormNotes">
+            <Form.Label>Notes</Form.Label>
+            <Form.Control
+              as="textarea"
+              rows={3}
+              placeholder="Notes..."
+              value={appointment.notes}
+              onChange={(event) => handleNotesChange(event)}
+            />
+            <Form.Check
+              type="switch"
+              id="reapeating"
+              label="Repeating"
+              checked={appointment.repeating}
+              onChange={handleRepeatingChange}
+            />
+          </Form.Group>
+        </Form>
       </Row>
 
-      <Form.Group className="mb-3" controlId="appointmentFormDate">
-        <Form.Label>Date</Form.Label>
-        <Datetime
-          closeOnSelect="true"
-          value={appointment.dateTime}
-          onChange={handleDateChange}
-        />
-      </Form.Group>
-
-      <Form.Group className="mb-3" controlId="appointmentFormNotes">
-        <Form.Label>Notes</Form.Label>
-        <Form.Control
-          as="textarea"
-          rows={3}
-          placeholder="Notes..."
-          value={appointment.notes}
-          onChange={(event) => handleNotesChange(event)}
-        />
-        <Form.Check
-          type="switch"
-          id="reapeating"
-          label="Repeating"
-          checked={appointment.repeating}
-          onChange={handleRepeatingChange}
-        />
-      </Form.Group>
-
-      <Form.Group className="mb-3" controlId="appointmentFormSubmission">
-        <Button
-          variant="primary"
-          type="submit"
-          value="Submit"
-          onClick={submitForm}
-        >
-          {submitLabel.current}
-        </Button>
-      </Form.Group>
-    </Form>
+      <Row>
+        <Col xs={{ span: 2, offset: 10 }}>
+          <Button
+            variant="primary"
+            type="submit"
+            value="Submit"
+            onClick={submitForm}
+          >
+            {submitLabel.current}
+          </Button>
+        </Col>
+      </Row>
+    </>
   );
 }
 

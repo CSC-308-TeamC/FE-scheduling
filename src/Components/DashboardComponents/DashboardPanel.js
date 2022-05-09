@@ -18,11 +18,13 @@ import CardTable from "./CardTable";
 import "chart.js/auto";
 import { Doughnut } from "react-chartjs-2";
 import UpcomingTimer from "./UpcomingTimer";
+import { useCookies } from "react-cookie";
 
 function DashboardPanel() {
   const [todaysAppointments, setTodaysAppointments] = useState([]);
   const [nextAppointment, setNextAppointment] = useState([]);
   const [showAlert, setShowAlert] = useState(true);
+  const [cookies, setCookies] = useCookies();
 
   const timeOfNextAppointment = useRef(new Date());
   const typeChartData = useRef({ data: {}, options: {} });
@@ -57,7 +59,7 @@ function DashboardPanel() {
   }, [todaysAppointments, compareStringDate]);
 
   useEffect(() => {
-    getTodaysAppointments().then((result) => {
+    getTodaysAppointments(cookies.auth_token).then((result) => {
       if (result) {
         setTodaysAppointments(result);
       }
