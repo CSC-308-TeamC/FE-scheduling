@@ -24,14 +24,14 @@ function AppointmentForm(props) {
 
   const appointmentStatuses = useRef([]);
   const appointmentTypes = useRef([]);
-  const [clientSelectList, setClientSelectList] = useState();
-  const [dogSelectList, setDogSelectList] = useState();
-  const clientSelectSet = useRef();
-  const dogSelectSet = useRef();
+  const [clientSelectList, setClientSelectList] = useState([]);
+  const [dogSelectList, setDogSelectList] = useState([]);
+  const clientSelectSet = useRef([]);
+  const dogSelectSet = useRef([]);
 
   useEffect(() => {
     let clientSelectData = [];
-    getAllClients(cookies.auth_token).then((allClients) => {
+    getAllClients(cookies.auth_token, false).then((allClients) => {
       if (allClients) {
         clientSelectData = allClients.map((client) => {
           return {
@@ -41,18 +41,18 @@ function AppointmentForm(props) {
           };
         });
         clientSelectSet.current = clientSelectData;
-        setClientSelectList(clientSelectData);
+
+        if (props.updateObjectId) setClientSelectList(clientSelectData);
       }
     });
 
     let dogSelectData = [];
-    getAllDogs(cookies.auth_token).then((allDogs) => {
+    getAllDogs(cookies.auth_token, false).then((allDogs) => {
       if (allDogs) {
         dogSelectData = allDogs.map((dog) => {
           return {
             label: dog.name,
             id: dog._id,
-            clientName: dog.clientName,
             category: "dogName",
           };
         });
@@ -90,10 +90,10 @@ function AppointmentForm(props) {
           selectStates.current = {
             type: { label: result.type, category: "type" },
             status: { label: result.status, category: "status" },
-            client: props.clientSelectData.find(
+            client: clientSelectSet.current.find(
               (client) => client.id === result.clientId
             ),
-            dog: props.dogSelectData.find((dog) => dog.id === result.dogId),
+            dog: dogSelectSet.current.find((dog) => dog.id === result.dogId),
           };
 
           setAppointment({
@@ -108,7 +108,7 @@ function AppointmentForm(props) {
         }
       );
     }
-  }, [props.updateObjectId, props.clientSelectData, props.dogSelectData]);
+  }, [props.updateObjectId]);
 
   function handleSelectChange(selection) {
     if (selection.category === "type") {
@@ -123,19 +123,15 @@ function AppointmentForm(props) {
       //Client Select Dropdown Change
       selectStates.current = { ...selectStates.current, client: selection };
       setAppointment({ ...appointment, clientId: selection.id });
-      let filteredDogs = dogSelectSet.current.filter(
-        (dog) => dog.clientName === selection.label
-      );
-      setDogSelectList(filteredDogs);
-    } else {
+      //setDogSelectList(dogSelectSet.current.filter((dog) => dog.clientName === selection.label));
+    } else if (selection.category === "dogName") {
       //Dog Select Dropdown Change
-      let associatedClient = clientSelectSet.find(
-        (client) => (client.label = selection.clientName)
-      );
+      // let associatedClient = clientSelectSet.current.find(
+      //   (client) => (client.label = selection.clientName)
+      // );
       selectStates.current = {
         ...selectStates.current,
         dog: selection,
-        client: associatedClient,
       };
       setAppointment({ ...appointment, dogId: selection.id });
     }
@@ -278,20 +274,22 @@ function AppointmentForm(props) {
               onChange={handleRepeatingChange}
             />
           </Form.Group>
-        </Form>
-      </Row>
 
-      <Row>
-        <Col xs={{ span: 2, offset: 10 }}>
-          <Button
-            variant="primary"
-            type="submit"
-            value="Submit"
-            onClick={submitForm}
+          <Form.Group
+            as={Col}
+            xs={{ span: 2, offset: 11 }}
+            controlId="submitButton"
           >
-            {submitLabel.current}
-          </Button>
-        </Col>
+            <Button
+              variant="primary"
+              type="submit"
+              value="Submit"
+              onClick={submitForm}
+            >
+              {submitLabel.current}
+            </Button>
+          </Form.Group>
+        </Form>
       </Row>
     </>
   );

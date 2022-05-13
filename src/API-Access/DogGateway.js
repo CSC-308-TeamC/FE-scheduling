@@ -2,10 +2,13 @@ import axios from "axios";
 import { generateHeader } from "./HeaderGenerator";
 const requestString = "http://localhost:5000/dogs";
 
-export async function getAll(token) {
+export async function getAll(token, format = true) {
   let header = generateHeader(token);
   try {
-    const response = await axios.get(requestString, header);
+    const response = await axios.get(
+      requestString + "?format=" + format,
+      header
+    );
     return response.data.dogData;
   } catch (error) {
     console.log(error);
@@ -13,10 +16,13 @@ export async function getAll(token) {
   }
 }
 
-export async function getById(id, token) {
+export async function getById(id, token, format = true) {
   let header = generateHeader(token);
   try {
-    const response = await axios.get(requestString + "/" + id, header);
+    const response = await axios.get(
+      requestString + "/" + id + "?format=" + format,
+      header
+    );
     return response.data.dogData;
   } catch (error) {
     console.log(error);

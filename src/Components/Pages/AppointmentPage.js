@@ -13,7 +13,7 @@ function AppointmentPage() {
     AppointmentGateway.getAll(cookies.auth_token).then((allAppointments) => {
       if (allAppointments) setAppointments(allAppointments);
     });
-  }, []);
+  }, [cookies.auth_token]);
 
   function createAppointment(appointment) {
     AppointmentGateway.createRecord(appointment, cookies.auth_token).then(

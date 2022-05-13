@@ -20,30 +20,32 @@ function SignInForm(props) {
     });
   };
 
-  function submitForm() {
-    signIn(user).then((response) => {
-      if (response.status === 200) {
-        setCookies("auth_token", response.data.tokenData, {
-          maxAge: 150,
-          path: "/",
-        });
-        setCookies("auth_user", response.data.emailData, {
-          maxAge: 150,
-          path: "/",
-        });
-        navigator("/Dashboard");
-      } else {
-        const newErrors = {};
-        newErrors.authenticationError = "Not authorized";
-        setErrors(newErrors);
-      }
-    });
+  async function submitForm(event) {
+    setErrors({});
+    const signInResponse = await signIn(user);
+    if (signInResponse.status === 200) {
+      setCookies("auth_token", signInResponse.data.tokenData, {
+        maxAge: 600,
+        path: "/",
+      });
+      setCookies("auth_user", signInResponse.data.emailData, {
+        maxAge: 600,
+        path: "/",
+      });
+      navigator("/dashboard");
+    } else {
+      const newErrors = {};
+      event.preventDefault();
+      event.stopPropagation();
+      newErrors.authenticationError = "Not authorized";
+      setErrors(newErrors);
+    }
   }
 
   return (
     <div style={{ paddingTop: 30 }}>
       <Row>
-        <i> {!!formErrors.authenticationError} </i>
+        <i style={{ color: "red" }}> {formErrors.authenticationError} </i>
         <Form>
           <Form.Group className="mb-3" controlId="userFormEmail">
             <FloatingLabel label="Email Address">
@@ -72,20 +74,17 @@ function SignInForm(props) {
               />
             </FloatingLabel>
           </Form.Group>
-        </Form>
-      </Row>
 
-      <Row>
-        <Col xs={{ span: 1, offset: 11 }}>
-          <Button
-            variant="primary"
-            type="submit"
-            value="Submit"
-            onClick={submitForm}
+          <Form.Group
+            as={Col}
+            xs={{ span: 1, offset: 11 }}
+            controlId="submitButton"
           >
-            Sign In
-          </Button>
-        </Col>
+            <Button variant="primary" value="Submit" onClick={submitForm}>
+              Sign In
+            </Button>
+          </Form.Group>
+        </Form>
       </Row>
     </div>
   );

@@ -13,7 +13,7 @@ function ClientPage() {
     ClientGateway.getAll(cookies.auth_token).then((result) => {
       if (result) setClients(result);
     });
-  }, []);
+  }, [cookies.auth_token]);
 
   function createClient(client) {
     ClientGateway.createRecord(client, cookies.auth_token).then((result) => {

@@ -17,14 +17,16 @@ function ClientForm(props) {
   useEffect(() => {
     if (props.updateObjectId) {
       submitLabel.current = "Update";
-      getClientById(props.updateObjectId, cookies.auth_token).then((result) => {
-        setClient({
-          firstName: result.fullName.split(" ")[0],
-          lastName: result.fullName.split(" ")[1],
-          dogs: result.dogs,
-          phoneNumber: result.phoneNumber,
-        });
-      });
+      getClientById(props.updateObjectId, false, cookies.auth_token).then(
+        (result) => {
+          setClient({
+            firstName: result.firstName,
+            lastName: result.lastName,
+            dogs: result.dogs,
+            phoneNumber: result.phoneNumber,
+          });
+        }
+      );
     }
   }, [props.updateObjectId]);
 
@@ -51,55 +53,56 @@ function ClientForm(props) {
   }
 
   return (
-    <>
-      <Row>
-        <Form>
-          <Row className="mb-3">
-            <Form.Group as={Col} controlId="clientFormFName">
-              <Form.Label>Client First Name</Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="First Name"
-                name="firstName"
-                value={client.firstName}
-                onChange={handleChange}
-              />
-            </Form.Group>
-            <Form.Group as={Col} controlId="clientFormLName">
-              <Form.Label>Client Last Name</Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="Last Name"
-                name="lastName"
-                value={client.lastName}
-                onChange={handleChange}
-              />
-            </Form.Group>
-          </Row>
-          <Form.Group className="mb-3" controlId="clientFormPhoneNumber">
-            <Form.Label>Phone Number</Form.Label>
+    <Row>
+      <Form>
+        <Row className="mb-3">
+          <Form.Group as={Col} controlId="clientFormFName">
+            <Form.Label>Client First Name</Form.Label>
             <Form.Control
               type="text"
-              placeholder="(XXX) XXX-XXXX"
-              name="phoneNumber"
-              value={client.phoneNumber}
+              placeholder="First Name"
+              name="firstName"
+              value={client.firstName}
               onChange={handleChange}
             />
           </Form.Group>
-          <Form.Group className="mb-3" controlId="clientFormDogs">
-            <Form.Label>Add Dog</Form.Label>
+          <Form.Group as={Col} controlId="clientFormLName">
+            <Form.Label>Client Last Name</Form.Label>
             <Form.Control
               type="text"
-              placeholder="Dogs"
-              name="dogs"
-              value={client.dogs}
+              placeholder="Last Name"
+              name="lastName"
+              value={client.lastName}
               onChange={handleChange}
             />
           </Form.Group>
-        </Form>
-      </Row>
-      <Row>
-        <Col xs={{ span: 2, offset: 10 }}>
+        </Row>
+        <Form.Group className="mb-3" controlId="clientFormPhoneNumber">
+          <Form.Label>Phone Number</Form.Label>
+          <Form.Control
+            type="text"
+            placeholder="(XXX) XXX-XXXX"
+            name="phoneNumber"
+            value={client.phoneNumber}
+            onChange={handleChange}
+          />
+        </Form.Group>
+        <Form.Group className="mb-3" controlId="clientFormDogs">
+          <Form.Label>Add Dog</Form.Label>
+          <Form.Control
+            type="text"
+            placeholder="Dogs"
+            name="dogs"
+            value={client.dogs}
+            onChange={handleChange}
+          />
+        </Form.Group>
+
+        <Form.Group
+          as={Col}
+          xs={{ span: 1, offset: 11 }}
+          controlId="submitButton"
+        >
           <Button
             variant="primary"
             type="submit"
@@ -108,9 +111,9 @@ function ClientForm(props) {
           >
             {submitLabel.current}
           </Button>
-        </Col>
-      </Row>
-    </>
+        </Form.Group>
+      </Form>
+    </Row>
   );
 }
 

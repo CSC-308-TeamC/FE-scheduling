@@ -10,7 +10,7 @@ import DashboardPanel from "./Components/DashboardComponents/DashboardPanel";
 import AuthenticationPage from "./Components/Pages/AuthenticationPage";
 
 function Dashboard() {
-  const [cookies, setCookie] = useCookies();
+  const [cookies, setCookie, removeCookies] = useCookies();
   const [unauthorized, setUnauthorization] = useState(true);
   const [authButtonLabel, setAuthButtonLabel] = useState();
 
@@ -20,6 +20,11 @@ function Dashboard() {
     if (!cookies.auth_user) setAuthButtonLabel("Sign In");
     else setAuthButtonLabel("Signed In: " + cookies.auth_user);
   }, []);
+
+  function logOut() {
+    removeCookies("auth_token");
+    removeCookies("auth_user");
+  }
 
   return (
     <Router>
@@ -48,6 +53,10 @@ function Dashboard() {
             </Nav>
             <Nav>
               <Nav.Link href="/">{authButtonLabel} </Nav.Link>
+              <Nav.Link href="/" hidden={unauthorized} onClick={logOut}>
+                {" "}
+                Log-Out{" "}
+              </Nav.Link>
             </Nav>
           </Navbar.Collapse>
         </Navbar>

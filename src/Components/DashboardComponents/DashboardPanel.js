@@ -23,7 +23,7 @@ import { useCookies } from "react-cookie";
 function DashboardPanel() {
   const [todaysAppointments, setTodaysAppointments] = useState([]);
   const [nextAppointment, setNextAppointment] = useState([]);
-  const [showAlert, setShowAlert] = useState(true);
+  const [showAlert, setShowAlert] = useState(false);
   const [cookies, setCookies] = useCookies();
 
   const timeOfNextAppointment = useRef(new Date());
@@ -108,21 +108,29 @@ function DashboardPanel() {
   }, [todaysAppointments, getNextAppointment]);
 
   async function checkInAppointment(appointmentId) {
-    let result = await getAppointmentById(appointmentId, false);
+    let result = await getAppointmentById(
+      appointmentId,
+      cookies.auth_token,
+      false
+    );
     result.status = Statuses.checkedIn;
-    await updateAppointment(result);
+    await updateAppointment(result, cookies.auth_token);
 
-    getTodaysAppointments().then((result) => {
+    getTodaysAppointments(cookies.auth_token).then((result) => {
       setTodaysAppointments(result);
     });
   }
 
   async function checkOutAppointment(appointmentId) {
-    let result = await getAppointmentById(appointmentId, false);
+    let result = await getAppointmentById(
+      appointmentId,
+      cookies.auth_token,
+      false
+    );
     result.status = Statuses.checkedOut;
-    await updateAppointment(result);
+    await updateAppointment(result, cookies.auth_token);
 
-    getTodaysAppointments().then((result) => {
+    getTodaysAppointments(cookies.auth_token).then((result) => {
       setTodaysAppointments(result);
     });
   }
@@ -132,7 +140,7 @@ function DashboardPanel() {
     let [hour, minute] = timeString.split(":"); //Formatted as e.g. "06:00 AM"
     hour = parseInt(hour);
     minute = parseInt(minute);
-    if (timeString.includes("PM")) hour += 12;
+    if (timeString.includes("PM")) hour === 12 ? (hour += 0) : (hour += 12);
     date.setHours(hour, minute, 0);
 
     return date;

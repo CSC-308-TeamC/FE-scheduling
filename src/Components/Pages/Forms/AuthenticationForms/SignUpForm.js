@@ -63,7 +63,7 @@ function SignUpForm(props) {
             maxAge: 150,
             path: "/",
           });
-          navigator("/Dashboard");
+          navigator("/dashboard");
         } else if (response.status === 409) {
           const newErrors = {};
           newErrors.authenticationError = "Email already taken";
@@ -88,7 +88,7 @@ function SignUpForm(props) {
       newErrors.confirmedPassword = "Passwords do not match";
 
     const passwordRegex = new RegExp(
-      "^(?=.*d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$"
+      "^(?=.*[a-z])(?=.*[A-Z])(?=.*d)[a-zA-Zd]{8,}$"
     );
     if (!passwordRegex.test(user.password))
       newErrors.password =
@@ -171,11 +171,16 @@ function SignUpForm(props) {
               onChange={handleAdministratorChange}
             />
           </Form.Group>
-          <Col xs={{ span: 2, offset: 11 }}>
+
+          <Form.Group
+            as={Col}
+            xs={{ span: 1, offset: 11 }}
+            controlId="submitButton"
+          >
             <Button variant="primary" type="submit" onClick={submitForm}>
               Sign Up
             </Button>
-          </Col>
+          </Form.Group>
         </Form>
       </Row>
     </div>

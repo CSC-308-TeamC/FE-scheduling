@@ -13,11 +13,11 @@ export async function getAll(token) {
   }
 }
 
-export async function getById(id, format = true, token) {
+export async function getById(id, token, format = true) {
   let header = generateHeader(token);
   try {
     const response = await axios.get(
-      requestString + "/" + id + "?format" + format,
+      requestString + "/" + id + "?format=" + format,
       header
     );
     return response.data.appointmentData;
