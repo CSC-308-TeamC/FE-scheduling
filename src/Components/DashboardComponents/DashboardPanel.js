@@ -153,7 +153,7 @@ function DashboardPanel() {
   }
 
   function TypeChart() {
-    if (Object.keys(typeChartData.current.data).length !== 0)
+    if (todaysAppointments.length !== 0)
       return (
         <Doughnut
           data={typeChartData.current.data}

@@ -20,10 +20,16 @@ function AuthenticationPage(props) {
           <Card.Body>
             <Tabs defaultActiveKey="SignIn">
               <Tab eventKey="SignIn" title="Sign In">
-                <SignInForm setToken={props.setToken} />
+                <SignInForm
+                  setToken={props.setToken}
+                  setLoginStatus={props.setLoginStatus}
+                />
               </Tab>
               <Tab eventKey="SignUp" title="Sign Up">
-                <SignUpForm setToken={props.setToken} />
+                <SignUpForm
+                  setToken={props.setToken}
+                  setLoginStatus={props.setLoginStatus}
+                />
               </Tab>
             </Tabs>
           </Card.Body>

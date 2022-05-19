@@ -46,30 +46,26 @@ function SignUpForm(props) {
     setUser({ ...user, administrator: !user.administrator });
   }
 
-  function submitForm(event) {
+  async function submitForm(event) {
     const formErrors = validateForm();
     if (Object.keys(formErrors).length > 0) {
       event.preventDefault();
       event.stopPropagation();
       setErrors(formErrors);
     } else {
-      signUp(user).then((response) => {
-        if (response.status === 201) {
-          setCookies("auth_token", response.data.tokenData, {
-            maxAge: 150,
-            path: "/",
-          });
-          setCookies("auth_user", response.data.emailData, {
-            maxAge: 150,
-            path: "/",
-          });
-          navigator("/dashboard");
-        } else if (response.status === 409) {
-          const newErrors = {};
-          newErrors.authenticationError = "Email already taken";
-          setErrors(newErrors);
-        }
-      });
+      const signUpResponse = await signUp(user);
+      if (signUpResponse.status === 201) {
+        setCookies("auth_token", signUpResponse.data.tokenData, {
+          maxAge: 150,
+          path: "/",
+        });
+        props.setLoginStatus(signUpResponse.data.emailData);
+        navigator("/dashboard");
+      } else if (signUpResponse.status === 409) {
+        const newErrors = {};
+        newErrors.authenticationError = "Email already taken";
+        setErrors(newErrors);
+      }
     }
   }
 
@@ -77,7 +73,7 @@ function SignUpForm(props) {
     const newErrors = {};
 
     const emailRegex = new RegExp(
-      "^[a-zA-Z0-9._:$!%-]+@[a-zA-Z0-9.-]+.[a-zA-Z]$"
+      /^[a-zA-Z0-9._:$!%-]+@[a-zA-Z0-9.-]+.[a-zA-Z]$/
     );
     if (!user.email || user.email === "")
       newErrors.email = "Please enter an email";
@@ -87,9 +83,7 @@ function SignUpForm(props) {
     if (user.password.localeCompare(confirmedPassword) !== 0)
       newErrors.confirmedPassword = "Passwords do not match";
 
-    const passwordRegex = new RegExp(
-      "^(?=.*[a-z])(?=.*[A-Z])(?=.*d)[a-zA-Zd]{8,}$"
-    );
+    const passwordRegex = new RegExp(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/);
     if (!passwordRegex.test(user.password))
       newErrors.password =
         "Password must be minimum 8 characters and contain at least one letter and number";

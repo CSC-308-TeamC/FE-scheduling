@@ -28,10 +28,12 @@ function AppointmentForm(props) {
   const [dogSelectList, setDogSelectList] = useState([]);
   const clientSelectSet = useRef([]);
   const dogSelectSet = useRef([]);
+  const submitLabel = useRef("Submit");
+  const selectStates = useRef({});
 
-  useEffect(() => {
+  useEffect(async () => {
     let clientSelectData = [];
-    getAllClients(cookies.auth_token, false).then((allClients) => {
+    await getAllClients(cookies.auth_token).then((allClients) => {
       if (allClients) {
         clientSelectData = allClients.map((client) => {
           return {
@@ -42,12 +44,12 @@ function AppointmentForm(props) {
         });
         clientSelectSet.current = clientSelectData;
 
-        if (props.updateObjectId) setClientSelectList(clientSelectData);
+        setClientSelectList(clientSelectData);
       }
     });
 
     let dogSelectData = [];
-    getAllDogs(cookies.auth_token, false).then((allDogs) => {
+    await getAllDogs(cookies.auth_token).then((allDogs) => {
       if (allDogs) {
         dogSelectData = allDogs.map((dog) => {
           return {
@@ -61,31 +63,11 @@ function AppointmentForm(props) {
       }
     });
 
-    appointmentStatuses.current = Array.from(
-      { length: Object.keys(Statuses).length },
-      () => ({ label: "", category: "status" })
-    );
-    appointmentTypes.current = Array.from(
-      { length: Object.keys(Types).length },
-      () => ({ label: "", category: "type" })
-    );
+    generateTypeStatusDropdowns();
 
-    Object.values(Statuses).forEach((status, index) => {
-      appointmentStatuses.current[index].label = status;
-    });
-
-    Object.values(Types).forEach((type, index) => {
-      appointmentTypes.current[index].label = type;
-    });
-  }, []);
-
-  const submitLabel = useRef("Submit");
-  const selectStates = useRef({});
-
-  useEffect(() => {
     if (props.updateObjectId) {
       submitLabel.current = "Update";
-      getAppointmentById(props.updateObjectId, false, cookies.auth_token).then(
+      getAppointmentById(props.updateObjectId, cookies.auth_token, false).then(
         (result) => {
           selectStates.current = {
             type: { label: result.type, category: "type" },
@@ -109,6 +91,25 @@ function AppointmentForm(props) {
       );
     }
   }, [props.updateObjectId]);
+
+  function generateTypeStatusDropdowns() {
+    appointmentStatuses.current = Array.from(
+      { length: Object.keys(Statuses).length },
+      () => ({ label: "", category: "status" })
+    );
+    appointmentTypes.current = Array.from(
+      { length: Object.keys(Types).length },
+      () => ({ label: "", category: "type" })
+    );
+
+    Object.values(Statuses).forEach((status, index) => {
+      appointmentStatuses.current[index].label = status;
+    });
+
+    Object.values(Types).forEach((type, index) => {
+      appointmentTypes.current[index].label = type;
+    });
+  }
 
   function handleSelectChange(selection) {
     if (selection.category === "type") {
@@ -150,13 +151,14 @@ function AppointmentForm(props) {
     setAppointment({ ...appointment, repeating: !appointment.repeating });
   }
 
-  function submitForm(event) {
+  function submitForm() {
     // const formErrors = validateForm();
     // if (Object.keys(formErrors).length > 0) {
     //   event.preventDefault();
     //   event.stopPropagation();
     //   setErrors(formErrors);
     // } else {
+    console.log(appointment);
     if (props.updateObjectId)
       props.handleSubmit(appointment, props.updateObjectId);
     else props.handleSubmit(appointment);

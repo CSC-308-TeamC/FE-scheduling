@@ -11,19 +11,27 @@ import AuthenticationPage from "./Components/Pages/AuthenticationPage";
 
 function Dashboard() {
   const [cookies, setCookie, removeCookies] = useCookies();
-  const [unauthorized, setUnauthorization] = useState(true);
+  const [unauthorized, setUnauthorization] = useState();
   const [authButtonLabel, setAuthButtonLabel] = useState();
+  const [signedInUser, setSignedInUser] = useState();
 
   useEffect(() => {
-    if (cookies.auth_token) setUnauthorization(false);
-
-    if (!cookies.auth_user) setAuthButtonLabel("Sign In");
-    else setAuthButtonLabel("Signed In: " + cookies.auth_user);
+    if (!cookies.auth_token) {
+      setUnauthorization(true);
+      setAuthButtonLabel("Sign In");
+    } else {
+      setLoginStatus(signedInUser);
+    }
   }, []);
+
+  function setLoginStatus(userEmail) {
+    setUnauthorization(false);
+    setAuthButtonLabel("Signed In: " + userEmail);
+    setSignedInUser(userEmail);
+  }
 
   function logOut() {
     removeCookies("auth_token");
-    removeCookies("auth_user");
   }
 
   return (
@@ -66,7 +74,10 @@ function Dashboard() {
         <Route path="/appointments" element={<AppointmentPage />} />
         <Route path="/clients" element={<ClientPage />} />
         <Route path="/dogs" element={<DogPage />} />
-        <Route path="/" element={<AuthenticationPage />} />
+        <Route
+          path="/"
+          element={<AuthenticationPage setLoginStatus={setLoginStatus} />}
+        />
       </Routes>
     </Router>
   );

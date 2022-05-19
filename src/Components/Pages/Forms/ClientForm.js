@@ -17,7 +17,7 @@ function ClientForm(props) {
   useEffect(() => {
     if (props.updateObjectId) {
       submitLabel.current = "Update";
-      getClientById(props.updateObjectId, false, cookies.auth_token).then(
+      getClientById(props.updateObjectId, cookies.auth_token, false).then(
         (result) => {
           setClient({
             firstName: result.firstName,

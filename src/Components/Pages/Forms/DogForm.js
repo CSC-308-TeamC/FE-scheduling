@@ -19,10 +19,11 @@ function DogForm(props) {
   const selectStates = useRef({});
   const [clientSelectList, setClientSelectList] = useState([]);
 
-  useEffect(() => {
+  useEffect(async () => {
     let clientSelectData = [];
-    getAllClients(cookies.auth_token).then((allClients) => {
+    await getAllClients(cookies.auth_token).then((allClients) => {
       if (allClients) {
+        console.log(allClients);
         clientSelectData = allClients.map((client) => {
           return {
             label: client.fullName,
@@ -31,32 +32,33 @@ function DogForm(props) {
           };
         });
         setClientSelectList(clientSelectData);
-
-        if (props.updateObjectId) {
-          submitLabel.current = "Update";
-          getDogById(props.updateObjectId, false, cookies.auth_token).then(
-            (result) => {
-              selectStates.current = {
-                breed: { label: result.breed, category: "breed" },
-                client: {
-                  label: clientSelectData.find(
-                    (client) => client.id === result.clientId
-                  ).label,
-                  id: result.clientId,
-                  category: "clientName",
-                },
-              };
-              setDog({
-                name: result.name,
-                breed: result.breed,
-                clientId: result.clientId,
-              });
-            }
-          );
-        }
       }
     });
 
+    generateBreedsDropdown();
+
+    if (props.updateObjectId) {
+      submitLabel.current = "Update";
+      getDogById(props.updateObjectId, cookies.auth_token, false).then(
+        (result) => {
+          console.log(result);
+          selectStates.current = {
+            breed: { label: result.breed, category: "breed" },
+            client: clientSelectList.find(
+              (client) => client.id === result.clientId
+            ),
+          };
+          setDog({
+            name: result.name,
+            breed: result.breed,
+            clientId: result.clientId,
+          });
+        }
+      );
+    }
+  }, [props.updateObjectId]);
+
+  function generateBreedsDropdown() {
     let breedsInitialize = Array.from(
       { length: Object.keys(Breeds).length },
       () => ({ label: "", category: "breed" })
@@ -67,7 +69,7 @@ function DogForm(props) {
     });
 
     breeds.current = breedsInitialize;
-  }, [props.updateObjectId]);
+  }
 
   function handleNameChange(event) {
     const { value } = event.target;
@@ -132,21 +134,11 @@ function DogForm(props) {
           />
         </Form.Group>
 
-        <Form.Group className="mb-3" controlId="dogFormSubmission">
-          <Button
-            variant="primary"
-            type="submit"
-            value="Submit"
-            onClick={submitForm}
-          >
-            {submitLabel.current}
-          </Button>
-        </Form.Group>
-
         <Form.Group
           xs={{ span: 2, offset: 11 }}
           as={Col}
           controlId="Submit Button"
+          className="mb-3"
         >
           <Button
             variant="primary"

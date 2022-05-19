@@ -28,10 +28,7 @@ function SignInForm(props) {
         maxAge: 600,
         path: "/",
       });
-      setCookies("auth_user", signInResponse.data.emailData, {
-        maxAge: 600,
-        path: "/",
-      });
+      props.setLoginStatus(signInResponse.data.emailData);
       navigator("/dashboard");
     } else {
       const newErrors = {};
