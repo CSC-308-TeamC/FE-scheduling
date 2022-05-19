@@ -1,10 +1,14 @@
 import axios from "axios";
-
+import { generateHeader } from "./HeaderGenerator";
 const requestString = "http://localhost:5000/clients";
 
-export async function getAll() {
+export async function getAll(token, format = true) {
+  let header = generateHeader(token);
   try {
-    const response = await axios.get(requestString);
+    const response = await axios.get(
+      requestString + "?format=" + format,
+      header
+    );
     return response.data.clientData;
   } catch (error) {
     console.log(error);
@@ -12,9 +16,13 @@ export async function getAll() {
   }
 }
 
-export async function getById(id) {
+export async function getById(id, token, format = true) {
+  let header = generateHeader(token);
   try {
-    const response = await axios.get(requestString + "/" + id);
+    const response = await axios.get(
+      requestString + "/" + id + "?format=" + format,
+      header
+    );
     return response.data.clientData;
   } catch (error) {
     console.log(error);
@@ -22,9 +30,10 @@ export async function getById(id) {
   }
 }
 
-export async function createRecord(client) {
+export async function createRecord(client, token) {
+  let header = generateHeader(token);
   try {
-    const response = await axios.post(requestString, client);
+    const response = await axios.post(requestString, client, header);
     return response.data.clientData;
   } catch (error) {
     console.log(error);
@@ -32,10 +41,11 @@ export async function createRecord(client) {
   }
 }
 
-export async function updateRecord(client) {
+export async function updateRecord(client, token) {
+  let header = generateHeader(token);
   try {
     console.log(client._id);
-    const response = await axios.patch(requestString, client);
+    const response = await axios.patch(requestString, client, header);
     return response.data.clientData;
   } catch (error) {
     console.log(error);
@@ -43,9 +53,10 @@ export async function updateRecord(client) {
   }
 }
 
-export async function deleteById(id) {
+export async function deleteById(id, token) {
+  let header = generateHeader(token);
   try {
-    const response = await axios.delete(requestString + "/" + id);
+    const response = await axios.delete(requestString + "/" + id, header);
     return response;
   } catch (error) {
     console.log(error);

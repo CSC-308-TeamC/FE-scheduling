@@ -8,13 +8,6 @@ function UpdateModal(props) {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-  const [clientNames, setClientNames] = useState([]);
-  const [dogNames, setDogNames] = useState([]);
-
-  useEffect(() => {
-    if (props.clientNames) setClientNames(props.clientNames);
-    if (props.dogNames) setDogNames(props.dogNames);
-  }, [props.clientNames, props.dogNames]);
 
   return (
     <>
@@ -38,8 +31,6 @@ function UpdateModal(props) {
           <FormInject
             updateObjectId={props.updateObjectId}
             updateFunction={props.updateFunction}
-            clientNames={clientNames}
-            dogNames={dogNames}
             formToInject={props.formToInject}
           />
         </Modal.Body>
@@ -53,8 +44,6 @@ function FormInject(props) {
     return (
       <AppointmentForm
         updateObjectId={props.updateObjectId}
-        clientNames={props.clientNames}
-        dogNames={props.dogNames}
         handleSubmit={props.updateFunction}
       />
     );
@@ -69,7 +58,6 @@ function FormInject(props) {
     return (
       <DogForm
         updateObjectId={props.updateObjectId}
-        clientNames={props.clientNames}
         handleSubmit={props.updateFunction}
       />
     );

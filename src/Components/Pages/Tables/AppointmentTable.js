@@ -11,8 +11,6 @@ function AppointmentTable(props) {
         <TableHeader />
         <TableBody
           appointmentData={props.appointmentData}
-          clientNames={props.clientNames}
-          dogNames={props.dogNames}
           updateAppointment={props.updateAppointment}
           removeAppointment={props.removeAppointment}
         />
@@ -53,8 +51,6 @@ function TableBody(props) {
         <td>
           <UpdateModal
             updateObjectId={appointment._id}
-            clientNames={props.clientNames}
-            dogNames={props.dogNames}
             updateFunction={props.updateAppointment}
             formToInject={1}
           />
