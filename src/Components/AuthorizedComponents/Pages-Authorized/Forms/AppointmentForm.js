@@ -277,16 +277,13 @@ function AppointmentForm(props) {
             />
           </Form.Group>
 
-          <Form.Group
-            as={Col}
-            xs={{ span: 1, offset: 10 }}
-            controlId="submitButton"
-          >
+          <Form.Group controlId="submitButton">
             <Button
               variant="primary"
               type="submit"
               value="Submit"
               onClick={submitForm}
+              style={{ float: "right" }}
             >
               {submitLabel.current}
             </Button>

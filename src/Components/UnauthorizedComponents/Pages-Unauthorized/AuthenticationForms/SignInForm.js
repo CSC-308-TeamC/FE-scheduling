@@ -72,11 +72,7 @@ function SignInForm(props) {
             </FloatingLabel>
           </Form.Group>
 
-          <Form.Group
-            as={Col}
-            xs={{ span: 1, offset: 11 }}
-            controlId="submitButton"
-          >
+          <Form.Group controlId="submitButton">
             <Button variant="primary" value="Submit" onClick={submitForm}>
               Sign In
             </Button>
