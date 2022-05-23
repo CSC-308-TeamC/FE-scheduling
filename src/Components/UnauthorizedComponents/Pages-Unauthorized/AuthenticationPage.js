@@ -3,7 +3,7 @@ import { Card, Col, Row, Tabs, Tab } from "react-bootstrap";
 import SignInForm from "./AuthenticationForms/SignInForm";
 import SignUpForm from "./AuthenticationForms/SignUpForm";
 import { useCookies } from "react-cookie";
-import './HomePage.css';
+import '../../Styling/HomePage.css';
 
 function AuthenticationPage(props) {
   //const [cookies, setCookies, removeCookies] = useCookies();
