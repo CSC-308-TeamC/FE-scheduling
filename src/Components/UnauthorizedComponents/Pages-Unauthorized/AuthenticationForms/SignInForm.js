@@ -75,7 +75,7 @@ function SignInForm(props) {
           <Form.Group controlId="submitButton">
             <Button
               variant="primary"
-              id="FormButton"
+              className="FormButton"
               value="Submit"
               onClick={submitForm}
             >

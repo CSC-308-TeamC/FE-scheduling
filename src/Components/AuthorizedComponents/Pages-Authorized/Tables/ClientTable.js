@@ -48,7 +48,11 @@ function TableBody(props) {
           />
         </td>
         <td>
-          <Button variant="danger" onClick={() => props.removeClient(index)}>
+          <Button
+            variant="danger"
+            className="FormButton"
+            onClick={() => props.removeClient(index)}
+          >
             Delete
           </Button>
         </td>

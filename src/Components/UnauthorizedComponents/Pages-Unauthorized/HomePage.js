@@ -4,6 +4,7 @@ import homePageBackground from "../../../imgs/home-page-background.jpg";
 import circleLogo from "../../../imgs/Circle-logo-motto.png";
 import dogGroomer from "../../../imgs/dog-groomer.png";
 import doggy from "../../../imgs/doggy.png";
+import "../../Styling/HomePage.css";
 
 export default function HomePage() {
   return (

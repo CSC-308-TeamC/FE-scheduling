@@ -11,7 +11,7 @@ function UpdateModal(props) {
 
   return (
     <>
-      <Button variant="primary" onClick={handleShow}>
+      <Button variant="primary" className="FormButton" onClick={handleShow}>
         Edit
       </Button>
 

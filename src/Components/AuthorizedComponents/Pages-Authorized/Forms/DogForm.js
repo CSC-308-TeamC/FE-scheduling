@@ -138,7 +138,7 @@ function DogForm(props) {
             variant="primary"
             type="submit"
             value="Submit"
-            id="FormButton"
+            className="FormButton"
             onClick={submitForm}
           >
             {submitLabel.current}

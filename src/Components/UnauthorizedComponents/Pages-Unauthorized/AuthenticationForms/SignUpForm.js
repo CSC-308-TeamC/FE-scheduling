@@ -169,7 +169,7 @@ function SignUpForm(props) {
           <Form.Group controlId="submitButton">
             <Button
               variant="primary"
-              id="FormButton"
+              className="FormButton"
               type="submit"
               onClick={submitForm}
             >

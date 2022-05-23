@@ -1,8 +1,6 @@
 import React from "react";
 import logoNegSmall from "../../imgs/logo-negative.png";
 import { Navbar, Nav } from "react-bootstrap";
-import "../Styling/NavbarTheme.css";
-import "../../Styling/HomePage.css";
 
 function UnAuthNavBar(props) {
   return (

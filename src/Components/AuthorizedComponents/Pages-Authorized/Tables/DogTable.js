@@ -50,7 +50,11 @@ function TableBody(props) {
           />
         </td>
         <td>
-          <Button variant="danger" onClick={() => props.removeDog(index)}>
+          <Button
+            variant="danger"
+            className="FormButton"
+            onClick={() => props.removeDog(index)}
+          >
             Delete
           </Button>
         </td>
