@@ -58,6 +58,7 @@ function TableBody(props) {
         <td>
           <Button
             variant="danger"
+            className="FormButton"
             onClick={() => props.removeAppointment(index)}
           >
             Delete

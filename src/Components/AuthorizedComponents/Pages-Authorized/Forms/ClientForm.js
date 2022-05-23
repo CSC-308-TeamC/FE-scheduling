@@ -98,15 +98,12 @@ function ClientForm(props) {
           />
         </Form.Group>
 
-        <Form.Group
-          as={Col}
-          xs={{ span: 1, offset: 10 }}
-          controlId="submitButton"
-        >
+        <Form.Group controlId="submitButton">
           <Button
             variant="primary"
             type="submit"
             value="Submit"
+            className="FormButton"
             onClick={submitForm}
           >
             {submitLabel.current}

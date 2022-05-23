@@ -1,46 +1,40 @@
-#SignInButton{
-  float: right;
-  /* width: 6vw; */
-  width: 85px;
-}
-
-#background{
+#background {
   position: relative;
   top: 0;
   left: 0;
 }
 
-#backgroundPic{
+#backgroundPic {
   position: relative;
   top: 0vw;
   left: 0vw;
   max-width: 100%
 }
 
-#circleLogo{
+#circleLogo {
   width: 30vw;
   position: relative;
   top: -32vw;
   left: 67vw;
 }
 
-#container{
+#container {
   padding-left: 0;
   padding-right: 0;
 }
 
-#text{
+#text {
   text-align: center;
   font-size: 1.5vw;
   width: 99.85vw;
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; 
 }
 
-#imageDiv{
+#imageDiv {
   height: 40vw;
 }
 
-.dogGroomer{
+.dogGroomer {
   position: absolute;
   float: left;
   width: 25vw;
@@ -48,7 +42,7 @@
   padding-right: 0;
 }
 
-.squarePanelTitle{
+.squarePanelTitle {
   text-align: center;
   margin-bottom: 3vw;
   margin-top: 4vw;
@@ -57,13 +51,13 @@
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
-.squarePanelText{
+.squarePanelText {
   font-size: 1.5vw;
   text-align: center;
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
-.buttons{
+.buttons {
   margin-top: 3vw;
   margin-left: 8.5vw;
   position: absolute;

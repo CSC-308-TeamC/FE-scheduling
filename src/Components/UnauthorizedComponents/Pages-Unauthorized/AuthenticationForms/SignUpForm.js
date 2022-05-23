@@ -166,12 +166,13 @@ function SignUpForm(props) {
             />
           </Form.Group>
 
-          <Form.Group
-            as={Col}
-            xs={{ span: 1, offset: 11 }}
-            controlId="submitButton"
-          >
-            <Button variant="primary" id="SignInButton" type="submit" onClick={submitForm}>
+          <Form.Group controlId="submitButton">
+            <Button
+              variant="primary"
+              className="FormButton"
+              type="submit"
+              onClick={submitForm}
+            >
               Sign Up
             </Button>
           </Form.Group>
