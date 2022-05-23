@@ -12,8 +12,8 @@ function UnAuthNavBar(props) {
             id="loginLogo"
             src={logoNegSmall}
             alt="logo"
-            width="5%"
-            height="5%"
+            width="80vw"
+            height="60vw"
           />
           <Navbar.Brand href="/home">Home</Navbar.Brand>
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />

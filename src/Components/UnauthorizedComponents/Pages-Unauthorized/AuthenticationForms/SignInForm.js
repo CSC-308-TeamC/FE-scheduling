@@ -77,7 +77,7 @@ function SignInForm(props) {
             xs={{ span: 1, offset: 11 }}
             controlId="submitButton"
           >
-            <Button variant="primary" value="Submit" onClick={submitForm}>
+            <Button variant="primary" id="SignInButton" value="Submit" onClick={submitForm}>
               Sign In
             </Button>
           </Form.Group>
