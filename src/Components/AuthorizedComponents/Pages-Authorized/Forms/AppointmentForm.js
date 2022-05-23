@@ -282,6 +282,7 @@ function AppointmentForm(props) {
               variant="primary"
               type="submit"
               value="Submit"
+              id="FormButton"
               onClick={submitForm}
             >
               {submitLabel.current}

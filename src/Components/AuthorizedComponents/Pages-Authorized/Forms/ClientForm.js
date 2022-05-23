@@ -107,6 +107,7 @@ function ClientForm(props) {
             variant="primary"
             type="submit"
             value="Submit"
+            id="FormatButton"
             onClick={submitForm}
           >
             {submitLabel.current}

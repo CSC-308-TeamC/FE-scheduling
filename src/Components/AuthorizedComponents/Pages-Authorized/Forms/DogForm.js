@@ -133,16 +133,12 @@ function DogForm(props) {
           />
         </Form.Group>
 
-        <Form.Group
-          xs={{ span: 1, offset: 10 }}
-          as={Col}
-          controlId="Submit Button"
-          className="mb-3"
-        >
+        <Form.Group controlId="Submit Button" className="mb-3">
           <Button
             variant="primary"
             type="submit"
             value="Submit"
+            id="FormButton"
             onClick={submitForm}
           >
             {submitLabel.current}
