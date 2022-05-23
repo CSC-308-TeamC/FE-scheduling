@@ -283,7 +283,6 @@ function AppointmentForm(props) {
               type="submit"
               value="Submit"
               onClick={submitForm}
-              style={{ float: "right" }}
             >
               {submitLabel.current}
             </Button>
