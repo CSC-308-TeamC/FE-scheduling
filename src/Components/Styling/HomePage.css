@@ -14,11 +14,7 @@
   position: relative;
   top: 0vw;
   left: 0vw;
-  width: 99.85vw;
-  object-fit: cover;
-  /* height: 400px; */
-  height: 40vw;
-  object-position: 0 0%;
+  max-width: 100%
 }
 
 #circleLogo{
@@ -37,6 +33,7 @@
   text-align: center;
   font-size: 1.5vw;
   width: 99.85vw;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; 
 }
 
 #imageDiv{
@@ -56,11 +53,14 @@
   margin-bottom: 3vw;
   margin-top: 4vw;
   font-size: 2vw;
+  color: #9F80FF;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
 .squarePanelText{
   font-size: 1.5vw;
   text-align: center;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
 .buttons{
