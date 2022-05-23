@@ -7,7 +7,9 @@ import "bootstrap/dist/css/bootstrap.min.css";
 ReactDOM.render(
   <CookiesProvider>
     {" "}
-    <Dashboard />{" "}
+    <div style={{ height: "100vh", backgroundColor: "rgb(236,230,255)" }}>
+      <Dashboard />{" "}
+    </div>
   </CookiesProvider>,
   document.getElementById("root")
 );
