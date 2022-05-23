@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import * as AppointmentGateway from "../../API-Access/AppointmentGateway";
+import * as AppointmentGateway from "../../../API-Access/AppointmentGateway";
 import AppointmentForm from "./Forms/AppointmentForm";
 import AppointmentTable from "./Tables/AppointmentTable";
 import { Col, Row, Stack } from "react-bootstrap";

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import * as DogGateway from "../../API-Access/DogGateway";
-import DogForm from "../../Components/Pages/Forms/DogForm";
-import DogTable from "../../Components/Pages/Tables/DogTable";
+import * as DogGateway from "../../../API-Access/DogGateway";
+import DogForm from "./Forms/DogForm";
+import DogTable from "./Tables/DogTable";
 import { Col, Row, Stack } from "react-bootstrap";
 import { useCookies } from "react-cookie";
 

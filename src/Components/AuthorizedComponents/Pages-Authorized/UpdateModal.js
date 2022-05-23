@@ -15,6 +15,18 @@ function UpdateModal(props) {
         Edit
       </Button>
 
+      <style type="text/css">
+        {`
+          .modal-backdrop {
+            background-color: rgb(236,230,255);
+          }
+
+          .modal-header {
+            background-color: rgb(198, 179, 255);
+          }
+        `}
+      </style>
+
       <Modal
         show={show}
         onHide={handleClose}

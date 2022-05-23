@@ -6,10 +6,10 @@ import {
   getById as getAppointmentById,
   updateRecord as updateAppointment,
   getTodays as getTodaysAppointments,
-} from "../../API-Access/AppointmentGateway";
+} from "../../../API-Access/AppointmentGateway";
 //Enumerations
-import Statuses from "../../Enums/Statuses";
-import Types from "../../Enums/Types";
+import Statuses from "../../../Enums/Statuses";
+import Types from "../../../Enums/Types";
 //Custom or Module Components
 import ArrivingAlert from "./ArrivingAlert";
 import Clock from "react-live-clock";
@@ -89,13 +89,13 @@ function DashboardPanel() {
               "rgba(54, 162, 235, 0.35)",
               "rgba(255, 99, 132, 0.35)",
               "rgba(255, 206, 86, 0.35)",
-              "rgba(153, 102, 255, 0.35)",
+              "rgba(159, 128, 255, 0.35)",
             ],
             borderColor: [
               "rgba(54, 162, 235, 1)",
               "rgba(255, 99, 132, 1)",
               "rgba(255, 206, 86, 1)",
-              "rgba(153, 102, 255, 1)",
+              "rgba(159, 128, 255, 1)",
             ],
             borderWidth: 2,
           },

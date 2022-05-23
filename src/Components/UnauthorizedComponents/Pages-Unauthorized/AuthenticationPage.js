@@ -1,11 +1,11 @@
 import React from "react";
 import { Card, Col, Row, Tabs, Tab } from "react-bootstrap";
-import SignInForm from "./Forms/AuthenticationForms/SignInForm";
-import SignUpForm from "./Forms/AuthenticationForms/SignUpForm";
+import SignInForm from "./AuthenticationForms/SignInForm";
+import SignUpForm from "./AuthenticationForms/SignUpForm";
 import { useCookies } from "react-cookie";
 
 function AuthenticationPage(props) {
-  const [cookies, setCookies, removeCookies] = useCookies();
+  //const [cookies, setCookies, removeCookies] = useCookies();
   // if(cookies.auth_token){
   //   return (
   //     <>
@@ -20,16 +20,10 @@ function AuthenticationPage(props) {
           <Card.Body>
             <Tabs defaultActiveKey="SignIn">
               <Tab eventKey="SignIn" title="Sign In">
-                <SignInForm
-                  setToken={props.setToken}
-                  setLoginStatus={props.setLoginStatus}
-                />
+                <SignInForm setLoginStatus={props.setLoginStatus} />
               </Tab>
               <Tab eventKey="SignUp" title="Sign Up">
-                <SignUpForm
-                  setToken={props.setToken}
-                  setLoginStatus={props.setLoginStatus}
-                />
+                <SignUpForm setLoginStatus={props.setLoginStatus} />
               </Tab>
             </Tabs>
           </Card.Body>
