@@ -1,0 +1,11 @@
+.navbar-appTheme {
+  background-color: rgb(159, 128, 255);
+}
+
+.navbar-appTheme .navbar-brand {
+  color: white;
+}
+
+.navbar-appTheme .navbar-nav .nav-link {
+  color: white;
+}

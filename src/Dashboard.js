@@ -7,13 +7,13 @@ import ClientPage from "./Components/AuthorizedComponents/Pages-Authorized/Clien
 import DogPage from "./Components/AuthorizedComponents/Pages-Authorized/DogPage";
 import DashboardPanel from "./Components/AuthorizedComponents/DashboardComponents/DashboardPanel";
 import AuthenticationPage from "./Components/UnauthorizedComponents/Pages-Unauthorized/AuthenticationPage";
+import UnAuthNavBar from "./Components/UnauthorizedComponents/UnAuthNavBar";
 
 function Dashboard() {
   const [cookies, setCookie, removeCookies] = useCookies();
   const [accessControlInfo, setAccessControlInfo] = useState({
     authButtonLabel: "Sign In",
     signedInUser: "",
-    authenticatedView: true,
   });
 
   useEffect(() => {
@@ -22,7 +22,6 @@ function Dashboard() {
       setAccessControlInfo({
         authButtonLabel: "Sign In",
         signedInUser: "",
-        authenticatedView: true,
       });
     } else {
       setLoginStatus();
@@ -33,7 +32,6 @@ function Dashboard() {
     setAccessControlInfo({
       authButtonLabel: "Signed In: " + userEmail,
       signedInUser: userEmail,
-      authenticatedView: false,
     });
   }
 
@@ -42,12 +40,12 @@ function Dashboard() {
   }
 
   function NavBarConditional() {
-    if (true) {
+    if (cookies.auth_token) {
       return (
         <AuthNavBar accessControlInfo={accessControlInfo} logOut={logOut} />
       );
     } else {
-      return <></>;
+      return <UnAuthNavBar />;
     }
   }
 
@@ -56,6 +54,10 @@ function Dashboard() {
       <Router>
         <NavBarConditional />
         <Routes>
+          <Route path="/home" element={<></>} />
+          <Route path="/about" element={<></>} />
+          <Route path="/contact" element={<></>} />
+
           <Route path="/dashboard" element={<DashboardPanel />} />
           <Route path="/appointments" element={<AppointmentPage />} />
           <Route path="/clients" element={<ClientPage />} />
