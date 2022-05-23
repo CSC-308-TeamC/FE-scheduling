@@ -7,6 +7,7 @@ import ClientPage from "./Components/AuthorizedComponents/Pages-Authorized/Clien
 import DogPage from "./Components/AuthorizedComponents/Pages-Authorized/DogPage";
 import DashboardPanel from "./Components/AuthorizedComponents/DashboardComponents/DashboardPanel";
 import AuthenticationPage from "./Components/UnauthorizedComponents/Pages-Unauthorized/AuthenticationPage";
+import HomePage from "./Components/UnauthorizedComponents/Pages-Unauthorized/HomePage";
 import UnAuthNavBar from "./Components/UnauthorizedComponents/UnAuthNavBar";
 
 function Dashboard() {
@@ -54,7 +55,7 @@ function Dashboard() {
       <Router>
         <NavBarConditional />
         <Routes>
-          <Route path="/home" element={<></>} />
+          <Route path="/home" element={<HomePage />} />
           <Route path="/about" element={<></>} />
           <Route path="/contact" element={<></>} />
 

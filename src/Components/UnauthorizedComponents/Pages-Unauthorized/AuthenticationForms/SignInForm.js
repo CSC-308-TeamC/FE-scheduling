@@ -72,8 +72,13 @@ function SignInForm(props) {
             </FloatingLabel>
           </Form.Group>
 
-          <Form.Group controlId="submitButton">
-            <Button variant="primary" value="Submit" onClick={submitForm}>
+          <Form.Group as={Col} controlId="submitButton">
+            <Button
+              variant="primary"
+              id="SignInButton"
+              value="Submit"
+              onClick={submitForm}
+            >
               Sign In
             </Button>
           </Form.Group>
