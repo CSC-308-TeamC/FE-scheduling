@@ -1,6 +1,8 @@
 import axios from "axios";
 import { generateHeader } from "./HeaderGenerator";
-const requestString = "http://localhost:5000/appointments";
+
+//const requestString = "http://localhost:5000/appointments";
+const requestString = "https://dog-grooming-api.herokuapp.com/appointments";
 
 export async function getAll(token) {
   let header = generateHeader(token);
