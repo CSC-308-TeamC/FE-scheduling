@@ -2,10 +2,10 @@ name: Node.js CI
 
 on:
   push:
-    branches: [TASK-Unauthorized-Pages, ci-with-testing]
+    branches: [main, ci-with-testing]
     #
   pull_request:
-    branches: [TASK-Unauthorized-Pages, ci-with-testing]
+    branches: [main, ci-with-testing]
 
 jobs:
   build:
