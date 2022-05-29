@@ -9,7 +9,11 @@ https://dog-grooming-api.herokuapp.com/
 Product Spec Documentation:
 https://docs.google.com/document/d/1-tYBP6pn_fnwizhPB3ZhvTtMLqb8_aKRsvDxsaNPS-c/edit?usp=sharing
 
-![Test Coverage](https://user-images.githubusercontent.com/91435899/170848886-174be59f-e5c7-4247-b18e-efa24ae1fa4e.png)
+# Testing Coverage Reports
+### In Memory Tests  
+![In-Memory-Code-Covage](https://user-images.githubusercontent.com/91435899/170849346-31e03fe4-dae9-43dd-89f2-1bb9bec9787b.png)  
+### Mock Tests  
+![mock-tests-coverage](https://user-images.githubusercontent.com/74291980/170851364-90bb1ff9-4377-46ff-a7be-b0584ef5a5ff.PNG)
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
