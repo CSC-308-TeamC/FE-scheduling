@@ -1,23 +1,27 @@
 import React from "react";
 import { Container, Row, Col, Card, Stack, Button } from "react-bootstrap";
 import homePageBackground from "../../../imgs/home-page-background.jpg";
-import circleLogo from "../../../imgs/Circle-logo-motto.png";
 import dogGroomer from "../../../imgs/dog-groomer.png";
 import doggy from "../../../imgs/doggy.png";
 import "../../Styling/HomePage.css";
 
 export default function HomePage() {
   return (
-    <Container fluid id="container">
+    <Container fluid style={{ marginBottom: "10px" }}>
       <Stack gap={3}>
         <Row>
-          <div id="imageDiv">
-            <img id="backgroundPic" src={homePageBackground} />
-            <img id="circleLogo" src={circleLogo} />
-          </div>
+          <Col>
+            <Card>
+              <Card.Img
+                src={homePageBackground}
+                alt="..."
+                style={{ width: "100%", flexDirection: "col" }}
+              />
+            </Card>
+          </Col>
         </Row>
         <Row>
-          <div id="text">
+          <text className="text-center">
             Here at Golden Days Pet Groomers, we pride ourselves in accepting
             all breeds
             <br />
@@ -27,38 +31,44 @@ export default function HomePage() {
             guarantee results that will leave both your and your special friend
             <br />
             with smiles as radiant as the golden day sun.
-          </div>
+          </text>
         </Row>
         <Row>
-          <Col xs={3}>
-            <img className="dogGroomer" src={dogGroomer} />
+          <Col xs={6}>
+            <Card
+              className="text-center"
+              border="warning"
+              style={{ flexDirection: "row" }}
+            >
+              <Card.Img src={dogGroomer} alt="..." />
+              <Card.Body>
+                <Card.Text>
+                  Click here to learn more about the team behind Golden Days Pet
+                  Groomers
+                </Card.Text>
+                <Button variant="primary" className="buttons" type="submit">
+                  Learn more
+                </Button>
+              </Card.Body>
+            </Card>
           </Col>
 
-          <Col xs={3}>
-            <div className="squarePanelTitle">About us</div>
-            <div className="squarePanelText">
-              Click here to learn more about the team behind Golden Days Pet
-              Groomers
-            </div>
-
-            <Button variant="primary" className="buttons" type="submit">
-              Learn more
-            </Button>
-          </Col>
-
-          <Col xs={3}>
-            <img className="dogGroomer" src={doggy} />
-          </Col>
-
-          <Col xs={3}>
-            <div className="squarePanelTitle">Contact us</div>
-            <div className="squarePanelText">
-              Click here to find out how you can contact us now
-            </div>
-
-            <Button variant="primary" className="buttons" type="submit">
-              Contact us
-            </Button>
+          <Col xs={6}>
+            <Card
+              className="text-center"
+              border="warning"
+              style={{ flexDirection: "row" }}
+            >
+              <Card.Img src={doggy} alt="..." />
+              <Card.Body>
+                <Card.Text>
+                  Click here to find out how you can contact us now
+                </Card.Text>
+                <Button variant="primary" type="submit">
+                  Contact us
+                </Button>
+              </Card.Body>
+            </Card>
           </Col>
         </Row>
       </Stack>

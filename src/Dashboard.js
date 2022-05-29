@@ -45,34 +45,43 @@ function Dashboard() {
   function NavBarConditional() {
     if (cookies.auth_token) {
       return (
-        <AuthNavBar accessControlInfo={accessControlInfo} logOut={logOut} />
+        <Router>
+          <AuthNavBar accessControlInfo={accessControlInfo} logOut={logOut} />
+          <div id="Margined">
+            <Routes>
+              <Route path="/dashboard" element={<DashboardPanel />} />
+              <Route path="/appointments" element={<AppointmentPage />} />
+              <Route path="/clients" element={<ClientPage />} />
+              <Route path="/dogs" element={<DogPage />} />
+              <Route
+                path="/"
+                element={<AuthenticationPage setLoginStatus={setLoginStatus} />}
+              />
+            </Routes>
+          </div>
+        </Router>
       );
     } else {
-      return <UnAuthNavBar />;
+      return (
+        <Router>
+          <UnAuthNavBar />
+          <div id="Margined">
+            <Routes>
+              <Route path="/home" element={<HomePage />} />
+              <Route path="/about" element={<></>} />
+              <Route path="/contact" element={<></>} />
+              <Route
+                path="/"
+                element={<AuthenticationPage setLoginStatus={setLoginStatus} />}
+              />
+            </Routes>
+          </div>
+        </Router>
+      );
     }
   }
 
-  return (
-    <>
-      <Router>
-        <NavBarConditional />
-        <Routes>
-          <Route path="/home" element={<HomePage />} />
-          <Route path="/about" element={<></>} />
-          <Route path="/contact" element={<></>} />
-
-          <Route path="/dashboard" element={<DashboardPanel />} />
-          <Route path="/appointments" element={<AppointmentPage />} />
-          <Route path="/clients" element={<ClientPage />} />
-          <Route path="/dogs" element={<DogPage />} />
-          <Route
-            path="/"
-            element={<AuthenticationPage setLoginStatus={setLoginStatus} />}
-          />
-        </Routes>
-      </Router>
-    </>
-  );
+  return <NavBarConditional />;
 }
 
 export default Dashboard;

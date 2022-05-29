@@ -1,3 +1,8 @@
 body {
   background: rgb(236, 230, 255);
 }
+
+#Margined {
+  margin-left: 3rem;
+  margin-right: 3rem;
+}
