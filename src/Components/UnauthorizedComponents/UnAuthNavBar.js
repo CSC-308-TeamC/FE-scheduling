@@ -6,7 +6,7 @@ function UnAuthNavBar(props) {
   return (
     <>
       <div style={{ paddingBottom: 10 }}>
-        <Navbar variant="appTheme">
+        <Navbar variant="appTheme" style={{ paddingLeft: "3rem" }}>
           <img
             id="loginLogo"
             src={logoNegSmall}

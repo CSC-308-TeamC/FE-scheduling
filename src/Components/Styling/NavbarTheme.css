@@ -1,5 +1,7 @@
 .navbar-appTheme {
   background-color: rgb(159, 128, 255);
+  padding-left: 3rem;
+  padding-right: 3rem;
 }
 
 .navbar-appTheme .navbar-brand {
