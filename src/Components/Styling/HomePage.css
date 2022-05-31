@@ -26,12 +26,13 @@
 #text {
   text-align: center;
   font-size: 1.5vw;
-  width: 99.85vw;
+  /* width: 99.85vw; */
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; 
 }
 
 #imageDiv {
   height: 40vw;
+  max-width: 100%;
 }
 
 .dogGroomer {

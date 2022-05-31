@@ -9,6 +9,8 @@ import DogPage from "./Components/AuthorizedComponents/Pages-Authorized/DogPage"
 import DashboardPanel from "./Components/AuthorizedComponents/DashboardComponents/DashboardPanel";
 import AuthenticationPage from "./Components/UnauthorizedComponents/Pages-Unauthorized/AuthenticationPage";
 import HomePage from "./Components/UnauthorizedComponents/Pages-Unauthorized/HomePage";
+import AboutPage from "./Components/UnauthorizedComponents/Pages-Unauthorized/AboutPage";
+import ContactPage from "./Components/UnauthorizedComponents/Pages-Unauthorized/ContactPage";
 import "./Components/Styling/FormButton.css";
 import "./Components/Styling/NavbarTheme.css";
 
@@ -58,8 +60,8 @@ function Dashboard() {
         <NavBarConditional />
         <Routes>
           <Route path="/home" element={<HomePage />} />
-          <Route path="/about" element={<></>} />
-          <Route path="/contact" element={<></>} />
+          <Route path="/about" element={<AboutPage />} />
+          <Route path="/contact" element={<ContactPage />} />
 
           <Route path="/dashboard" element={<DashboardPanel />} />
           <Route path="/appointments" element={<AppointmentPage />} />

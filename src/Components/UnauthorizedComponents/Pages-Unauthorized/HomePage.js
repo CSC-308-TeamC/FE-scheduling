@@ -10,7 +10,7 @@ export default function HomePage() {
   return (
     <Container fluid id="container">
       <Stack gap={3}>
-        <Row>
+        <Row id="row">
           <div id="imageDiv">
             <img id="backgroundPic" src={homePageBackground} />
             <img id="circleLogo" src={circleLogo} />
