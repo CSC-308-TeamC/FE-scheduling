@@ -70,8 +70,8 @@ function Dashboard() {
           <div id="Margined">
             <Routes>
               <Route path="/home" element={<HomePage />} />
-              <Route path="/about" element={<></>} />
-              <Route path="/contact" element={<></>} />
+              <Route path="/about" element={<AboutPage />} />
+              <Route path="/contact" element={<ContactPage />} />
               <Route
                 path="/"
                 element={<AuthenticationPage setLoginStatus={setLoginStatus} />}

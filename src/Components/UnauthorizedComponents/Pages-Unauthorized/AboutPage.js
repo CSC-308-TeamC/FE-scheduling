@@ -1,64 +1,51 @@
 import React from "react";
 import { Container, Row, Col, Card, Stack, Button } from "react-bootstrap";
-import homePageBackground from "../../../imgs/home-page-background.jpg";
-import circleLogo from "../../../imgs/Circle-logo-motto.png";
-import dogGroomer from "../../../imgs/dog-groomer.png";
-import doggy from "../../../imgs/doggy.png";
+import Arun from "../../../imgs/Arun.png";
+import Phil from "../../../imgs/Phil.png";
+import Cole from "../../../imgs/Cole.png";
 import "../../Styling/HomePage.css";
 
-export default function AboutPage() {
+export default function HomePage() {
   return (
-    <Container fluid id="container">
+    <Container fluid style={{ marginBottom: "10px" }}>
       <Stack gap={3}>
-        <Row id="row">
-          <div id="imageDiv">
-            <img id="backgroundPic" src={homePageBackground} />
-            <img id="circleLogo" src={circleLogo} />
-          </div>
+        <Row>
+          <Card.Title id="Title">
+            We are a team of expert developers / groomers
+          </Card.Title>
+          <Card.Text id="Texxt">
+            We do cool shit
+          </Card.Text>
         </Row>
         <Row>
-          <div id="text">
-            Here at Golden Days Pet Groomers, we pride ourselves in accepting
-            all breeds
-            <br />
-            and types of animals. Whether it's a haircut, a bath, or a nail
-            trim, we
-            <br />
-            guarantee results that will leave both your and your special friend
-            <br />
-            with smiles as radiant as the golden day sun.
-          </div>
-        </Row>
-        <Row>
-          <Col xs={3}>
-            <img className="dogGroomer" src={dogGroomer} />
+          <Col>
+            <Card.Img src={Cole} alt="..." />
+              <Card.Body>
+                <Card>
+                  <Card.Title>Cole Brazell</Card.Title>
+                  <Card.Text className="WebDev">Web Developer / Dog Groomer</Card.Text>
+                </Card>
+              </Card.Body>
           </Col>
 
-          <Col xs={3}>
-            <div className="squarePanelTitle">About us</div>
-            <div className="squarePanelText">
-              Click here to learn more about the team behind Golden Days Pet
-              Groomers
-            </div>
-
-            <Button variant="primary" className="buttons" type="submit">
-              Learn more
-            </Button>
+          <Col>
+            <Card.Img src={Phil} alt="..." />
+              <Card.Body>
+                <Card>
+                  <Card.Title>Philippe Wylezek-Serrano</Card.Title>
+                  <Card.Text className="WebDev">Web Developer / Dog Groomer</Card.Text>
+                </Card>
+              </Card.Body>
           </Col>
 
-          <Col xs={3}>
-            <img className="dogGroomer" src={doggy} />
-          </Col>
-
-          <Col xs={3}>
-            <div className="squarePanelTitle">Contact us</div>
-            <div className="squarePanelText">
-              Click here to find out how you can contact us now
-            </div>
-
-            <Button variant="primary" className="buttons" type="submit">
-              Contact us
-            </Button>
+          <Col>
+            <Card.Img src={Arun} alt="..." />
+              <Card.Body>
+                <Card>
+                  <Card.Title>Arun Ganesh</Card.Title>
+                  <Card.Text className="WebDev">Web Developer / Dog Groomer</Card.Text>
+                </Card>
+              </Card.Body>
           </Col>
         </Row>
       </Stack>
