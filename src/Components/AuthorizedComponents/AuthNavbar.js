@@ -22,6 +22,7 @@ function AuthNavBar(props) {
               <Nav.Link href="/appointments">Appointments</Nav.Link>
               <Nav.Link href="/clients">Clients</Nav.Link>
               <Nav.Link href="/dogs">Dogs</Nav.Link>
+              <Nav.Link href="/calendar">Calendar</Nav.Link>
             </Nav>
             <Nav>
               <Nav.Link href="/">

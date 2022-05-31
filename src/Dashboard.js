@@ -2,10 +2,11 @@ import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import AuthNavBar from "./Components/AuthorizedComponents/AuthNavbar";
-import AppointmentPage from "./Components/AuthorizedComponents/Pages-Authorized/AppointmentPage";
 import UnAuthNavBar from "./Components/UnauthorizedComponents/UnAuthNavBar";
+import AppointmentPage from "./Components/AuthorizedComponents/Pages-Authorized/AppointmentPage";
 import ClientPage from "./Components/AuthorizedComponents/Pages-Authorized/ClientPage";
 import DogPage from "./Components/AuthorizedComponents/Pages-Authorized/DogPage";
+import CalendarPage from "./Components/AuthorizedComponents/Pages-Authorized/CalendarPage";
 import DashboardPanel from "./Components/AuthorizedComponents/DashboardComponents/DashboardPanel";
 import AuthenticationPage from "./Components/UnauthorizedComponents/Pages-Unauthorized/AuthenticationPage";
 import HomePage from "./Components/UnauthorizedComponents/Pages-Unauthorized/HomePage";
@@ -53,6 +54,7 @@ function Dashboard() {
               <Route path="/appointments" element={<AppointmentPage />} />
               <Route path="/clients" element={<ClientPage />} />
               <Route path="/dogs" element={<DogPage />} />
+              <Route path="calendar" element={<CalendarPage />} />
               <Route
                 path="/"
                 element={<AuthenticationPage setLoginStatus={setLoginStatus} />}
