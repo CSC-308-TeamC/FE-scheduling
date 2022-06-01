@@ -21,17 +21,19 @@ export default function HomePage() {
           </Col>
         </Row>
         <Row>
-          <text className="text-center">
-            Here at Golden Days Pet Groomers, we pride ourselves in accepting
-            all breeds
-            <br />
-            and types of animals. Whether it's a haircut, a bath, or a nail
-            trim, we
-            <br />
-            guarantee results that will leave both your and your special friend
-            <br />
-            with smiles as radiant as the golden day sun.
-          </text>
+          <Card>
+            <text className="text-center">
+              Here at Golden Days Pet Groomers, we pride ourselves in accepting
+              all breeds
+              <br />
+              and types of animals. Whether it's a haircut, a bath, or a nail
+              trim, we
+              <br />
+              guarantee results that will leave both your and your special friend
+              <br />
+              with smiles as radiant as the golden day sun.
+            </text>
+          </Card>
         </Row>
         <Row>
           <Col xs={6}>

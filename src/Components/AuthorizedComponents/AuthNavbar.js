@@ -8,14 +8,15 @@ function AuthNavBar(props) {
     <>
       <div style={{ paddingBottom: 10 }}>
         <Navbar variant="appTheme">
-          <img
-            href="/dashboard"
-            id="loginLogo"
-            src={logoNegSmall}
-            alt="logo"
-            width="80"
-            height="60"
-          />
+          <a href="/dashboard">
+            <img
+              id="loginLogo"
+              src={logoNegSmall}
+              alt="logo"
+              width="80"
+              height="60"
+            />
+          </a>
           <Navbar.Brand href="/dashboard">Dashboard</Navbar.Brand>
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
           <Navbar.Collapse id="responsive-navbar-nav">
