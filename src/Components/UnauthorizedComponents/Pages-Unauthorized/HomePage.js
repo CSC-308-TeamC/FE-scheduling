@@ -40,7 +40,7 @@ export default function HomePage() {
               border="warning"
               style={{ flexDirection: "row" }}
             >
-              <Card.Img src={dogGroomer} alt="..." />
+              <Card.Img src={dogGroomer} alt="..." style={{ width: "50%" }} />
               <Card.Body>
                 <Card.Text>
                   Click here to learn more about the team behind Golden Days Pet
@@ -59,7 +59,7 @@ export default function HomePage() {
               border="warning"
               style={{ flexDirection: "row" }}
             >
-              <Card.Img src={doggy} alt="..." />
+              <Card.Img src={doggy} alt="..." style={{ width: "50%" }} />
               <Card.Body>
                 <Card.Text>
                   Click here to find out how you can contact us now

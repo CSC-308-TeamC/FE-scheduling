@@ -1,52 +1,46 @@
 import React from "react";
-import { Container, Row, Col, Card, Stack, Button } from "react-bootstrap";
+import { Container, Row, Col, CardGroup, Card, Stack } from "react-bootstrap";
 import Arun from "../../../imgs/Arun.png";
 import Phil from "../../../imgs/Phil.png";
 import Cole from "../../../imgs/Cole.png";
-import "../../Styling/HomePage.css";
+import "../../Styling/ContactPage.css";
 
 export default function HomePage() {
   return (
     <Container fluid style={{ marginBottom: "10px" }}>
       <Stack gap={3}>
         <Row>
-          <Card.Title id="Title">
-            We are a team of expert developers / groomers
-          </Card.Title>
-          <Card.Text id="Texxt">
-            We do cool shit
-          </Card.Text>
+          <Card>
+            <Card.Title>We are a team of expert Developers</Card.Title>
+            <Card.Text>We make cool stuff</Card.Text>
+          </Card>
         </Row>
         <Row>
-          <Col>
-            <Card.Img src={Cole} alt="..." />
+          <CardGroup>
+            <Card>
+              <Card.Img src={Cole} alt="..." style={{ width: "100%" }} />
               <Card.Body>
-                <Card>
-                  <Card.Title>Cole Brazell</Card.Title>
-                  <Card.Text className="WebDev">Web Developer / Dog Groomer</Card.Text>
-                </Card>
+                <Card.Title>Cole Brazell</Card.Title>
+                <Card.Text>Web Developer</Card.Text>
               </Card.Body>
-          </Col>
+            </Card>
 
-          <Col>
-            <Card.Img src={Phil} alt="..." />
+            <Card>
+              <Card.Img src={Phil} alt="..." style={{ width: "100%" }} />
               <Card.Body>
-                <Card>
-                  <Card.Title>Philippe Wylezek-Serrano</Card.Title>
-                  <Card.Text className="WebDev">Web Developer / Dog Groomer</Card.Text>
-                </Card>
+                <Card.Title>Philippe Wylezek-Serrano</Card.Title>
+                <Card.Text>Web Developer</Card.Text>
               </Card.Body>
-          </Col>
+            </Card>
 
-          <Col>
-            <Card.Img src={Arun} alt="..." />
+            <Card>
+              <Card.Img src={Arun} alt="..." style={{ width: "100%" }} />
               <Card.Body>
-                <Card>
-                  <Card.Title>Arun Ganesh</Card.Title>
-                  <Card.Text className="WebDev">Web Developer / Dog Groomer</Card.Text>
-                </Card>
+                <Card.Title>Arun Ganesh</Card.Title>
+                <Card.Text>Web Developer</Card.Text>
               </Card.Body>
-          </Col>
+            </Card>
+          </CardGroup>
         </Row>
       </Stack>
     </Container>
