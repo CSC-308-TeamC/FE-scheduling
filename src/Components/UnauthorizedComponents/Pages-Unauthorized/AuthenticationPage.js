@@ -6,14 +6,6 @@ import { useCookies } from "react-cookie";
 import "../../Styling/FormButton.css";
 
 function AuthenticationPage(props) {
-  //const [cookies, setCookies, removeCookies] = useCookies();
-  // if(cookies.auth_token){
-  //   return (
-  //     <>
-  //        //<User Profile/>
-  //     </>
-  //   )
-  // }else{
   return (
     <Row style={{ paddingTop: 50 }}>
       <Col xs={{ span: 8, offset: 2 }}>

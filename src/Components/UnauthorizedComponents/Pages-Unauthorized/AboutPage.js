@@ -16,7 +16,6 @@ export default function HomePage() {
           </Card>
         </Row>
         <Row>
-          {/* <CardGroup> */}
           <Col>
             <Card>
               <Card.Img src={Cole} alt="..." style={{ width: "100%" }} />
@@ -46,7 +45,6 @@ export default function HomePage() {
               </Card.Body>
             </Card>
           </Col>
-          {/* </CardGroup> */}
         </Row>
       </Stack>
     </Container>
