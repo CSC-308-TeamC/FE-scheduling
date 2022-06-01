@@ -21,7 +21,7 @@ export default function HomePage() {
           <Col>
             <Card.Img src={Cole} alt="..." />
               <Card.Body>
-                <Card>
+                <Card className="AboutBox">
                   <Card.Title>Cole Brazell</Card.Title>
                   <Card.Text className="WebDev">Web Developer / Dog Groomer</Card.Text>
                 </Card>

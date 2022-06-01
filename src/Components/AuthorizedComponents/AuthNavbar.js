@@ -9,6 +9,7 @@ function AuthNavBar(props) {
       <div style={{ paddingBottom: 10 }}>
         <Navbar variant="appTheme">
           <img
+            href="/dashboard"
             id="loginLogo"
             src={logoNegSmall}
             alt="logo"
