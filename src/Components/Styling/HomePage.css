@@ -2,6 +2,23 @@
   width: 50%;
 }
 
+.card-title {
+  text-align: center;
+}
+
+.card-text {
+  text-align: center;
+  color: gray;
+}
+
+#AboutBox{
+  top: 0px;
+}
+
+/* .card img {
+  width: 50%;
+}
+
 .WebDev{
   color: gray;
 }
@@ -22,4 +39,4 @@
 
 #AboutBox{
   top: 0px;
-}
+} */

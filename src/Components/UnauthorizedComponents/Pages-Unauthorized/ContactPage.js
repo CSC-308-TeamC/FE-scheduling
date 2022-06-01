@@ -12,8 +12,8 @@ export default function ContactPage() {
       <Stack gap={3}>
         <Row id="row">
           <div id="imageDiv">
-            <img id="backgroundPic" src={homePageBackground} />
-            <img id="circleLogo" src={circleLogo} />
+            <img id="backgroundPic" src={homePageBackground} alt="..." />
+            <img id="circleLogo" src={circleLogo} alt="..." />
           </div>
         </Row>
         <Row>
@@ -31,7 +31,7 @@ export default function ContactPage() {
         </Row>
         <Row>
           <Col xs={3}>
-            <img className="dogGroomer" src={dogGroomer} />
+            <img className="dogGroomer" src={dogGroomer} alt="..." />
           </Col>
 
           <Col xs={3}>
@@ -47,7 +47,7 @@ export default function ContactPage() {
           </Col>
 
           <Col xs={3}>
-            <img className="dogGroomer" src={doggy} />
+            <img className="dogGroomer" src={doggy} alt="..." />
           </Col>
 
           <Col xs={3}>
