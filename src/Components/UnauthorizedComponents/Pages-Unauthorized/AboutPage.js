@@ -16,7 +16,8 @@ export default function HomePage() {
           </Card>
         </Row>
         <Row>
-          <CardGroup>
+          {/* <CardGroup> */}
+          <Col>
             <Card>
               <Card.Img src={Cole} alt="..." style={{ width: "100%" }} />
               <Card.Body>
@@ -24,7 +25,9 @@ export default function HomePage() {
                 <Card.Text>Web Developer</Card.Text>
               </Card.Body>
             </Card>
+          </Col>
 
+          <Col>
             <Card>
               <Card.Img src={Phil} alt="..." style={{ width: "100%" }} />
               <Card.Body>
@@ -32,7 +35,9 @@ export default function HomePage() {
                 <Card.Text>Web Developer</Card.Text>
               </Card.Body>
             </Card>
+          </Col>
 
+          <Col>
             <Card>
               <Card.Img src={Arun} alt="..." style={{ width: "100%" }} />
               <Card.Body>
@@ -40,7 +45,8 @@ export default function HomePage() {
                 <Card.Text>Web Developer</Card.Text>
               </Card.Body>
             </Card>
-          </CardGroup>
+          </Col>
+          {/* </CardGroup> */}
         </Row>
       </Stack>
     </Container>
