@@ -12,6 +12,8 @@ import ContactPage from "./Components/UnauthorizedComponents/Pages-Unauthorized/
 import DashboardPanel from "./Components/AuthorizedComponents/DashboardComponents/DashboardPanel";
 import AuthenticationPage from "./Components/UnauthorizedComponents/Pages-Unauthorized/AuthenticationPage";
 import HomePage from "./Components/UnauthorizedComponents/Pages-Unauthorized/HomePage";
+import AboutPage from "./Components/UnauthorizedComponents/Pages-Unauthorized/AboutPage";
+import ContactPage from "./Components/UnauthorizedComponents/Pages-Unauthorized/ContactPage";
 import "./Components/Styling/FormButton.css";
 import "./Components/Styling/NavbarTheme.css";
 

@@ -21,17 +21,19 @@ export default function HomePage() {
           </Col>
         </Row>
         <Row>
-          <text className="text-center">
-            Here at Golden Days Pet Groomers, we pride ourselves in accepting
-            all breeds
-            <br />
-            and types of animals. Whether it's a haircut, a bath, or a nail
-            trim, we
-            <br />
-            guarantee results that will leave both your and your special friend
-            <br />
-            with smiles as radiant as the golden day sun.
-          </text>
+          <Card>
+            <text className="text-center">
+              Here at Golden Days Pet Groomers, we pride ourselves in accepting
+              all breeds
+              <br />
+              and types of animals. Whether it's a haircut, a bath, or a nail
+              trim, we
+              <br />
+              guarantee results that will leave both your and your special friend
+              <br />
+              with smiles as radiant as the golden day sun.
+            </text>
+          </Card>
         </Row>
         <Row>
           <Col xs={6}>
@@ -40,7 +42,7 @@ export default function HomePage() {
               border="warning"
               style={{ flexDirection: "row" }}
             >
-              <Card.Img src={dogGroomer} alt="..." />
+              <Card.Img src={dogGroomer} alt="..." style={{ width: "50%" }} />
               <Card.Body>
                 <Card.Text>
                   Click here to learn more about the team behind Golden Days Pet
@@ -59,7 +61,7 @@ export default function HomePage() {
               border="warning"
               style={{ flexDirection: "row" }}
             >
-              <Card.Img src={doggy} alt="..." />
+              <Card.Img src={doggy} alt="..." style={{ width: "50%" }} />
               <Card.Body>
                 <Card.Text>
                   Click here to find out how you can contact us now

@@ -7,13 +7,15 @@ function UnAuthNavBar(props) {
     <>
       <div style={{ paddingBottom: 10 }}>
         <Navbar variant="appTheme" style={{ paddingLeft: "3rem" }}>
-          <img
-            id="loginLogo"
-            src={logoNegSmall}
-            alt="logo"
-            width="80vw"
-            height="60vw"
-          />
+          <a href="/home">
+            <img
+              id="loginLogo"
+              src={logoNegSmall}
+              alt="logo"
+              width="80vw"
+              height="60vw"
+            />
+          </a>
           <Navbar.Brand href="/home">Home</Navbar.Brand>
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
           <Navbar.Collapse id="responsive-navbar-nav">

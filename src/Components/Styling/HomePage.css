@@ -1,3 +1,52 @@
 .card img {
   width: 50%;
 }
+
+.card-title {
+  text-align: center;
+}
+
+.card-text {
+  text-align: center;
+  color: gray;
+}
+
+#AboutBox{
+  top: 0px;
+}
+
+#ContactTitle{
+  font-size: 8vw;
+}
+
+#ContactInfo{
+  height: 90%;
+  border: 1.5px solid black;
+  background-color: #ECE6FF;
+}
+
+/* .card img {
+  width: 50%;
+}
+
+.WebDev{
+  color: gray;
+}
+
+#Title{
+  padding-top: 40px;
+  padding-bottom: 40px;
+  font-size: 40px;
+  text-align: center;
+}
+
+#Texxt{
+  padding-bottom: 60px;
+  font-size: 20px;
+  text-align: center;
+  color: gray;
+}
+
+#AboutBox{
+  top: 0px;
+} */
