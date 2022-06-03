@@ -10,26 +10,22 @@ export default function ContactPage() {
       <Stack gap={3}>
         <Row>
           <Col>
-            <Card.Img src={lads} alt="..." style={{ marginTop: "2vw"}} />
+            <Card.Img src={lads} alt="..." style={{ marginTop: "2vw" }} />
           </Col>
           <Col>
-            <Card.Title id="ContactTitle">Contact Us</Card.Title>
+            <b id="ContactTitle">Contact Us</b>
             <Card id="ContactInfo">
-              <Card.Img src={logo} alt="..." style={{ width: "100%", marginTop: "5vw", marginBottom: "5vw" }} />
-              <Card.Title>
-                Email
-              </Card.Title>
-              <Card.Text 
-                style={{color:"black"}}>
+              <Card.Img
+                src={logo}
+                alt="..."
+                style={{ width: "100%", marginTop: "5vw", marginBottom: "5vw" }}
+              />
+              <Card.Title>Email</Card.Title>
+              <Card.Text style={{ color: "black" }}>
                 goldendays@petgroomers.com
               </Card.Text>
-              <Card.Title>
-                Phone Number
-              </Card.Title>
-              <Card.Text 
-                style={{color:"black"}}>
-                (805) 364-4437
-              </Card.Text>
+              <Card.Title>Phone Number</Card.Title>
+              <Card.Text style={{ color: "black" }}>(805) 364-4437</Card.Text>
             </Card>
           </Col>
         </Row>
