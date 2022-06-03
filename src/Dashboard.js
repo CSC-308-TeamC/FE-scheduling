@@ -7,6 +7,8 @@ import AppointmentPage from "./Components/AuthorizedComponents/Pages-Authorized/
 import ClientPage from "./Components/AuthorizedComponents/Pages-Authorized/ClientPage";
 import DogPage from "./Components/AuthorizedComponents/Pages-Authorized/DogPage";
 import CalendarPage from "./Components/AuthorizedComponents/Pages-Authorized/CalendarPage";
+import AboutPage from "./Components/UnauthorizedComponents/Pages-Unauthorized/AboutPage";
+import ContactPage from "./Components/UnauthorizedComponents/Pages-Unauthorized/ContactPage";
 import DashboardPanel from "./Components/AuthorizedComponents/DashboardComponents/DashboardPanel";
 import AuthenticationPage from "./Components/UnauthorizedComponents/Pages-Unauthorized/AuthenticationPage";
 import HomePage from "./Components/UnauthorizedComponents/Pages-Unauthorized/HomePage";
@@ -21,7 +23,6 @@ function Dashboard() {
   });
 
   useEffect(() => {
-    console.log("Use effect ran Dashboard");
     if (!cookies.auth_token) {
       setAccessControlInfo({
         authButtonLabel: "Sign In",
@@ -54,7 +55,7 @@ function Dashboard() {
               <Route path="/appointments" element={<AppointmentPage />} />
               <Route path="/clients" element={<ClientPage />} />
               <Route path="/dogs" element={<DogPage />} />
-              <Route path="calendar" element={<CalendarPage />} />
+              <Route path="/calendar" element={<CalendarPage />} />
               <Route
                 path="/"
                 element={<AuthenticationPage setLoginStatus={setLoginStatus} />}
@@ -70,8 +71,8 @@ function Dashboard() {
           <div id="Margined">
             <Routes>
               <Route path="/home" element={<HomePage />} />
-              <Route path="/about" element={<></>} />
-              <Route path="/contact" element={<></>} />
+              <Route path="/about" element={<AboutPage />} />
+              <Route path="/contact" element={<ContactPage />} />
               <Route
                 path="/"
                 element={<AuthenticationPage setLoginStatus={setLoginStatus} />}
