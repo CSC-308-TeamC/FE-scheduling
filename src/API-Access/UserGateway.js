@@ -1,6 +1,8 @@
 import axios from "axios";
-//const requestString = "http://localhost:5000/users";
+
+// const requestString = "http://localhost:5000/users";
 const requestString = "https://dog-grooming-api.herokuapp.com/users";
+
 export async function getAll() {
   try {
     const response = await axios.get(requestString);

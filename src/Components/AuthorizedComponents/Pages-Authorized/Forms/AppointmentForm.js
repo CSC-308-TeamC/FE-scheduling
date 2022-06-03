@@ -1,6 +1,8 @@
 import React, { useRef, useState, useEffect } from "react";
 import { Row, Col, Form, Button } from "react-bootstrap";
 import { getById as getAppointmentById } from "../../../../API-Access/AppointmentGateway";
+import { getById as getClientById } from "../../../../API-Access/ClientGateway";
+import { getById as getDogById } from "../../../../API-Access/DogGateway";
 import { getAll as getAllClients } from "../../../../API-Access/ClientGateway";
 import { getAll as getAllDogs } from "../../../../API-Access/DogGateway";
 import Datetime from "react-datetime";
@@ -31,64 +33,82 @@ function AppointmentForm(props) {
   const submitLabel = useRef("Submit");
   const selectStates = useRef({});
 
-  useEffect(async () => {
-    let clientSelectData = [];
-    await getAllClients(cookies.auth_token).then((allClients) => {
-      if (allClients) {
-        clientSelectData = allClients.map((client) => {
-          return {
-            label: client.fullName,
-            id: client._id,
-            category: "clientName",
-          };
-        });
-        clientSelectSet.current = clientSelectData;
-
-        setClientSelectList(clientSelectData);
-      }
-    });
-
-    let dogSelectData = [];
-    await getAllDogs(cookies.auth_token).then((allDogs) => {
-      if (allDogs) {
-        dogSelectData = allDogs.map((dog) => {
-          return {
-            label: dog.name,
-            id: dog._id,
-            category: "dogName",
-          };
-        });
-        dogSelectSet.current = dogSelectData;
-        setDogSelectList(dogSelectData);
-      }
-    });
-
+  useEffect(() => {
     generateTypeStatusDropdowns();
+    let clientSelectData = [];
+    let dogSelectData = [];
+    async function getData() {
+      await getAllClients(cookies.auth_token).then((allClients) => {
+        if (allClients) {
+          clientSelectData = allClients.map((client) => {
+            return {
+              label: client.fullName,
+              id: client._id,
+              category: "clientName",
+            };
+          });
+          clientSelectSet.current = clientSelectData;
+
+          setClientSelectList(clientSelectData);
+        }
+      });
+
+      await getAllDogs(cookies.auth_token).then((allDogs) => {
+        if (allDogs) {
+          dogSelectData = allDogs.map((dog) => {
+            return {
+              label: dog.name,
+              id: dog._id,
+              category: "dogName",
+            };
+          });
+          dogSelectSet.current = dogSelectData;
+          setDogSelectList(dogSelectData);
+        }
+      });
+    }
+    getData();
 
     if (props.updateObjectId) {
       submitLabel.current = "Update";
-      getAppointmentById(props.updateObjectId, cookies.auth_token, false).then(
-        (result) => {
-          selectStates.current = {
-            type: { label: result.type, category: "type" },
-            status: { label: result.status, category: "status" },
-            client: clientSelectSet.current.find(
-              (client) => client.id === result.clientId
-            ),
-            dog: dogSelectSet.current.find((dog) => dog.id === result.dogId),
-          };
+      async function getUpdateObject() {
+        let updateObject = await getAppointmentById(
+          props.updateObjectId,
+          cookies.auth_token,
+          false
+        );
+        let client = await getClientById(
+          updateObject.clientId,
+          cookies.auth_token
+        );
+        let dog = await getDogById(updateObject.dogId, cookies.auth_token);
 
-          setAppointment({
-            type: result.type,
-            status: result.status,
-            clientId: result.clientId,
-            dogId: result.dogId,
-            dateTime: new Date(result.dateTime),
-            notes: result.notes,
-            repeating: result.repeating,
-          });
-        }
-      );
+        selectStates.current = {
+          type: { label: updateObject.type, category: "type" },
+          status: { label: updateObject.status, category: "status" },
+          client: {
+            label: client.fullName,
+            id: client._id,
+            category: "clientName",
+          },
+          dog: {
+            label: dog.name,
+            id: dog._id,
+            category: "dogName",
+          },
+        };
+
+        setAppointment({
+          type: updateObject.type,
+          status: updateObject.status,
+          clientId: updateObject.clientId,
+          dogId: updateObject.dogId,
+          dateTime: new Date(updateObject.dateTime),
+          notes: updateObject.notes,
+          repeating: updateObject.repeating,
+        });
+      }
+      getUpdateObject();
     }
   }, [props.updateObjectId]);
 

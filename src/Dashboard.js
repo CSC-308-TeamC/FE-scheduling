@@ -44,47 +44,61 @@ function Dashboard() {
     removeCookies("auth_token");
   }
 
-  function NavBarConditional() {
-    if (cookies.auth_token) {
-      return (
-        <Router>
-          <AuthNavBar accessControlInfo={accessControlInfo} logOut={logOut} />
-          <div id="Margined">
-            <Routes>
-              <Route path="/dashboard" element={<DashboardPanel />} />
-              <Route path="/appointments" element={<AppointmentPage />} />
-              <Route path="/clients" element={<ClientPage />} />
-              <Route path="/dogs" element={<DogPage />} />
-              <Route path="/calendar" element={<CalendarPage />} />
-              <Route
-                path="/"
-                element={<AuthenticationPage setLoginStatus={setLoginStatus} />}
-              />
-            </Routes>
-          </div>
-        </Router>
-      );
-    } else {
-      return (
-        <Router>
-          <UnAuthNavBar />
-          <div id="Margined">
-            <Routes>
-              <Route path="/home" element={<HomePage />} />
-              <Route path="/about" element={<AboutPage />} />
-              <Route path="/contact" element={<ContactPage />} />
-              <Route
-                path="/"
-                element={<AuthenticationPage setLoginStatus={setLoginStatus} />}
-              />
-            </Routes>
-          </div>
-        </Router>
-      );
-    }
-  }
+  return (
+    <NavBarConditional
+      setLoginStatus={setLoginStatus}
+      accessControlInfo={accessControlInfo}
+      logOut={logOut}
+    />
+  );
+}
 
-  return <NavBarConditional />;
+function NavBarConditional(props) {
+  const [cookies, setCookie, removeCookies] = useCookies();
+  if (cookies.auth_token) {
+    return (
+      <Router>
+        <AuthNavBar
+          accessControlInfo={props.accessControlInfo}
+          logOut={props.logOut}
+        />
+        <div id="Margined">
+          <Routes>
+            <Route path="/dashboard" element={<DashboardPanel />} />
+            <Route path="/appointments" element={<AppointmentPage />} />
+            <Route path="/clients" element={<ClientPage />} />
+            <Route path="/dogs" element={<DogPage />} />
+            <Route path="/calendar" element={<CalendarPage />} />
+            <Route
+              path="/"
+              element={
+                <AuthenticationPage setLoginStatus={props.setLoginStatus} />
+              }
+            />
+          </Routes>
+        </div>
+      </Router>
+    );
+  } else {
+    return (
+      <Router>
+        <UnAuthNavBar />
+        <div id="Margined">
+          <Routes>
+            <Route path="/home" element={<HomePage />} />
+            <Route path="/about" element={<AboutPage />} />
+            <Route path="/contact" element={<ContactPage />} />
+            <Route
+              path="/"
+              element={
+                <AuthenticationPage setLoginStatus={props.setLoginStatus} />
+              }
+            />
+          </Routes>
+        </div>
+      </Router>
+    );
+  }
 }
 
 export default Dashboard;

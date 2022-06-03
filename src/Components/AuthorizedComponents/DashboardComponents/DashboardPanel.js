@@ -59,11 +59,13 @@ function DashboardPanel() {
   }, [todaysAppointments, compareStringDate]);
 
   useEffect(() => {
-    getTodaysAppointments(cookies.auth_token).then((result) => {
-      if (result) {
-        setTodaysAppointments(result);
+    async function getData() {
+      let todays = await getTodaysAppointments(cookies.auth_token);
+      if (todays) {
+        setTodaysAppointments(todays);
       }
-    });
+    }
+    getData();
   }, []);
 
   useEffect(() => {
