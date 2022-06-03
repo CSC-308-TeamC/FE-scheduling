@@ -25,7 +25,7 @@ function SignInForm(props) {
     const signInResponse = await signIn(user);
     if (signInResponse.status === 200) {
       setCookies("auth_token", signInResponse.data.tokenData, {
-        maxAge: 600,
+        maxAge: 1200,
         path: "/",
       });
       props.setLoginStatus(signInResponse.data.emailData);

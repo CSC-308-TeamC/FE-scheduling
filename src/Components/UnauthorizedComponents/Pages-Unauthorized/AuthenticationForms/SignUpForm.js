@@ -56,7 +56,7 @@ function SignUpForm(props) {
       const signUpResponse = await signUp(user);
       if (signUpResponse.status === 201) {
         setCookies("auth_token", signUpResponse.data.tokenData, {
-          maxAge: 150,
+          maxAge: 1200,
           path: "/",
         });
         props.setLoginStatus(signUpResponse.data.emailData);

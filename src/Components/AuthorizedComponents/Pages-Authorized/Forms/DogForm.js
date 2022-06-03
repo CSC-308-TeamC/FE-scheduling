@@ -36,6 +36,7 @@ function DogForm(props) {
         setClientSelectList(clientSelectData);
       }
     }
+    getData();
 
     generateBreedsDropdown();
 
