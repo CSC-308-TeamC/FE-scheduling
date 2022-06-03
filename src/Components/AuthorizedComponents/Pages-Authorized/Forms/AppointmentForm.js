@@ -1,11 +1,11 @@
 import React, { useRef, useState, useEffect } from "react";
 import { Row, Col, Form, Button } from "react-bootstrap";
-import { getById as getAppointmentById } from "../../../API-Access/AppointmentGateway";
-import { getAll as getAllClients } from "../../../API-Access/ClientGateway";
-import { getAll as getAllDogs } from "../../../API-Access/DogGateway";
+import { getById as getAppointmentById } from "../../../../API-Access/AppointmentGateway";
+import { getAll as getAllClients } from "../../../../API-Access/ClientGateway";
+import { getAll as getAllDogs } from "../../../../API-Access/DogGateway";
 import Datetime from "react-datetime";
-import Types from "../../../Enums/Types";
-import Statuses from "../../../Enums/Statuses";
+import Types from "../../../../Enums/Types";
+import Statuses from "../../../../Enums/Statuses";
 import Select from "react-select";
 import "react-datetime/css/react-datetime.css";
 import { useCookies } from "react-cookie";
@@ -277,15 +277,12 @@ function AppointmentForm(props) {
             />
           </Form.Group>
 
-          <Form.Group
-            as={Col}
-            xs={{ span: 2, offset: 11 }}
-            controlId="submitButton"
-          >
+          <Form.Group controlId="submitButton">
             <Button
               variant="primary"
               type="submit"
               value="Submit"
+              className="FormButton"
               onClick={submitForm}
             >
               {submitLabel.current}

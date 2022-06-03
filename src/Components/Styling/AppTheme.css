@@ -1,0 +1,16 @@
+body {
+  background: rgb(236, 230, 255);
+}
+
+#Margined {
+  margin-left: 3rem;
+  margin-right: 3rem;
+}
+
+.modal-backdrop {
+  background-color: rgb(236, 230, 255);
+}
+
+.modal-header {
+  background-color: rgb(198, 179, 255);
+}

@@ -1,7 +1,7 @@
 import React, { useRef, useState, useEffect } from "react";
 import { Row, Col, Form, Button } from "react-bootstrap";
 import { useCookies } from "react-cookie";
-import { getById as getClientById } from "../../../API-Access/ClientGateway";
+import { getById as getClientById } from "../../../../API-Access/ClientGateway";
 
 function ClientForm(props) {
   const [cookies, setCookies] = useCookies();
@@ -98,15 +98,12 @@ function ClientForm(props) {
           />
         </Form.Group>
 
-        <Form.Group
-          as={Col}
-          xs={{ span: 1, offset: 11 }}
-          controlId="submitButton"
-        >
+        <Form.Group controlId="submitButton">
           <Button
             variant="primary"
             type="submit"
             value="Submit"
+            className="FormButton"
             onClick={submitForm}
           >
             {submitLabel.current}

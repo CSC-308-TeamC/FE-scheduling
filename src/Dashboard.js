@@ -1,86 +1,90 @@
 import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { Navbar, Nav } from "react-bootstrap";
 import { useCookies } from "react-cookie";
-import AppointmentPage from "./Components/Pages/AppointmentPage";
-import ClientPage from "./Components/Pages/ClientPage";
-import DogPage from "./Components/Pages/DogPage";
-import logoNegSmall from "./imgs/logo-negative.png";
-import DashboardPanel from "./Components/DashboardComponents/DashboardPanel";
-import AuthenticationPage from "./Components/Pages/AuthenticationPage";
+import AuthNavBar from "./Components/AuthorizedComponents/AuthNavbar";
+import UnAuthNavBar from "./Components/UnauthorizedComponents/UnAuthNavBar";
+import AppointmentPage from "./Components/AuthorizedComponents/Pages-Authorized/AppointmentPage";
+import ClientPage from "./Components/AuthorizedComponents/Pages-Authorized/ClientPage";
+import DogPage from "./Components/AuthorizedComponents/Pages-Authorized/DogPage";
+import CalendarPage from "./Components/AuthorizedComponents/Pages-Authorized/CalendarPage";
+import AboutPage from "./Components/UnauthorizedComponents/Pages-Unauthorized/AboutPage";
+import ContactPage from "./Components/UnauthorizedComponents/Pages-Unauthorized/ContactPage";
+import DashboardPanel from "./Components/AuthorizedComponents/DashboardComponents/DashboardPanel";
+import AuthenticationPage from "./Components/UnauthorizedComponents/Pages-Unauthorized/AuthenticationPage";
+import HomePage from "./Components/UnauthorizedComponents/Pages-Unauthorized/HomePage";
+import "./Components/Styling/FormButton.css";
+import "./Components/Styling/NavbarTheme.css";
 
 function Dashboard() {
   const [cookies, setCookie, removeCookies] = useCookies();
-  const [unauthorized, setUnauthorization] = useState();
-  const [authButtonLabel, setAuthButtonLabel] = useState();
-  const [signedInUser, setSignedInUser] = useState();
+  const [accessControlInfo, setAccessControlInfo] = useState({
+    authButtonLabel: "Sign In",
+    signedInUser: "",
+  });
 
   useEffect(() => {
     if (!cookies.auth_token) {
-      setUnauthorization(true);
-      setAuthButtonLabel("Sign In");
+      setAccessControlInfo({
+        authButtonLabel: "Sign In",
+        signedInUser: "",
+      });
     } else {
-      setLoginStatus(signedInUser);
+      setLoginStatus();
     }
   }, []);
 
   function setLoginStatus(userEmail) {
-    setUnauthorization(false);
-    setAuthButtonLabel("Signed In: " + userEmail);
-    setSignedInUser(userEmail);
+    setAccessControlInfo({
+      authButtonLabel: "Signed In: " + userEmail,
+      signedInUser: userEmail,
+    });
   }
 
   function logOut() {
     removeCookies("auth_token");
   }
 
-  return (
-    <Router>
-      <div style={{ paddingBottom: 10 }}>
-        <Navbar bg="dark" variant="dark">
-          <img
-            id="loginLogo"
-            src={logoNegSmall}
-            alt="logo"
-            width="5%"
-            height="5%"
-          />
-          <Navbar.Brand href="/dashboard">Dashboard</Navbar.Brand>
-          <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-          <Navbar.Collapse id="responsive-navbar-nav">
-            <Nav className="me-auto">
-              <Nav.Link hidden={unauthorized} href="/appointments">
-                Appointments
-              </Nav.Link>
-              <Nav.Link hidden={unauthorized} href="/clients">
-                Clients
-              </Nav.Link>
-              <Nav.Link hidden={unauthorized} href="/dogs">
-                Dogs
-              </Nav.Link>
-            </Nav>
-            <Nav>
-              <Nav.Link href="/">{authButtonLabel} </Nav.Link>
-              <Nav.Link href="/" hidden={unauthorized} onClick={logOut}>
-                {" "}
-                Log-Out{" "}
-              </Nav.Link>
-            </Nav>
-          </Navbar.Collapse>
-        </Navbar>
-      </div>
-      <Routes>
-        <Route path="/dashboard" element={<DashboardPanel />} />
-        <Route path="/appointments" element={<AppointmentPage />} />
-        <Route path="/clients" element={<ClientPage />} />
-        <Route path="/dogs" element={<DogPage />} />
-        <Route
-          path="/"
-          element={<AuthenticationPage setLoginStatus={setLoginStatus} />}
-        />
-      </Routes>
-    </Router>
-  );
+  function NavBarConditional() {
+    if (cookies.auth_token) {
+      return (
+        <Router>
+          <AuthNavBar accessControlInfo={accessControlInfo} logOut={logOut} />
+          <div id="Margined">
+            <Routes>
+              <Route path="/dashboard" element={<DashboardPanel />} />
+              <Route path="/appointments" element={<AppointmentPage />} />
+              <Route path="/clients" element={<ClientPage />} />
+              <Route path="/dogs" element={<DogPage />} />
+              <Route path="/calendar" element={<CalendarPage />} />
+              <Route
+                path="/"
+                element={<AuthenticationPage setLoginStatus={setLoginStatus} />}
+              />
+            </Routes>
+          </div>
+        </Router>
+      );
+    } else {
+      return (
+        <Router>
+          <UnAuthNavBar />
+          <div id="Margined">
+            <Routes>
+              <Route path="/home" element={<HomePage />} />
+              <Route path="/about" element={<AboutPage />} />
+              <Route path="/contact" element={<ContactPage />} />
+              <Route
+                path="/"
+                element={<AuthenticationPage setLoginStatus={setLoginStatus} />}
+              />
+            </Routes>
+          </div>
+        </Router>
+      );
+    }
+  }
+
+  return <NavBarConditional />;
 }
 
 export default Dashboard;

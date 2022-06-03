@@ -4,10 +4,13 @@ import { generateHeader } from "./HeaderGenerator";
 //const requestString = "http://localhost:5000/appointments";
 const requestString = "https://dog-grooming-api.herokuapp.com/appointments";
 
-export async function getAll(token) {
+export async function getAll(token, format = true) {
   let header = generateHeader(token);
   try {
-    const response = await axios.get(requestString, header);
+    const response = await axios.get(
+      requestString + "?format=" + format,
+      header
+    );
     return response.data.appointmentData;
   } catch (error) {
     console.log(error);

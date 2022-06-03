@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import * as ClientGateway from "../../API-Access/ClientGateway";
+import * as ClientGateway from "../../../API-Access/ClientGateway";
 import ClientForm from "./Forms/ClientForm";
 import ClientTable from "./Tables/ClientTable";
 import { Col, Row, Stack } from "react-bootstrap";

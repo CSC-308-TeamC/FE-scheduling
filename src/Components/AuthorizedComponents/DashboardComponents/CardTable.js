@@ -1,6 +1,6 @@
 import React from "react";
 import { Container, Table, Button } from "react-bootstrap";
-import Statuses from "../../Enums/Statuses";
+import Statuses from "../../../Enums/Statuses";
 
 function CardTable(props) {
   let filteredData = filterAppointmentsByStatus(
