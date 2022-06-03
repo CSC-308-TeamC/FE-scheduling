@@ -1,6 +1,7 @@
 import React, { useRef, useState, useEffect } from "react";
 import { Button, Col, Form, Row } from "react-bootstrap";
 import { getAll as getAllClients } from "../../../../API-Access/ClientGateway";
+import { getById as getClientById } from "../../../../API-Access/ClientGateway";
 import Select from "react-select";
 import Breeds from "../../../../Enums/Breeds";
 import { getById as getDogById } from "../../../../API-Access/DogGateway";
@@ -19,34 +20,42 @@ function DogForm(props) {
   const [selectStates, setSelectStates] = useState({});
   const [clientSelectList, setClientSelectList] = useState([]);
 
-  useEffect(async () => {
+  useEffect(() => {
     let clientSelectData = [];
-    let allClients = await getAllClients(cookies.auth_token);
-    if (allClients) {
-      console.log(allClients);
-      clientSelectData = allClients.map((client) => {
-        return {
-          label: client.fullName,
-          id: client._id,
-          category: "clientName",
-        };
-      });
-      setClientSelectList(clientSelectData);
+
+    async function getData() {
+      let allClients = await getAllClients(cookies.auth_token);
+      if (allClients) {
+        clientSelectData = allClients.map((client) => {
+          return {
+            label: client.fullName,
+            id: client._id,
+            category: "clientName",
+          };
+        });
+        setClientSelectList(clientSelectData);
+      }
     }
 
     generateBreedsDropdown();
 
     if (props.updateObjectId) {
       submitLabel.current = "Update";
-      let dog = await getDogById(
-        props.updateObjectId,
-        cookies.auth_token,
-        false
-      );
-      if (dog) {
+      async function getUpdateObject() {
+        let dog = await getDogById(
+          props.updateObjectId,
+          cookies.auth_token,
+          false
+        );
+
+        let client = await getClientById(dog.clientId, cookies.auth_token);
         setSelectStates({
           breed: { label: dog.breed, category: "breed" },
-          client: clientSelectList.find((client) => client.id === dog.clientId),
+          client: {
+            label: client.fullName,
+            id: client._id,
+            category: "clientName",
+          },
         });
         setDog({
           name: dog.name,
@@ -54,6 +63,7 @@ function DogForm(props) {
           clientId: dog.clientId,
         });
       }
+      getUpdateObject();
     }
   }, [props.updateObjectId]);
 
