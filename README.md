@@ -1,13 +1,27 @@
 # Getting Started with Create React App
 
+## Accessible FrontEnd Link: 
+https://dog-groomings.herokuapp.com/
+
+## Accessible BackEnd Link: 
+https://dog-grooming-api.herokuapp.com/
+
 Product Spec Documentation:
 https://docs.google.com/document/d/1-tYBP6pn_fnwizhPB3ZhvTtMLqb8_aKRsvDxsaNPS-c/edit?usp=sharing
 
-
-![code-coverage-tests](https://user-images.githubusercontent.com/74291980/158088248-8d0dab14-b5ef-4ae1-906d-86e16056661d.PNG)
-
+# Testing Coverage Reports
+### In Memory Tests  
+![In-Memory-Code-Covage](https://user-images.githubusercontent.com/91435899/170849346-31e03fe4-dae9-43dd-89f2-1bb9bec9787b.png)  
+### Mock Tests  
+![mock-tests-coverage](https://user-images.githubusercontent.com/74291980/170851364-90bb1ff9-4377-46ff-a7be-b0584ef5a5ff.PNG)
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+
+## Quick Start Instructions
+  1. Clone Github Repository to Local Machine.
+  2. Run `npm install` to install all necessary packages.
+  3. Ensure the Back-End respository has been correctly cloned and started. (Refer to BE README.md for installation instructions)
+  4. Run `npm start` to launch.
 
 ## Available Scripts
 
@@ -25,6 +39,7 @@ You may also see any lint errors in the console.
 
 Launches the test runner in the interactive watch mode.\
 See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+
 
 ### `npm run build`
 

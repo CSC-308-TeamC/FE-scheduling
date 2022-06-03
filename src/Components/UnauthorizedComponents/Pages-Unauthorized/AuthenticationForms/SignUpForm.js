@@ -86,7 +86,7 @@ function SignUpForm(props) {
     const passwordRegex = new RegExp(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/);
     if (!passwordRegex.test(user.password))
       newErrors.password =
-        "Password must be minimum 8 characters and contain at least one letter and number";
+        "Password must be minimum 8 characters and contain at least one capital letter and number";
     else if (user.password.length === 0)
       newErrors.password = "Password is required";
 
